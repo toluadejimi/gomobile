@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:gomobilez/services/navigation_service.dart';
+import '../lib2/services/navigation_service.dart';
 
 GetIt locator = GetIt.instance;
 
