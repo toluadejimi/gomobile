@@ -21,7 +21,7 @@ class CustomButtomNavigation extends StatelessWidget {
             color: white,
             shape: BoxShape.circle,
             border: Border.all(
-                color: model.pageIndex == 0 ? primaryColor : grey, width: 2),
+                color: model.pageIndex == 0 ? primaryColor : transparentWhite, width: 2),
           ),
           child: const Icon(
             Icons.person,
@@ -58,7 +58,7 @@ class CustomButtomNavigation extends StatelessWidget {
             color: white,
             shape: BoxShape.circle,
             border: Border.all(
-                color: model.pageIndex == 2 ? primaryColor : grey, width: 2),
+                color: model.pageIndex == 2 ? primaryColor : transparentWhite, width: 2),
           ),
           child: const Icon(
             Icons.forum_outlined,
@@ -76,7 +76,7 @@ class CustomButtomNavigation extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            color: transparentGrey,
+            color: transparentWhite,
             height: height(6),
           ),
           SizedBox(

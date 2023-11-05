@@ -26,18 +26,18 @@ class AppBaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AppBaseViewModel>.reactive(
-        disposeViewModel: false,
-        onViewModelReady: (model) => {model.startUp()},
-        viewModelBuilder: () => AppBaseViewModel(),
-        builder: (context, model, child) =>
-            model.state == AppStates.authenticated
-                ? const DashBoardView()
-                : model.state == AppStates.unAuthenticated
-                    ? const SignUpView()
-                    : model.state == AppStates.noState
-                        ? const SignUpView()
-                        : Container(
-                            color: white,
-                          ));
+      disposeViewModel: false,
+      onViewModelReady: (model) => {model.startUp()},
+      viewModelBuilder: () => AppBaseViewModel(),
+      builder: (context, model, child) => model.state == AppStates.authenticated
+          ? const DashBoardView()
+          : model.state == AppStates.unAuthenticated
+              ? const SignUpView()
+              : model.state == AppStates.noState
+                  ? const SignUpView()
+                  : Container(
+                      color: white,
+                    ),
+    );
   }
 }

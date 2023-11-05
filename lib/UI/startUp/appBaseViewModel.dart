@@ -10,7 +10,7 @@ import '../../app/app.router.dart';
 import '../../models/user.dart';
 
 class AppBaseViewModel extends BaseViewModel {
-  final nagivationService = NavigationService();
+  final navigationService = NavigationService();
   final _localStorageService = LocalStorageService();
   final _authenticationService = locator<AuthService>();
 
@@ -32,7 +32,7 @@ class AppBaseViewModel extends BaseViewModel {
 
   Future<void> startUp() async {
     var state = await _localStorageService
-        .getStringFromStorage(LocalStorageValues.status);
+        .getStringFromStorage(LocalStorageValues.token);
     if (state == null || state == AppStates.unAuthenticated.name) {
       setAppState(AppStates.unAuthenticated);
     } else {
@@ -55,7 +55,7 @@ class AppBaseViewModel extends BaseViewModel {
     if (response) {
       setAppState(AppStates.unAuthenticated);
       notifyListeners();
-      nagivationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
+      navigationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
     }
   }
 }

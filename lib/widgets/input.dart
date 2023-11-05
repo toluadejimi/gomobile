@@ -14,55 +14,74 @@ class InputField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final double padding;
-  const InputField({
-    Key? key,
-    this.textInputFormatter,
-    this.errorText,
-    this.validator,
-    this.prefixIcon,
-    this.keyboardType,
-    this.suffixIcon,
-    this.controller,
-    this.onChanged,
-    this.onSaved,
-    this.padding = 10,
-    required this.hint,
-  }) : super(key: key);
+  final bool obscureText, enableSuggestions, autocorrect;
+  const InputField(
+      {Key? key,
+      this.textInputFormatter,
+      this.errorText,
+      this.validator,
+      this.prefixIcon,
+      this.keyboardType,
+      this.suffixIcon,
+      this.controller,
+      this.onChanged,
+      this.onSaved,
+      this.padding = 10,
+      required this.hint,
+      this.obscureText = false,
+      this.enableSuggestions = false,
+      this.autocorrect = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: padding),
-      child: TextFormField(
-        style: const TextStyle(fontSize: 12, height: 1.5),
-        decoration: InputDecoration(
-          hintText: hint,
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          errorText: errorText,
-          fillColor: white,
-          filled: true,
-          hoverColor: grey,
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: grey, width: 1),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            hint,
+            style: const TextStyle(color: grey),
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: white, width: 1),
+          const SizedBox(
+            height: 5,
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+          TextFormField(
+            style: const TextStyle(fontSize: 12, height: 1.5),
+            decoration: InputDecoration(
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
+              errorText: errorText,
+              fillColor: transparentWhite,
+              filled: true,
+              hoverColor: white,
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: white, width: 1),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: transparentWhite, width: 0),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            onChanged: onChanged,
+            onSaved: onSaved,
+            controller: controller,
+            cursorColor: primaryColor,
+            keyboardType: keyboardType,
+            inputFormatters: textInputFormatter,
+            obscureText: obscureText,
+            enableSuggestions: enableSuggestions,
+            autocorrect: autocorrect,
           ),
-        ),
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: validator,
-        onChanged: onChanged,
-        onSaved: onSaved,
-        controller: controller,
-        cursorColor: primaryColor,
-        keyboardType: keyboardType,
-        inputFormatters: textInputFormatter,
+        ],
       ),
     );
   }

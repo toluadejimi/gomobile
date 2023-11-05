@@ -10,7 +10,7 @@ class ResponsiveLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
-      return constraints.maxHeight<768 ? mobile: constraints.maxHeight<1024? tab: desktop; 
+      return constraints.maxHeight<768 ? mobile: constraints.maxHeight <1024? tab: desktop; 
     });
   }
 }

@@ -5,7 +5,7 @@ import '../../../app/app.locator.dart';
 import '../../../app/app.router.dart';
 import '../../../services/authservice.dart';
 
-class SignUpViewModel extends AppBaseViewModel {
+class ForgotPasswordViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
   // final _naviagtion = locator<NavigationService>();
   final PageController pageController = PageController(initialPage: 0);
@@ -25,7 +25,7 @@ class SignUpViewModel extends AppBaseViewModel {
   }
 
   goToNextPage() {
-    if (pageController.page!.toInt() <= 3) {
+    if (pageController.page!.toInt() <= 1) {
       pageController.animateToPage(pageController.page!.toInt() + 1,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
@@ -40,7 +40,7 @@ class SignUpViewModel extends AppBaseViewModel {
 
   goToPageDirectly(int val) {
     if (pageController.page!.toInt() >= 0 &&
-        pageController.page!.toInt() <= 4) {
+        pageController.page!.toInt() <= 3) {
       pageController.animateToPage(val,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
@@ -50,6 +50,9 @@ class SignUpViewModel extends AppBaseViewModel {
     navigationService.pushNamedAndRemoveUntil(Routes.loginView);
   }
 
+  pop(){
+   navigationService.back();
+  }
 
   googleLogIn() async {}
 }

@@ -1,7 +1,7 @@
 import 'package:gomobilez/UI/Profile/view.dart';
 import 'package:gomobilez/UI/chat/view.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
-import 'package:gomobilez/UI/home/index.dart';
+import 'package:gomobilez/UI/home/view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

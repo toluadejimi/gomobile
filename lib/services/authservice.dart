@@ -15,7 +15,7 @@ class AuthService extends Services {
     bool success = await removeFromStorage(LocalStorageValues.user);
     if (success) {
       await addStringToStorage(
-          LocalStorageValues.status, AppStates.unAuthenticated.name);
+          LocalStorageValues.token, AppStates.unAuthenticated.name);
       return true;
     } else {
       return false;

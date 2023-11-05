@@ -1,4 +1,3 @@
-
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +24,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Connect',
+      title: 'Gomobilez',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Roboto',
-        primarySwatch: Colors.blue,
+        // primarySwatch: splashScreenBackground,
       ),
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       home: EasySplashScreen(
         durationInSeconds: 2,
         navigator: Routes.appBaseScreen,
-        logo: Image.asset('assets/images/logoIconText.png'),
-        backgroundColor: white,
-        logoWidth: 100.0,
+        logo: Image.asset('assets/images/png/logo.png'),
+        backgroundColor: primaryColor,
+        logoWidth: 120.0,
         showLoader: false,
       ),
       // onUnknownRoute: (settings) {

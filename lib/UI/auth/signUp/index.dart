@@ -1,25 +1,31 @@
-
-import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/UI/auth/signUp/emailView.dart';
+import 'package:gomobilez/UI/auth/signUp/getStartedView.dart';
+import 'package:gomobilez/UI/auth/signUp/registerView.dart';
+import 'package:gomobilez/UI/auth/signUp/successView.dart';
+import 'package:gomobilez/UI/auth/signUp/verificationView.dart';
+import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:stacked/stacked.dart';
-
-import '../../../helpers/size_config.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig.init(context);
     return ViewModelBuilder<SignUpViewModel>.reactive(
       viewModelBuilder: () => SignUpViewModel(),
-      builder: (context, model, child) => Scaffold(
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: width(20), vertical: height(10)),
-             ),
-        ),
+      builder: (context, model, child) => PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: model.pageController,
+        children: [
+          GetStartedView(
+            model: model,
+          ),
+          EmailView(model: model),
+          VerificationView(model: model),
+          RegisterView(model: model),
+          SuccessView(model: model)
+        ],
       ),
     );
   }
