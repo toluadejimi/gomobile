@@ -18,7 +18,11 @@ class NewPasswordView extends StatelessWidget {
           'Enter your registered email, verification\ncode will be sent to the email .',
       onBackPress: () => model.goToPreviousPage(),
       body: [
-        InputField(
+        Form(
+          key: model.resetViewFormKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(children: [
+          InputField(
           hint: 'Password',
           suffixIcon: GestureDetector(
               onTap: () => model.setPasswordState(),
@@ -29,6 +33,7 @@ class NewPasswordView extends StatelessWidget {
                 color: black,
               )),
           obscureText: model.passworState,
+          validator:(text)=> model.validatePasswordInput(text),
         ),
         InputField(
           hint: 'Confirm Password',
@@ -41,9 +46,11 @@ class NewPasswordView extends StatelessWidget {
                 color: black,
               )),
           obscureText: model.confirmPasswordState,
+          validator: (text) => model.validatePasswordInput2(text, model.password1TextController.value.text)
         ),
+        ]),),
         const SizedBox(height: 50),
-        LongButton(text: 'Continue', click: () => model.goToLoginPage()),
+        LongButton(text: 'Continue', click: () => model.resendOTP(), loading: model.loading,),
         const SizedBox(
           height: 40,
         )

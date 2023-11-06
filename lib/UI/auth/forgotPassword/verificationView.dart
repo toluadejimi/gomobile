@@ -29,9 +29,15 @@ class ForgotPasswordVerificationView extends StatelessWidget {
       ),
       onBackPress: () => model.goToPreviousPage(),
       body: [
-        const Center(child: PinInput()),
+        Center(
+          child: PinInput(
+            controller: model.emailTextController,
+            validator: (value) => model.validateInput(value),
+            onCompleted: (pin) => model.verifyEmailOTP(),
+          ),
+        ),
         const SizedBox(height: 100),
-        LongButton(text: 'Verify', click: () => model.goToNextPage())
+        LongButton(text: 'Verify', click: () => model.verifyEmailOTP(), loading: model.loading,)
       ],
     );
   }

@@ -1,15 +1,3 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-
-// class SplashScreen extends StatelessWidget {
-//   const SplashScreen({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(onTap()=>{model} child: Container(child:Text('Tap')));
-//   }
-// }
 
 import 'package:gomobilez/UI/auth/signUp/index.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';

@@ -1,8 +1,11 @@
-import 'package:gomobilez/UI/Profile/view.dart';
-import 'package:gomobilez/UI/chat/view.dart';
+import 'package:gomobilez/UI/contact/view.dart';
+import 'package:gomobilez/UI/settings/view.dart';
+import 'package:gomobilez/UI/wallet/view.dart';
+import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../helpers/size_config.dart';
@@ -21,7 +24,13 @@ class DashBoardView extends StatelessWidget {
         children: [
           PageView(
             controller: model.pageController,
-            children: const [ProfileView(), HomeView(), ChatView()],
+            children: const [
+              HomeView(),
+              WalletView(),
+              ContactView(),
+              MessageView(),
+              SettingsView()
+            ],
             onPageChanged: (page) {
               model.slideChangePageIndex(page);
             },

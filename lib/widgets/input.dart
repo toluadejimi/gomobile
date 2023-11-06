@@ -29,7 +29,7 @@ class InputField extends StatelessWidget {
       this.padding = 10,
       required this.hint,
       this.obscureText = false,
-      this.enableSuggestions = false,
+      this.enableSuggestions = true,
       this.autocorrect = false})
       : super(key: key);
 

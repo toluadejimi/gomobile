@@ -20,7 +20,9 @@ class SmallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? Center(
+        ? Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width / 2,
             child: LoadingAnimationWidget.inkDrop(
               color: color,
               size: 45,
@@ -29,14 +31,17 @@ class SmallButton extends StatelessWidget {
         : GestureDetector(
             onTap: () => click(),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+              padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding, vertical: verticalPadding),
               decoration: BoxDecoration(
                   color: color,
                   borderRadius: const BorderRadius.all(Radius.circular(10))),
               child: Text(
                 text,
-                style:
-                     TextStyle(fontSize: 18, fontWeight: FontWeight.w700,  color: color != black ? black : white),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: color != black ? black : white),
               ),
             ),
           );

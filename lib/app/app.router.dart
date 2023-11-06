@@ -5,18 +5,20 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i10;
+import 'package:flutter/material.dart' as _i12;
 import 'package:flutter/material.dart';
-import 'package:gomobilez/UI/auth/forgotPassword/index.dart' as _i9;
+import 'package:gomobilez/UI/auth/forgotPassword/index.dart' as _i5;
 import 'package:gomobilez/UI/auth/signIn/index.dart' as _i4;
 import 'package:gomobilez/UI/auth/signUp/index.dart' as _i3;
-import 'package:gomobilez/UI/chat/view.dart' as _i7;
-import 'package:gomobilez/UI/dashboard/view.dart' as _i5;
-import 'package:gomobilez/UI/home/view.dart' as _i6;
-import 'package:gomobilez/UI/Profile/view.dart' as _i8;
+import 'package:gomobilez/UI/contact/view.dart' as _i10;
+import 'package:gomobilez/UI/dashboard/view.dart' as _i6;
+import 'package:gomobilez/UI/home/view.dart' as _i7;
+import 'package:gomobilez/UI/message/view.dart' as _i8;
+import 'package:gomobilez/UI/settings/view.dart' as _i11;
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart' as _i2;
+import 'package:gomobilez/UI/wallet/view.dart' as _i9;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i11;
+import 'package:stacked_services/stacked_services.dart' as _i13;
 
 class Routes {
   static const appBaseScreen = '/app-base-screen';
@@ -25,25 +27,31 @@ class Routes {
 
   static const loginView = '/login-view';
 
+  static const forgotPasswordView = '/forgot-password-view';
+
   static const dashBoardView = '/dash-board-view';
 
   static const homeView = '/home-view';
 
-  static const chatView = '/chat-view';
+  static const messageView = '/message-view';
 
-  static const profileView = '/profile-view';
+  static const walletView = '/wallet-view';
 
-  static const forgotPasswordView = '/forgot-password-view';
+  static const contactView = '/contact-view';
+
+  static const settingsView = '/settings-view';
 
   static const all = <String>{
     appBaseScreen,
     signUpView,
     loginView,
+    forgotPasswordView,
     dashBoardView,
     homeView,
-    chatView,
-    profileView,
-    forgotPasswordView,
+    messageView,
+    walletView,
+    contactView,
+    settingsView,
   };
 }
 
@@ -62,73 +70,93 @@ class StackedRouter extends _i1.RouterBase {
       page: _i4.LoginView,
     ),
     _i1.RouteDef(
+      Routes.forgotPasswordView,
+      page: _i5.ForgotPasswordView,
+    ),
+    _i1.RouteDef(
       Routes.dashBoardView,
-      page: _i5.DashBoardView,
+      page: _i6.DashBoardView,
     ),
     _i1.RouteDef(
       Routes.homeView,
-      page: _i6.HomeView,
+      page: _i7.HomeView,
     ),
     _i1.RouteDef(
-      Routes.chatView,
-      page: _i7.ChatView,
+      Routes.messageView,
+      page: _i8.MessageView,
     ),
     _i1.RouteDef(
-      Routes.profileView,
-      page: _i8.ProfileView,
+      Routes.walletView,
+      page: _i9.WalletView,
     ),
     _i1.RouteDef(
-      Routes.forgotPasswordView,
-      page: _i9.ForgotPasswordView,
+      Routes.contactView,
+      page: _i10.ContactView,
+    ),
+    _i1.RouteDef(
+      Routes.settingsView,
+      page: _i11.SettingsView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.AppBaseScreen: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.AppBaseScreen(),
         settings: data,
       );
     },
     _i3.SignUpView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.SignUpView(),
         settings: data,
       );
     },
     _i4.LoginView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.LoginView(),
         settings: data,
       );
     },
-    _i5.DashBoardView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i5.DashBoardView(),
+    _i5.ForgotPasswordView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i5.ForgotPasswordView(),
         settings: data,
       );
     },
-    _i6.HomeView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i6.HomeView(),
+    _i6.DashBoardView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i6.DashBoardView(),
         settings: data,
       );
     },
-    _i7.ChatView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i7.ChatView(),
+    _i7.HomeView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i7.HomeView(),
         settings: data,
       );
     },
-    _i8.ProfileView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.ProfileView(),
+    _i8.MessageView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i8.MessageView(),
         settings: data,
       );
     },
-    _i9.ForgotPasswordView: (data) {
-      return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i9.ForgotPasswordView(),
+    _i9.WalletView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i9.WalletView(),
+        settings: data,
+      );
+    },
+    _i10.ContactView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i10.ContactView(),
+        settings: data,
+      );
+    },
+    _i11.SettingsView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i11.SettingsView(),
         settings: data,
       );
     },
@@ -141,7 +169,7 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i11.NavigationService {
+extension NavigatorStateExtension on _i13.NavigationService {
   Future<dynamic> navigateToAppBaseScreen([
     int? routerId,
     bool preventDuplicates = true,
@@ -184,6 +212,20 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToForgotPasswordView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.forgotPasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> navigateToDashBoardView([
     int? routerId,
     bool preventDuplicates = true,
@@ -212,42 +254,56 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToChatView([
+  Future<dynamic> navigateToMessageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.chatView,
+    return navigateTo<dynamic>(Routes.messageView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> navigateToProfileView([
+  Future<dynamic> navigateToWalletView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.profileView,
+    return navigateTo<dynamic>(Routes.walletView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> navigateToForgotPasswordView([
+  Future<dynamic> navigateToContactView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.forgotPasswordView,
+    return navigateTo<dynamic>(Routes.contactView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToSettingsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.settingsView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -296,6 +352,20 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> replaceWithForgotPasswordView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.forgotPasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithDashBoardView([
     int? routerId,
     bool preventDuplicates = true,
@@ -324,42 +394,56 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithChatView([
+  Future<dynamic> replaceWithMessageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.chatView,
+    return replaceWith<dynamic>(Routes.messageView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> replaceWithProfileView([
+  Future<dynamic> replaceWithWalletView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.profileView,
+    return replaceWith<dynamic>(Routes.walletView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
         transition: transition);
   }
 
-  Future<dynamic> replaceWithForgotPasswordView([
+  Future<dynamic> replaceWithContactView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.forgotPasswordView,
+    return replaceWith<dynamic>(Routes.contactView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithSettingsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.settingsView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

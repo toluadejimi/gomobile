@@ -1,15 +1,18 @@
 
-import 'package:gomobilez/UI/Profile/view.dart';
+import 'package:gomobilez/UI/contact/view.dart';
+import 'package:gomobilez/UI/settings/view.dart';
+import 'package:gomobilez/UI/wallet/view.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/index.dart';
 import 'package:gomobilez/UI/auth/signIn/index.dart';
 import 'package:gomobilez/UI/auth/signUp/index.dart';
-import 'package:gomobilez/UI/chat/view.dart';
+import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
 import 'package:gomobilez/services/authservice.dart';
 import 'package:gomobilez/services/index.dart';
 import 'package:gomobilez/services/localStorageService.dart';
+import 'package:gomobilez/services/tokenService.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 // dart run build_runner build --delete-conflicting-outputs
@@ -21,16 +24,19 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: AppBaseScreen),
     MaterialRoute(page: SignUpView),
     MaterialRoute(page: LoginView),
+    MaterialRoute(page: ForgotPasswordView),
     MaterialRoute(page: DashBoardView),
     MaterialRoute(page: HomeView),
-    MaterialRoute(page: ChatView),
-    MaterialRoute(page: ProfileView),
-    MaterialRoute(page: ForgotPasswordView)
+    MaterialRoute(page: MessageView),
+    MaterialRoute(page: WalletView),
+    MaterialRoute(page: ContactView),
+    MaterialRoute(page: SettingsView),
   ],
   dependencies: [
     LazySingleton(classType: Services),
     LazySingleton(classType: AuthService),
     LazySingleton(classType: LocalStorageService),
+    LazySingleton(classType: TokenService),
   ],
 )
 class AppSetup {

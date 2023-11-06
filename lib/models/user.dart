@@ -1,155 +1,93 @@
 // To parse this JSON data, do
 //
-//     final userModel = userModelFromJson(jsonString);
+//     final user = userFromJson(jsonString);
 
 import 'dart:convert';
 
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+User userFromJson(String str) => User.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
-
-class UserModel {
-  String role;
-  int adsCredit;
-  User user;
-  DateTime created;
-  String userModelClass;
-  String primaryLocation;
-  String brandColor;
-  String ownerId;
-  dynamic updated;
-  String objectId;
-
-  UserModel({
-    required this.role,
-    required this.adsCredit,
-    required this.user,
-    required this.created,
-    required this.userModelClass,
-    required this.primaryLocation,
-    required this.brandColor,
-    required this.ownerId,
-    this.updated,
-    required this.objectId,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        role: json["role"],
-        adsCredit: json["ads_credit"],
-        user: User.fromJson(json["user"]),
-        created: DateTime.parse(json["created"]),
-        userModelClass: json["___class"],
-        primaryLocation: json["primary_location"],
-        brandColor: json["brand_color"],
-        ownerId: json["ownerId"],
-        updated: json["updated"],
-        objectId: json["objectId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "role": role,
-        "ads_credit": adsCredit,
-        "user": user.toJson(),
-        "created": created.toIso8601String(),
-        "___class": userModelClass,
-        "primary_location": primaryLocation,
-        "brand_color": brandColor,
-        "ownerId": ownerId,
-        "updated": updated,
-        "objectId": objectId,
-      };
-}
+String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-  DateTime lastLogin;
-  String userStatus;
-  DateTime created;
-  String accountType;
-  String ownerId;
-  String socialAccount;
-  List<OAuthIdentity> oAuthIdentities;
-  String name;
-  String userClass;
-  String blUserLocale;
-  String id;
-  DateTime updated;
+  int id;
   String email;
-  String objectId;
+  String gender;
+  String firstName;
+  String lastName;
+  String? city;
+  String? street;
+  String? zipcode;
+  String? country;
+  String? state;
+  String? phone;
+  int wallet;
+  String? deviceId;
+  int isEmailVerified;
+  int code;
+  int status;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   User({
-    required this.lastLogin,
-    required this.userStatus,
-    required this.created,
-    required this.accountType,
-    required this.ownerId,
-    required this.socialAccount,
-    required this.oAuthIdentities,
-    required this.name,
-    required this.userClass,
-    required this.blUserLocale,
     required this.id,
-    required this.updated,
     required this.email,
-    required this.objectId,
+    required this.gender,
+    required this.firstName,
+    required this.lastName,
+    required this.city,
+    required this.street,
+    required this.zipcode,
+    required this.country,
+    required this.state,
+    required this.phone,
+    required this.wallet,
+    required this.deviceId,
+    required this.isEmailVerified,
+    required this.code,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        lastLogin: DateTime.parse(json["lastLogin"]),
-        userStatus: json["userStatus"],
-        created: DateTime.parse(json["created"]),
-        accountType: json["accountType"],
-        ownerId: json["ownerId"],
-        socialAccount: json["socialAccount"],
-        oAuthIdentities: List<OAuthIdentity>.from(
-            json["oAuthIdentities"].map((x) => OAuthIdentity.fromJson(x))),
-        name: json["name"],
-        userClass: json["___class"],
-        blUserLocale: json["blUserLocale"],
         id: json["id"],
-        updated: DateTime.parse(json["updated"]),
         email: json["email"],
-        objectId: json["objectId"],
+        gender: json["gender"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        city: json["city"],
+        street: json["street"],
+        zipcode: json["zipcode"],
+        country: json["country"],
+        state: json["state"],
+        phone: json["phone"],
+        wallet: json["wallet"],
+        deviceId: json["device_id"],
+        isEmailVerified: json["is_email_verified"],
+        code: json["code"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "lastLogin": lastLogin.toIso8601String(),
-        "userStatus": userStatus,
-        "created": created.toIso8601String(),
-        "accountType": accountType,
-        "ownerId": ownerId,
-        "socialAccount": socialAccount,
-        "oAuthIdentities":
-            List<dynamic>.from(oAuthIdentities.map((x) => x.toJson())),
-        "name": name,
-        "___class": userClass,
-        "blUserLocale": blUserLocale,
         "id": id,
-        "updated": updated.toIso8601String(),
         "email": email,
-        "objectId": objectId,
-      };
-}
-
-class OAuthIdentity {
-  String providerCode;
-  String displayName;
-  String oAuthId;
-
-  OAuthIdentity({
-    required this.providerCode,
-    required this.displayName,
-    required this.oAuthId,
-  });
-
-  factory OAuthIdentity.fromJson(Map<String, dynamic> json) => OAuthIdentity(
-        providerCode: json["providerCode"],
-        displayName: json["displayName"],
-        oAuthId: json["oAuthId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "providerCode": providerCode,
-        "displayName": displayName,
-        "oAuthId": oAuthId,
+        "gender": gender,
+        "first_name": firstName,
+        "last_name": lastName,
+        "city": city,
+        "street": street,
+        "zipcode": zipcode,
+        "country": country,
+        "state": state,
+        "phone": phone,
+        "wallet": wallet,
+        "device_id": deviceId,
+        "is_email_verified": isEmailVerified,
+        "code": code,
+        "status": status,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

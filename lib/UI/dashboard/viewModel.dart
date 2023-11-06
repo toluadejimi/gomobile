@@ -2,10 +2,10 @@ import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardViewModel extends AppBaseViewModel {
-  final PageController pageController = PageController(initialPage: 1);
+  final PageController pageController = PageController(initialPage: 0);
 
 
-  int _pageIndex = 1;
+  int _pageIndex = 0;
   int get pageIndex => _pageIndex;
   changePageIndex(int val) {
     _pageIndex = val;

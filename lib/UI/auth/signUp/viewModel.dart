@@ -1,5 +1,8 @@
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/getDeviceId.dart';
+import 'package:gomobilez/helpers/responseHandlers.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../app/app.locator.dart';
 import '../../../app/app.router.dart';
@@ -8,12 +11,32 @@ import '../../../services/authservice.dart';
 class SignUpViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
   // final _naviagtion = locator<NavigationService>();
+
+  final GlobalKey<FormState> emailViewFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> registerViewFormKey = GlobalKey<FormState>();
+
   final PageController pageController = PageController(initialPage: 0);
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController signupOtpController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController registrationPassword1Controller =
+      TextEditingController();
+  final TextEditingController registrationPassword2Controller =
+      TextEditingController();
 
   bool _passwordState = true;
   bool get passworState => _passwordState;
   setPasswordState() {
     _passwordState = !_passwordState;
+    notifyListeners();
+  }
+
+  bool _loading = false;
+  bool get loading => _loading;
+  setLoadingState() {
+    _loading = !_loading;
     notifyListeners();
   }
 
@@ -50,6 +73,90 @@ class SignUpViewModel extends AppBaseViewModel {
     navigationService.pushNamedAndRemoveUntil(Routes.loginView);
   }
 
+  verifyEmail() async {
+    if (emailViewFormKey.currentState!.validate()) {
+      setLoadingState();
+      String email = emailTextController.text.trim();
+      try {
+        var data = {"email": email};
+        http.Response response = await _authenticationService.verifyEmail(data);
+        String? dataAfterResponseHandler = responseHandler(response);
 
-  googleLogIn() async {}
+        if (dataAfterResponseHandler != null) {
+          goToNextPage();
+        } else {
+          print(response.body);
+        }
+      } catch (e) {
+        print(e);
+      }
+      setLoadingState();
+    }
+  }
+
+  resendOTP() async {
+    // yet to implement
+    try {
+      var data = {"email": emailTextController.value.text.trim()};
+      http.Response response = await _authenticationService.resendOTP(data);
+      print(response.body);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  verifyEmailOTP() async {
+    if (signupOtpController.value.text.trim().length >= 4) {
+      setLoadingState();
+      try {
+        if (emailTextController.value.text.trim() != '' &&
+            signupOtpController.value.text.trim() != '') {
+          var data = {
+            "email": emailTextController.value.text.trim(),
+            "code": signupOtpController.value.text.trim()
+          };
+          http.Response response =
+              await _authenticationService.verifyEmailOTP(data);
+          String? dataAfterResponseHandler = responseHandler(response);
+
+          if (dataAfterResponseHandler != null) {
+            goToNextPage();
+          } else {
+            print(response.body);
+          }
+        }
+      } catch (e) {
+        print(e);
+      }
+      setLoadingState();
+    }
+  }
+
+  register() async {
+    if (registerViewFormKey.currentState!.validate()) {
+      setLoadingState();
+      try {
+        String? deviceId = await getId();
+        var data = {
+          "email": emailTextController.value.text.trim(),
+          "device_id": deviceId,
+          "first_name": firstNameController.value.text.trim(),
+          "last_name": lastNameController.value.text.trim(),
+          "gender": genderController.value.text.trim(),
+          "password": registrationPassword1Controller.value.text.trim()
+        };
+        http.Response response = await _authenticationService.register(data);
+        String? dataAfterResponseHandler = responseHandler(response);
+
+        if (dataAfterResponseHandler != null) {
+          goToLoginPage();
+        } else {
+          print(response.body);
+        }
+      } catch (e) {
+        print(e);
+      }
+      setLoadingState();
+    }
+  }
 }

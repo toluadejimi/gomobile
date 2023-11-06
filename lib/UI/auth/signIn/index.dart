@@ -1,3 +1,4 @@
+
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/auth/signIn/viewModel.dart';
 import 'package:flutter/material.dart';
@@ -40,21 +41,36 @@ class LoginView extends StatelessWidget {
                     style: TextStyle(fontSize: 18, color: grey),
                   ),
                   const SizedBox(height: 20),
-                  const InputField(hint: 'Gender'),
-                  InputField(
-                    hint: 'Password',
-                    suffixIcon: GestureDetector(
-                        onTap: () => model.setPasswordState(),
-                        child: Icon(
-                          model.passworState
-                              ? Icons.remove_red_eye
-                              : Icons.remove_red_eye_outlined,
-                          color: black,
-                        )),
-                    obscureText: model.passworState,
+                  Form(
+                    key: model.formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      children: [
+                        InputField(
+                          hint: 'Email',
+                          controller: model.emailTextController,
+                          validator: (text) => model.validateEmailInput(text),
+                        ),
+                        InputField(
+                          controller: model.passwordController,
+                          hint: 'Password',
+                          suffixIcon: GestureDetector(
+                              onTap: () => model.setPasswordState(),
+                              child: Icon(
+                                model.passworState
+                                    ? Icons.remove_red_eye
+                                    : Icons.remove_red_eye_outlined,
+                                color: black,
+                              )),
+                          obscureText: model.passworState,
+                          validator: (text) =>
+                              model.validatePasswordInput(text),
+                        ),
+                      ],
+                    ),
                   ),
                   GestureDetector(
-                    onTap: ()=> model.goToForgotPasswordPage(),
+                    onTap: () => model.goToForgotPasswordPage(),
                     child: Container(
                       alignment: Alignment.centerRight,
                       child: const Text('Forgot Password',
@@ -70,7 +86,10 @@ class LoginView extends StatelessWidget {
                     children: [
                       SmallButton(
                         text: 'Login',
-                        click: () {},
+                        click: () {
+                          model.login();
+                        },
+                        loading: model.loading,
                         horizontalPadding: width(27),
                       ),
                       CustomIconButton(
@@ -92,7 +111,10 @@ class LoginView extends StatelessWidget {
                     text: 'Register',
                     click: () => model.goToRegistrationPage(),
                     color: black,
-                  )
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                 ]),
           ),
         ),

@@ -17,9 +17,17 @@ class ForgotPasswordEmailView extends StatelessWidget {
           'Enter your registered email, verification\ncode will be sent to the email .',
       onBackPress: () => model.pop(),
       body: [
-        const InputField(hint: 'Email'),
+        Form(
+          key: model.emailViewFormKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: InputField(
+            hint: 'Email',
+            controller: model.emailTextController,
+            validator: (value) => model.validateEmailInput(value),
+          ),
+        ),
         const SizedBox(height: 100),
-        LongButton(text: 'Continue', click: () => model.goToNextPage()),
+        LongButton(text: 'Continue', click: () => model.verifyEmail(), loading: model.loading,),
         const SizedBox(
           height: 5,
         ),

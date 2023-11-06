@@ -29,10 +29,21 @@ class VerificationView extends StatelessWidget {
       ),
       onBackPress: () => model.goToPreviousPage(),
       body: [
-        // const InputField(hint: 'Email'),
-        Center(child: PinInput()),
+        Form(
+          child: Center(
+            child: PinInput(
+              controller: model.signupOtpController,
+              validator: (value) => model.validateInput(value),
+              onCompleted: (pin) => model.verifyEmailOTP(),
+            ),
+          ),
+        ),
         const SizedBox(height: 100),
-        LongButton(text: 'Verify', click: () => model.goToNextPage())
+        LongButton(
+          text: 'Verify',
+          click: () => model.verifyEmailOTP(),
+          loading: model.loading,
+        )
       ],
     );
   }

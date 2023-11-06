@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:pinput/pinput.dart';
 
 class PinInput extends StatelessWidget {
+  
+  final TextEditingController controller;
+  final String? Function(String?) validator;
+  final Function(String) onCompleted;
   // final defaultPinTheme = PinTheme(
   //   width: 56,
   //   height: 56,
@@ -26,7 +29,7 @@ class PinInput extends StatelessWidget {
   //     color: Color.fromRGBO(234, 239, 243, 1),
   //   ),
   // );
-  const PinInput({super.key});
+  const PinInput({super.key, required this.validator, required this.controller, required this.onCompleted});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +37,11 @@ class PinInput extends StatelessWidget {
       // defaultPinTheme: defaultPinTheme
       // focusedPinTheme: focusedPinTheme,
       // submittedPinTheme: submittedPinTheme,
-      validator: (s) {
-        return s == '2222' ? null : 'Pin is incorrect';
-      },
+      validator: validator,
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
-      onCompleted: (pin) => print(pin),
+      onCompleted: onCompleted,
+      controller: controller ,
     );
   }
 }

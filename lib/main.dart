@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gomobilez',
       debugShowCheckedModeBanner: false,
+      builder: BotToastInit(),
       theme: ThemeData(
         fontFamily: 'Roboto',
-        // primarySwatch: splashScreenBackground,
       ),
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: StackedRouter().onGenerateRoute,

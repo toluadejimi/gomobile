@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
+import 'package:gomobilez/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
@@ -9,15 +10,14 @@ class LocalStorageService {
     if (item is DateTime) {
       return item.toIso8601String();
     }
-   
+
     return item;
   }
 
-  Future<bool> addMapToStorage(
-      LocalStorageValues key, Map<dynamic, dynamic> data) async {
+  Future<bool> addUserToStorage(LocalStorageValues key, User data) async {
     try {
       SharedPreferences ref = await pref;
-      String val = json.encode(data, toEncodable: myEncode);
+      String val = json.encode(data);
       ref.setString(key.name, val);
       return true;
     } catch (e) {
@@ -35,12 +35,11 @@ class LocalStorageService {
     }
   }
 
-  Future<Map<String, dynamic>?> getMapFromStorage(
-      LocalStorageValues key) async {
+  Future<User?> getUserFromStorage(LocalStorageValues key) async {
     SharedPreferences ref = await pref;
     var mapString = ref.getString(key.name);
     if (mapString != null) {
-      Map<String, dynamic> json = jsonDecode(mapString);
+      User json = userFromJson(mapString);
       return json;
     } else {
       return null;

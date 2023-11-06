@@ -4,28 +4,29 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 Pages pageFromJson(String str) => Pages.fromJson(json.decode(str));
 
 String pageToJson(Pages data) => json.encode(data.toJson());
 
 class Pages {
   Pages({
-    required this.icon,
+    required this.iconOn,
+    required this.iconOff,
     required this.index,
   });
 
-  Widget icon;
+  String iconOn, iconOff;
   int index;
 
   factory Pages.fromJson(Map<String, dynamic> json) => Pages(
-        icon: json["icon"],
+        iconOn: json["iconOn"],
+        iconOff: json["iconOff"],
         index: json["index"],
       );
 
   Map<String, dynamic> toJson() => {
-        "icon": icon,
+        "iconOn": iconOn,
+        "iconOff": iconOff,
         "index": index,
       };
 }

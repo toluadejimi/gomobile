@@ -1,107 +1,75 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:flutter/material.dart';
-
-import '../helpers/size_config.dart';
 import '../models/pages.dart';
 
 class CustomButtomNavigation extends StatelessWidget {
   final DashBoardViewModel model;
 
-  const CustomButtomNavigation({required this.model, Key? key}) : super(key: key);
+  const CustomButtomNavigation({required this.model, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Pages> pages = [
       Pages.fromJson({
-        'icon': Container(
-          width: width(8),
-          height: height(8),
-          decoration: BoxDecoration(
-            color: white,
-            shape: BoxShape.circle,
-            border: Border.all(
-                color: model.pageIndex == 0 ? primaryColor : transparentWhite, width: 2),
-          ),
-          child: const Icon(
-            Icons.person,
-            color: primaryColor,
-            size: 35,
-          ),
-        ),
+        'iconOn': './assets/images/svg/icon_home_on.svg',
+        'iconOff': './assets/images/svg/icon_home_off.svg',
         'index': 0
       }),
       Pages.fromJson({
-        'icon': Container(
-          width: width(12),
-          height: height(12),
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: primaryColor,
-            shape: BoxShape.circle,
-            border: Border.all(
-                color: model.pageIndex == 1 ? white : primaryColor, width: 2),
-          ),
-          child: Image.asset(
-            'assets/images/logoIcon.png',
-            width: width(2),
-            height: height(2),
-          ),
-        ),
+        'iconOn': './assets/images/svg/icon_wallet_off.svg',
+        'iconOff': './assets/images/svg/icon_wallet_off.svg',
         'index': 1
       }),
       Pages.fromJson({
-        'icon': Container(
-          width: width(8),
-          height: height(8),
-          decoration: BoxDecoration(
-            color: white,
-            shape: BoxShape.circle,
-            border: Border.all(
-                color: model.pageIndex == 2 ? primaryColor : transparentWhite, width: 2),
-          ),
-          child: const Icon(
-            Icons.forum_outlined,
-            color: primaryColor,
-            size: 30,
-          ),
-        ),
+        'iconOn': './assets/images/svg/icon_contact_on.svg',
+        'iconOff': './assets/images/svg/icon_contact_off.svg',
         'index': 2
+      }),
+      Pages.fromJson({
+        'iconOn': './assets/images/svg/icon_message_off.svg',
+        'iconOff': './assets/images/svg/icon_message_off.svg',
+        'index': 3
+      }),
+      Pages.fromJson({
+        'iconOn': './assets/images/svg/icon_settings_on.svg',
+        'iconOff': './assets/images/svg/icon_settings_off.svg',
+        'index': 4
       })
     ];
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Stack(
+    return Container(
         alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            color: transparentWhite,
-            height: height(6),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...pages.map((page) => GestureDetector(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.only(bottom: 30),
+                      decoration: BoxDecoration(
+                        color: model.pageIndex == page.index
+                            ? white
+                            : transparentWhite,
+                        shape: BoxShape.circle,
+                      ),
+                      child: model.pageIndex == page.index
+                          ? SvgPicture.asset(
+                              page.iconOn,
+                              width: 26,
+                            )
+                          : SvgPicture.asset(
+                              page.iconOff,
+                              width: 26,
+                            ),
+                    ),
+                    onTap: () => {model.changePage(page.index)},
+                  ))
+            ],
           ),
-          SizedBox(
-            height: height(12),
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: pages.length,
-              itemBuilder: (context, index) {
-                Pages page = pages[index];
-                return GestureDetector(
-                  child: page.icon,
-                  onTap: () => {model.changePage(index)},
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: width(8),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

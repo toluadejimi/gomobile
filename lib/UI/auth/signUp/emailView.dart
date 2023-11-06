@@ -18,11 +18,26 @@ class EmailView extends StatelessWidget {
           'Enter your valid email, verification\ncode will be sent to the email .',
       onBackPress: () => model.goToPreviousPage(),
       body: [
-        const InputField(hint: 'Email'),
-        const SizedBox(height: 100),
-        LongButton(text: 'Continue', click: () => model.goToNextPage()),
+        Form(
+            key: model.emailViewFormKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                InputField(
+                  hint: 'Email',
+                  controller: model.emailTextController,
+                  validator: (value) => model.validateEmailInput(value),
+                ),
+                const SizedBox(height: 100),
+                LongButton(
+                  text: 'Continue',
+                  click: () => model.verifyEmail(),
+                  loading: model.loading,
+                ),
+              ],
+            )),
         const SizedBox(
-          height: 5,
+          height: 10,
         ),
         Center(child: AlreadyHaveAnAccount(click: () => model.goToLoginPage()))
       ],
