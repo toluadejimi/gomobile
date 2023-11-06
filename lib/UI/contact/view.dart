@@ -12,10 +12,10 @@ class ContactView extends StatelessWidget {
     return ViewModelBuilder<ContactViewModel>.reactive(
       disposeViewModel: false,
       viewModelBuilder: () => ContactViewModel(),
-      builder: (context, model, child) => const Scaffold(
+      builder: (context, model, child) => Scaffold(
         backgroundColor: primaryColor,
         body: SafeArea(
-          child: Center(child: Text('CONTACTS'),)
+          child: FutureBuilder(future: model.getContactHistory(), builder: (builder))
         ),
       ),
     );
