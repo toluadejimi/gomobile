@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/localStorageService.dart';
@@ -74,10 +75,10 @@ class LoginViewModel extends AppBaseViewModel {
             goToApp();
           }
         } else {
-          print(response.body);
+          throw({'message':'An error occured'});
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
 
       setLoadingState();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 
@@ -11,7 +11,7 @@ class NewPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Reset Password',
       canPop: true,
       subTitle:

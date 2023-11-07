@@ -35,7 +35,7 @@ class LongButton extends StatelessWidget {
                   horizontal: horizontalPadding, vertical: verticalPadding),
               decoration: BoxDecoration(
                   color: color,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),),
               child: Text(
                 text,
                 style: TextStyle(

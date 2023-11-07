@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/pinInput.dart';
 
@@ -12,18 +12,18 @@ class VerificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Verify',
       canPop: true,
       decoratedText: RichText(
-        text: const TextSpan(
+        text: TextSpan(
           text: 'Verification code has been sent\nto ',
-          style: TextStyle(color: black),
+          style: const TextStyle(color: black),
           children: <TextSpan>[
             TextSpan(
-                text: 'ol****@gm***.com',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: ' Kindly check\nspam folder if not found in inbox')
+                text: model.emailTextController.value.text,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            const TextSpan(text: ' Kindly check\nspam folder if not found in inbox')
           ],
         ),
       ),

@@ -1,10 +1,11 @@
-import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:gomobilez/UI/contact/emptyContactList.dart';
+import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
-import 'package:gomobilez/widgets/base_text.dart';
-import 'package:gomobilez/widgets/custom_svg_icon.dart';
-import 'package:gomobilez/widgets/recentCallBox.dart';
+import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/pageLoading.dart';
 import 'package:stacked/stacked.dart';
 
 class ContactView extends StatelessWidget {
@@ -15,37 +16,45 @@ class ContactView extends StatelessWidget {
     return ViewModelBuilder<ContactViewModel>.reactive(
       disposeViewModel: false,
       viewModelBuilder: () => ContactViewModel(),
-      builder: (context, model, child) => Scaffold(
-        backgroundColor: primaryColor,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 30.0, 0, 0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 20,
-                    itemBuilder: (BuildContext context, int index) =>
-                        const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: RecentCallBox()),
+      builder: (context, model, child) => CustomScaffold(
+        body: FutureBuilder(
+          future: model.getContactHistory(),
+          builder: (ctx, snapshot) {
+            // Checking if future is resolved or not
+            if (snapshot.connectionState == ConnectionState.done) {
+              // If we got an error
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    '${snapshot.error} occurred',
+                    style: const TextStyle(fontSize: 18),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 15, 100),
-          child: FloatingActionButton(
-            backgroundColor: white,
-            onPressed: () {},
-            child: const SvgIconInCircle(
-              svgAssetPath: 'assets/images/svg/mdi_keypad.svg',
-              circleColor: white,
-            ),
-          ),
+                );
+              } else if (snapshot.hasData) {
+                final data = snapshot.data as List;
+                return data.isNotEmpty
+                    ? Center(
+                        child: Text(
+                          data.length.toString(),
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      )
+                    : ContactEmptyList(model: model,);
+              } else {
+                return const Center(
+                  child: Text(
+                    'SOMETHING WENT WRONG',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                );
+              }
+            } else {
+              return const Center(
+                child:
+                    PageLoadingScreen(item: 5, widget: ContactLoadingScreen()),
+              );
+            }
+          },
         ),
       ),
     );

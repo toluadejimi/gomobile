@@ -10,6 +10,7 @@ import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
 import 'package:gomobilez/services/authservice.dart';
+import 'package:gomobilez/services/contactService.dart';
 import 'package:gomobilez/services/index.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/tokenService.dart';
@@ -37,6 +38,7 @@ import 'package:stacked/stacked_annotations.dart';
     LazySingleton(classType: AuthService),
     LazySingleton(classType: LocalStorageService),
     LazySingleton(classType: TokenService),
+    LazySingleton(classType: ContactService),
   ],
 )
 class AppSetup {
