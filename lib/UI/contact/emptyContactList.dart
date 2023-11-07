@@ -26,7 +26,7 @@ class ContactEmptyList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 120),
               child: RoundedIconButton(
-                click: () => model.showButtomModalSheet(context, CallKeyPad()),
+                click: () => model.showButtomModalSheet(context, const CallKeyPad()),
                 icon: SvgPicture.asset(
                   './assets/images/svg/icon_contact_off.svg',
                   width: 26,

@@ -6,6 +6,7 @@ import 'package:gomobilez/helpers/size_config.dart';
 import 'package:gomobilez/models/home_model.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/button.dart';
+import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/home_widget.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
@@ -23,14 +24,13 @@ class HomeView extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       disposeViewModel: false,
       builder: (context, model, child) => ResponsiveLayout(
-        tab: const Scaffold(
-          backgroundColor: primaryColor,
+        tab: const CustomScaffold(
           body: SafeArea(
               child: Center(
             child: Text('HOME'),
           )),
         ),
-        mobile: Scaffold(
+        mobile: CustomScaffold(
           backgroundColor: primaryColor,
           body: SafeArea(
               child: SingleChildScrollView(
@@ -254,7 +254,7 @@ class HomeView extends StatelessWidget {
                       child: Container(
                         height: 68,
                         decoration: ShapeDecoration(
-                          color: white.withOpacity(0.3),
+                          color: veryTransparentWhite,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -273,25 +273,23 @@ class HomeView extends StatelessWidget {
                                   Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        BaseText(
-                                          'Basic Plan',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        BaseText(
-                                          '\$25/',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        BaseText(
-                                          'month',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ],
+                                    child: SizedBox(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          BaseText(
+                                            'Basic Plan',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          BaseText(
+                                            '\$25/month',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   BaseText(

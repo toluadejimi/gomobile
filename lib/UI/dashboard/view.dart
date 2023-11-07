@@ -24,6 +24,7 @@ class DashBoardView extends StatelessWidget {
         children: [
           PageView(
             controller: model.pageController,
+            physics: const NeverScrollableScrollPhysics(),
             children: const [
               HomeView(),
               WalletView(),
@@ -41,4 +42,3 @@ class DashBoardView extends StatelessWidget {
     );
   }
 }
-
