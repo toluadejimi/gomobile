@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/widgets/roundedIconButton.dart';
 import '../models/pages.dart';
 
 class CustomButtomNavigation extends StatelessWidget {
@@ -46,28 +47,25 @@ class CustomButtomNavigation extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ...pages.map((page) => GestureDetector(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.only(bottom: 30),
-                      decoration: BoxDecoration(
-                        color: model.pageIndex == page.index
-                            ? white
-                            : transparentWhite,
-                        shape: BoxShape.circle,
-                      ),
-                      child: model.pageIndex == page.index
-                          ? SvgPicture.asset(
-                              page.iconOn,
-                              width: 26,
-                            )
-                          : SvgPicture.asset(
-                              page.iconOff,
-                              width: 26,
-                            ),
-                    ),
-                    onTap: () => {model.changePage(page.index)},
-                  ))
+              ...pages.map((page) => Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        child: RoundedIconButton(
+                          click: () => {model.changePage(page.index)},
+                          color: model.pageIndex == page.index
+                              ? white
+                              : transparentWhite,
+                          icon: model.pageIndex == page.index
+                              ? SvgPicture.asset(
+                                  page.iconOn,
+                                  width: 26,
+                                )
+                              : SvgPicture.asset(
+                                  page.iconOff,
+                                  width: 26,
+                                ),
+                        ),
+                      )
+                  )
             ],
           ),
         ));

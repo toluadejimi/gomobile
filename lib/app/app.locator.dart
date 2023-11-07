@@ -9,6 +9,7 @@
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/authservice.dart';
+import '../services/contactService.dart';
 import '../services/index.dart';
 import '../services/localStorageService.dart';
 import '../services/tokenService.dart';
@@ -28,4 +29,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => LocalStorageService());
   locator.registerLazySingleton(() => TokenService());
+  locator.registerLazySingleton(() => ContactService());
 }

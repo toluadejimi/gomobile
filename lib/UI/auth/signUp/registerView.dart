@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/alreadyHaveAnAccount.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 
@@ -12,7 +12,7 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Register',
       subTitle: 'Join us at Gomobliez',
       onBackPress: () => model.goToPreviousPage(),

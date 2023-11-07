@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:convert';
 
 import 'package:gomobilez/widgets/alertify.dart';
@@ -9,6 +11,7 @@ String? responseHandler(http.Response response) {
       {
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
+          title: 'Success',
                 message:
                     data.containsKey("message") ? data['message'] : 'Success')
             .success();
@@ -19,6 +22,7 @@ String? responseHandler(http.Response response) {
       {
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
+          title: 'Success',
                 message:
                     data.containsKey('message') ? data['message'] : 'Success')
             .success();
@@ -29,6 +33,7 @@ String? responseHandler(http.Response response) {
       {
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
+          title: 'Bad Request',
                 message:
                     data.containsKey('message') ? data['message'] : 'Success')
             .error();
@@ -39,6 +44,7 @@ String? responseHandler(http.Response response) {
       {
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
+          title: 'Unauthorized',
                 message:
                     data.containsKey('message') ? data['message'] : 'Success')
             .error();
@@ -49,6 +55,7 @@ String? responseHandler(http.Response response) {
       {
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
+          title: 'Not Found',
                 message: data.containsKey('message')
                     ? data['message']
                     : 'The service you are trying to access is not available')
@@ -58,14 +65,18 @@ String? responseHandler(http.Response response) {
       break;
     case 500:
       {
-        Alertify(message: 'Service teporarily down. Please try again shortly.')
+        Alertify(
+                title: 'Server Error',
+                message: 'Service teporarily down. Please try again shortly.')
             .error();
         return null;
       }
       break;
     default:
       {
-        Alertify(message: 'Something went wrong').error();
+        Alertify(
+          title: 'Unkown error',
+          message: 'Something went wrong').error();
         return null;
       }
   }

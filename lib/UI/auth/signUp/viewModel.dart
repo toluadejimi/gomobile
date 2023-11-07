@@ -1,5 +1,6 @@
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/getDeviceId.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:http/http.dart' as http;
@@ -85,10 +86,10 @@ class SignUpViewModel extends AppBaseViewModel {
         if (dataAfterResponseHandler != null) {
           goToNextPage();
         } else {
-          print(response.body);
+          throw(response.body);
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
@@ -99,9 +100,9 @@ class SignUpViewModel extends AppBaseViewModel {
     try {
       var data = {"email": emailTextController.value.text.trim()};
       http.Response response = await _authenticationService.resendOTP(data);
-      print(response.body);
+      throw(response.body);
     } catch (e) {
-      print(e);
+      errorHandler(e);
     }
   }
 
@@ -122,11 +123,11 @@ class SignUpViewModel extends AppBaseViewModel {
           if (dataAfterResponseHandler != null) {
             goToNextPage();
           } else {
-            print(response.body);
+            throw(response.body);
           }
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
@@ -151,10 +152,10 @@ class SignUpViewModel extends AppBaseViewModel {
         if (dataAfterResponseHandler != null) {
           goToLoginPage();
         } else {
-          print(response.body);
+          throw(response.body);
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
