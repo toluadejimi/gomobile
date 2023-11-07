@@ -6,13 +6,13 @@ class SmallButton extends StatelessWidget {
   final String text;
   final Color color;
   final bool loading;
-  final VoidCallback click;
+  final VoidCallback? click;
   final double horizontalPadding, verticalPadding;
   const SmallButton(
       {required this.text,
       this.color = white,
       this.loading = false,
-      required this.click,
+       this.click,
       this.horizontalPadding = 45,
       this.verticalPadding = 15,
       super.key});
@@ -29,7 +29,7 @@ class SmallButton extends StatelessWidget {
             ),
           )
         : GestureDetector(
-            onTap: () => click(),
+            onTap: () => click!(),
             child: Container(
               padding: EdgeInsets.symmetric(
                   horizontal: horizontalPadding, vertical: verticalPadding),

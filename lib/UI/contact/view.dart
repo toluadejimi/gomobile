@@ -1,3 +1,4 @@
+
 import 'package:gomobilez/UI/contact/emptyContactList.dart';
 import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';

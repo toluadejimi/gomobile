@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
@@ -5,7 +6,6 @@ import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:flutter/material.dart';
-import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../helpers/size_config.dart';
@@ -41,3 +41,4 @@ class DashBoardView extends StatelessWidget {
     );
   }
 }
+
