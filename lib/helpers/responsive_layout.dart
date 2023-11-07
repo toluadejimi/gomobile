@@ -1,16 +1,25 @@
-
 import 'package:flutter/material.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget mobile;
   final Widget tab;
   final Widget desktop;
-  const ResponsiveLayout({required this.desktop, required this.mobile, required this.tab, Key? key}) : super(key: key);
+  const ResponsiveLayout(
+      {required this.desktop,
+      required this.mobile,
+      required this.tab,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
-      return constraints.maxHeight<768 ? mobile: constraints.maxHeight <1024? tab: desktop; 
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return constraints.maxWidth < 768
+          ? mobile
+          : constraints.maxWidth < 1024
+              ? tab
+              : desktop;
     });
   }
 }
