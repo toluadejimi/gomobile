@@ -15,7 +15,7 @@ class AlreadyHaveAnAccount extends StatelessWidget {
         children: [
           TextSpan(
             text: 'Login',
-            style: TextStyle(fontWeight: FontWeight.bold, color: white),
+            style: const TextStyle(fontWeight: FontWeight.bold, color: white),
             recognizer:  TapGestureRecognizer()
               ..onTap = click,
           ),

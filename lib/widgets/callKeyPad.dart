@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/models/keynoardCharacters.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
+import 'package:pinput/pinput.dart';
 
 class CallKeyPad extends StatefulWidget {
   const CallKeyPad({super.key});
@@ -39,6 +40,13 @@ class _CallKeyPadState extends State<CallKeyPad> {
   ];
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(children: [
       Padding(
@@ -54,6 +62,7 @@ class _CallKeyPadState extends State<CallKeyPad> {
               controller: _controller,
               showCursor: true,
               readOnly: true,
+              style: const TextStyle(fontSize: 25, letterSpacing: 2),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(55, 10, 5, 0),
                 border: InputBorder.none,
@@ -79,7 +88,13 @@ class _CallKeyPadState extends State<CallKeyPad> {
               ...character.map(
                 (ch) => RoundedIconButton(
                   click: () => setState(() {
-                    _controller.text = _controller.text + ch.value;
+                    if (ch.value == 'del') {
+                      _controller.delete();
+                      return;
+                    } else {
+                      _controller.text = _controller.text + ch.value;
+                      return;
+                    }
                   }),
                   icon: SizedBox(
                     width: 50,
