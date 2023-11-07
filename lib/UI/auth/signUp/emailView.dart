@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/widgets/alreadyHaveAnAccount.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 
@@ -11,7 +11,7 @@ class EmailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Verify Email',
       canPop: true,
       subTitle:

@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:convert';
 
 import 'package:gomobilez/widgets/alertify.dart';

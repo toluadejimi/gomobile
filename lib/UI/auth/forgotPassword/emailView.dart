@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 
@@ -10,7 +10,7 @@ class ForgotPasswordEmailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Forgot Password',
       canPop: true,
       subTitle:

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
 
 class SuccessView extends StatelessWidget {
@@ -11,9 +11,9 @@ class SuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       body: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Center(
           child: Column(children: [
             Container(

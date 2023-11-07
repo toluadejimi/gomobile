@@ -20,4 +20,12 @@ class DashBoardViewModel extends AppBaseViewModel {
     pageController.animateToPage(val,
         duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
+
+  showButtomModalSheet(BuildContext context, Widget child){
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return child; },
+    );
+  }
 }

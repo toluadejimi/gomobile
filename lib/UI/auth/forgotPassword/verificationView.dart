@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
-import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/pinInput.dart';
 
@@ -12,7 +12,7 @@ class ForgotPasswordVerificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return OnboardingCustomScaffold(
       title: 'Verify',
       canPop: true,
       decoratedText: RichText(
