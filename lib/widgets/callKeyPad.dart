@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/models/keynoardCharacters.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 
-class CallKeyPad extends StatelessWidget {
+class CallKeyPad extends StatefulWidget {
+  const CallKeyPad({super.key});
+
+  @override
+  State<CallKeyPad> createState() => _CallKeyPadState();
+}
+
+TextEditingController _controller = TextEditingController();
+
+class _CallKeyPadState extends State<CallKeyPad> {
   final List<List<KeyboardCharacters>> characters = [
     [
       KeyboardCharacters(value: '1', id: '1'),
@@ -27,42 +37,84 @@ class CallKeyPad extends StatelessWidget {
       KeyboardCharacters(value: 'del', id: '11'),
     ]
   ];
-  CallKeyPad({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      body: Column(children: [
-        TextFormField(),
-        ...characters.map(
-          (character) =>
-              (Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            ...character.map(
-              (ch) => RoundedIconButton(
-                click: () => print(ch.value),
-                icon: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Text(
-                    ch.value,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 45, 0),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(width: 1, color: primaryColor),
+            ),
+          ),
+          child: TextFormField(
+              controller: _controller,
+              showCursor: true,
+              readOnly: true,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.fromLTRB(55, 10, 5, 0),
+                border: InputBorder.none,
+                hintText: 'Enter Phone Number',
+                suffixIcon: Container(
+                  // padding: const EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(bottom: 15),
+                  child: SvgPicture.asset(
+                    './assets/images/svg/phone_dialer_textfield_icon.svg',
+                    width: 15,
                   ),
                 ),
-                padding: 0,
-                color: primaryColor,
-              ),
-            ),
-          ])),
+              )),
         ),
-        RoundedIconButton(
-          click: () => print('call'),
-          icon: SvgPicture.asset(
-            './assets/images/svg/phone_dial_icon.svg',
-            width: 26,
-          ),
-        )
-      ]),
-    );
+      ),
+      const SizedBox(
+        height: 100,
+      ),
+      ...characters.map(
+        (character) => Column(
+          children: [
+            (Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              ...character.map(
+                (ch) => RoundedIconButton(
+                  click: () => setState(() {
+                    _controller.text = _controller.text + ch.value;
+                  }),
+                  icon: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        ch.value,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ),
+                  ),
+                  padding: 0,
+                  color: primaryColor,
+                ),
+              ),
+            ])),
+            const SizedBox(height: 20)
+          ],
+        ),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      RoundedIconButton(
+        color: green,
+        click: () => print('call'),
+        icon: SvgPicture.asset(
+          './assets/images/svg/phone_dial_icon.svg',
+          width: 26,
+        ),
+      ),
+      const SizedBox(
+        height: 50,
+      ),
+    ]);
   }
 }

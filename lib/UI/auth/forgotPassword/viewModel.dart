@@ -1,5 +1,6 @@
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:http/http.dart' as http;
 
@@ -84,10 +85,10 @@ class ForgotPasswordViewModel extends AppBaseViewModel {
         if (dataAfterResponseHandler != null) {
           goToNextPage();
         } else {
-          print(response.body);
+          throw(response.body);
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
@@ -102,10 +103,10 @@ class ForgotPasswordViewModel extends AppBaseViewModel {
       if (dataAfterResponseHandler != null) {
         goToLoginPage();
       } else {
-        print(response.body);
+        throw(response.body);
       }
     } catch (e) {
-      print(e);
+      errorHandler(e);
     }
   }
 
@@ -126,11 +127,11 @@ class ForgotPasswordViewModel extends AppBaseViewModel {
           if (dataAfterResponseHandler != null) {
             goToNextPage();
           } else {
-            print(response.body);
+            throw(response.body);
           }
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
@@ -150,10 +151,10 @@ class ForgotPasswordViewModel extends AppBaseViewModel {
         if (dataAfterResponseHandler != null) {
           goToNextPage();
         } else {
-          print(response.body);
+          throw(response.body);
         }
       } catch (e) {
-        print(e);
+        errorHandler(e);
       }
       setLoadingState();
     }
