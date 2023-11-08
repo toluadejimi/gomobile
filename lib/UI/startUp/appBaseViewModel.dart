@@ -1,6 +1,5 @@
 import 'package:gomobilez/helpers/enums/app_states.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
-import 'package:gomobilez/services/authservice.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -77,9 +76,6 @@ class AppBaseViewModel extends BaseViewModel {
     }
     if (text.trim().isEmpty) {
       return 'Can\'t be empty';
-    }
-    if (text.trim().length < 8) {
-      return 'Too short';
     }
     return null;
   }

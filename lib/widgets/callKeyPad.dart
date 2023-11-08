@@ -40,13 +40,6 @@ class _CallKeyPadState extends State<CallKeyPad> {
   ];
 
   @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(children: [
       Padding(

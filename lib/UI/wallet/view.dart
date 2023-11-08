@@ -14,48 +14,54 @@ class WalletView extends StatelessWidget {
     return ViewModelBuilder<WalletViewModel>.reactive(
       disposeViewModel: false,
       viewModelBuilder: () => WalletViewModel(),
-      builder: (context, model, child) => const Scaffold(
+      builder: (context, model, child) => Scaffold(
         backgroundColor: primaryColor,
         body: SafeArea(
           child: Center(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0,90.0,0,0),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 90.0, 0, 0),
                   child: SvgIconInCircle(
                     svgAssetPath: 'assets/images/svg/solar_cup-star-bold.svg',
-                    circleSize: 142.0, // Specify the size of the circular container
-                    circleColor:green,
-                    svgColor: white, // Specify the color of the circular container
+                    circleSize:
+                        142.0, // Specify the size of the circular container
+                    circleColor: green,
+                    svgColor:
+                        white, // Specify the color of the circular container
                   ),
                 ),
-                 Padding(
-                   padding: EdgeInsets.symmetric(vertical:14),
-                   child: BaseText('Congratulations',
-                   fontSize: 14,
-                   fontWeight: FontWeight.bold,
-                   ),
-                 ),
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(0,0,0,58.0),
-                   child: BaseText('+1(456-786-9087) is now yours',
-                   fontSize: 12,
-                   fontWeight: FontWeight.w400,
-                   ),
-                 ),
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(0,0,0,14),
-                   child: SmallButton(
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  child: BaseText(
+                    'Congratulations',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 58.0),
+                  child: BaseText(
+                    '+1(456-786-9087) is now yours',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
+                  child: SmallButton(
+                    click: () {},
                     text: 'Home',
-                    ),
-                 ),
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(0,0,0,14),
-                   child: SmallButton(
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
+                  child: SmallButton(
+                    click: () {},
                     text: 'Share',
                     color: black,
-                    ),
-                 ),
+                  ),
+                ),
               ],
             ),
           ),

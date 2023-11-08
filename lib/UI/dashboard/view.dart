@@ -1,4 +1,4 @@
-import 'package:country_picker/country_picker.dart';
+
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
