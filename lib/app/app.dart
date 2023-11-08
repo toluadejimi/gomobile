@@ -1,4 +1,6 @@
 
+import 'package:gomobilez/UI/WebPage/view.dart';
+import 'package:gomobilez/UI/auth/getStarted/view.dart';
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
@@ -23,6 +25,7 @@ import 'package:stacked/stacked_annotations.dart';
     // MaterialRoute(page: SplashScreen, initial: true ),
     
     MaterialRoute(page: AppBaseScreen),
+    MaterialRoute(page: GetStartedView),
     MaterialRoute(page: SignUpView),
     MaterialRoute(page: LoginView),
     MaterialRoute(page: ForgotPasswordView),
@@ -32,6 +35,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: WalletView),
     MaterialRoute(page: ContactView),
     MaterialRoute(page: SettingsView),
+    MaterialRoute(page: WebPageView),
   ],
   dependencies: [
     LazySingleton(classType: Services),

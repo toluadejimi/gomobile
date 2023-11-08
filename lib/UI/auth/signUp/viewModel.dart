@@ -11,7 +11,6 @@ import '../../../services/authservice.dart';
 
 class SignUpViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
-  // final _naviagtion = locator<NavigationService>();
 
   final GlobalKey<FormState> emailViewFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> registerViewFormKey = GlobalKey<FormState>();

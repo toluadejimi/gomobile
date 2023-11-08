@@ -7,10 +7,8 @@ import 'package:gomobilez/helpers/size_config.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/models/home_model.dart';
 import 'package:gomobilez/widgets/base_text.dart';
-import 'package:gomobilez/widgets/button.dart';
 import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
-import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/home_widget.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
@@ -277,76 +275,80 @@ class HomeView extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: 2,
                       itemBuilder: (BuildContext context, int index) =>
-                          Container(
-                            width: 311,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            decoration: ShapeDecoration(
-                              color: veryTransparentWhite,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                          GestureDetector(
+                            onTap: () => model.navigateToWeb(),
+                            child: Container(
+                              width: 311,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
                               ),
-                            ),
-                            child: Row(children: [
-                              RoundedIconButton(
-                                padding: 10,
-                                color: primaryColor,
-                                click: () {},
-                                icon: SvgPicture.asset(
-                                    'assets/images/svg/ci_bulb.svg'),
+                              decoration: ShapeDecoration(
+                                color: veryTransparentWhite,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        BaseText(
-                                          'Basic Plan',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            text: '\$25/',
-                                            style: TextStyle(
-                                                color: black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            children: [
-                                              TextSpan(
-                                                style: TextStyle(
-                                                    color: black,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 12),
-                                                text: 'Month',
-                                              ),
-                                            ],
+                              child: Row(children: [
+                                RoundedIconButton(
+                                  padding: 10,
+                                  color: primaryColor,
+                                  click: () {},
+                                  icon: SvgPicture.asset(
+                                      'assets/images/svg/ci_bulb.svg'),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          BaseText(
+                                            'Basic Plan',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                        ),
-                                      ],
+                                          RichText(
+                                            text: TextSpan(
+                                              text: '\$25/',
+                                              style: TextStyle(
+                                                  color: black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                              children: [
+                                                TextSpan(
+                                                  style: TextStyle(
+                                                      color: black,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12),
+                                                  text: 'Month',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                      'Unlimited Calls to your family and friends\nto one country (USA)',
-                                      softWrap: true,
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: textGrey,
-                                      )),
-                                ],
-                              )
-                            ]),
+                                    SizedBox(height: 3),
+                                    Text(
+                                        'Unlimited Calls to your family and friends\nto one country (USA)',
+                                        softWrap: true,
+                                        overflow: TextOverflow.clip,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: textGrey,
+                                        )),
+                                  ],
+                                )
+                              ]),
+                            ),
                           ),
                       separatorBuilder: (BuildContext context, int index) {
                         return SizedBox(

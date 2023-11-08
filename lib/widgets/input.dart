@@ -14,7 +14,7 @@ class InputField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final double padding;
-  final bool obscureText, enableSuggestions, autocorrect;
+  final bool obscureText, enableSuggestions, autocorrect, hintOut;
   const InputField(
       {Key? key,
       this.textInputFormatter,
@@ -30,6 +30,7 @@ class InputField extends StatelessWidget {
       required this.hint,
       this.obscureText = false,
       this.enableSuggestions = true,
+      this.hintOut = true,
       this.autocorrect = false})
       : super(key: key);
 
@@ -41,16 +42,20 @@ class InputField extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            hint,
-            style: const TextStyle(color: grey),
+          Visibility(
+            visible: hintOut,
+            child: Text(
+              hint,
+              style: const TextStyle(color: grey),
+            ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: hintOut ? 5 : 0,
           ),
           TextFormField(
             style: const TextStyle(fontSize: 12, height: 1.5),
             decoration: InputDecoration(
+              hintText: !hintOut ? hint : '',
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
               errorText: errorText,

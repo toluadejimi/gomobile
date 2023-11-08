@@ -29,7 +29,7 @@ class AppBaseViewModel extends BaseViewModel {
     var state = await _localStorageService
         .getStringFromStorage(LocalStorageValues.token);
     if (state == null || state == AppStates.unAuthenticated.name) {
-      setAppState(AppStates.unAuthenticated);
+      setAppState(AppStates.noState);
     } else {
       User? user = await _localStorageService
           .getUserFromStorage(LocalStorageValues.user);
@@ -41,8 +41,6 @@ class AppBaseViewModel extends BaseViewModel {
         setAppState(AppStates.unAuthenticated);
       }
     }
-
-    // nagivationService.navigateTo(Routes.homeView);
   }
 
   String? validateInput(String? text) {

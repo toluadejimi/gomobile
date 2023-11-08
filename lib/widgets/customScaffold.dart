@@ -28,25 +28,34 @@ class CustomScaffold extends StatelessWidget {
               height: 20,
             ),
             canPop || title != null
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        canPop
-                            ? GestureDetector(
-                                onTap: onBackPress,
-                                child: const Icon(Icons.arrow_back))
-                            : const SizedBox(),
-                        const SizedBox(width: 20),
-                        title != null
-                            ? Text(
-                                title!,
-                                style: const TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.w900),
-                              )
-                            : const SizedBox(),
-                      ],
+                ? Visibility(
+                    visible: canPop || title != null,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Visibility(
+                            visible: canPop,
+                            child: GestureDetector(
+                              onTap: onBackPress,
+                              child: const Icon(Icons.arrow_back),
+                            ),
+                          ),
+                          Visibility(
+                            visible: canPop,
+                            child: SizedBox(width: 20),
+                          ),
+                          Visibility(
+                            visible: title != null,
+                            child: Text(
+                              title!,
+                              style: const TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w600),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 : const SizedBox(),
@@ -55,7 +64,7 @@ class CustomScaffold extends StatelessWidget {
               child: body,
             ),
             SizedBox(
-              height: 50,
+              height: 150,
             )
           ],
         ),
