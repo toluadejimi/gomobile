@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/enums/app_states.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
-import 'package:gomobilez/services/authservice.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -30,7 +31,7 @@ class AppBaseViewModel extends BaseViewModel {
     var state = await _localStorageService
         .getStringFromStorage(LocalStorageValues.token);
     if (state == null || state == AppStates.unAuthenticated.name) {
-      setAppState(AppStates.unAuthenticated);
+      setAppState(AppStates.noState);
     } else {
       User? user = await _localStorageService
           .getUserFromStorage(LocalStorageValues.user);
@@ -42,8 +43,6 @@ class AppBaseViewModel extends BaseViewModel {
         setAppState(AppStates.unAuthenticated);
       }
     }
-
-    // nagivationService.navigateTo(Routes.homeView);
   }
 
   String? validateInput(String? text) {
@@ -78,9 +77,6 @@ class AppBaseViewModel extends BaseViewModel {
     if (text.trim().isEmpty) {
       return 'Can\'t be empty';
     }
-    if (text.trim().length < 8) {
-      return 'Too short';
-    }
     return null;
   }
 
@@ -102,5 +98,34 @@ class AppBaseViewModel extends BaseViewModel {
       notifyListeners();
       navigationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
     }
+  }
+
+  showButtomModalSheet(
+      {required BuildContext context,
+      required Widget child,
+      Color color = white,
+      double curve = 20}) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(curve),
+      ),
+      builder: (context) {
+        return Wrap(children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(
+                curve,
+              ),
+            ),
+            child: child,
+          ),
+        ]);
+      },
+    );
   }
 }

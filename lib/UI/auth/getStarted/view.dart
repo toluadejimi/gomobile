@@ -1,19 +1,19 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gomobilez/UI/auth/getStarted/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
-
-import '../../../helpers/size_config.dart';
+import 'package:stacked/stacked.dart';
 
 class GetStartedView extends StatelessWidget {
-  final SignUpViewModel model;
-  const GetStartedView({Key? key, required this.model}) : super(key: key);
+ const GetStartedView({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig.init(context);
-    return Scaffold(
+ @override
+ Widget build(BuildContext context) {
+   return ViewModelBuilder<GetStartedViewModel>.reactive(
+    
+        viewModelBuilder: () => GetStartedViewModel(),
+     builder: (context, model, child) => Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
@@ -66,6 +66,7 @@ class GetStartedView extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    )
+   );
+ }
 }

@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
@@ -19,14 +18,17 @@ class DashBoardView extends StatelessWidget {
     SizeConfig.init(context);
     return ViewModelBuilder<DashBoardViewModel>.reactive(
       viewModelBuilder: () => DashBoardViewModel(),
+      disposeViewModel: false,
       // onModelReady: (model)=> model.init(),
       builder: (context, model, child) => Stack(
         children: [
           PageView(
             controller: model.pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              HomeView(),
+            children: [
+              HomeView(
+                pageController: model.pageController,
+              ),
               WalletView(),
               ContactView(),
               MessageView(),

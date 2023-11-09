@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/auth/signUp/emailView.dart';
-import 'package:gomobilez/UI/auth/signUp/getStartedView.dart';
 import 'package:gomobilez/UI/auth/signUp/registerView.dart';
 import 'package:gomobilez/UI/auth/signUp/successView.dart';
 import 'package:gomobilez/UI/auth/signUp/verificationView.dart';
@@ -18,9 +17,6 @@ class SignUpView extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         controller: model.pageController,
         children: [
-          GetStartedView(
-            model: model,
-          ),
           EmailView(model: model),
           VerificationView(model: model),
           RegisterView(model: model),

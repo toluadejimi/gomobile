@@ -1,4 +1,6 @@
 
+import 'package:gomobilez/UI/WebPage/view.dart';
+import 'package:gomobilez/UI/auth/getStarted/view.dart';
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
@@ -9,7 +11,7 @@ import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
-import 'package:gomobilez/services/authservice.dart';
+import 'package:gomobilez/services/authService.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:gomobilez/services/index.dart';
 import 'package:gomobilez/services/localStorageService.dart';
@@ -23,6 +25,7 @@ import 'package:stacked/stacked_annotations.dart';
     // MaterialRoute(page: SplashScreen, initial: true ),
     
     MaterialRoute(page: AppBaseScreen),
+    MaterialRoute(page: GetStartedView),
     MaterialRoute(page: SignUpView),
     MaterialRoute(page: LoginView),
     MaterialRoute(page: ForgotPasswordView),
@@ -32,6 +35,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: WalletView),
     MaterialRoute(page: ContactView),
     MaterialRoute(page: SettingsView),
+    MaterialRoute(page: WebPageView),
   ],
   dependencies: [
     LazySingleton(classType: Services),

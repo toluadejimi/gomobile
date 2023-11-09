@@ -211,7 +211,8 @@ class Services extends LocalStorageService {
       //   //you can build progressbar feature too
       // }
     });
-    return true;
+    
     print("File is saved to download folder.");
+    return true;
   }
 }

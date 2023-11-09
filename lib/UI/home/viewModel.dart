@@ -1,6 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
+import 'package:gomobilez/app/app.router.dart';
 import '../../helpers/size_config.dart';
 
 class HomeViewModel extends DashBoardViewModel {
@@ -50,7 +50,13 @@ class HomeViewModel extends DashBoardViewModel {
     return MediaQuery.of(context).size.height - height(23);
   }
 
-  navigateToAds() {
-    // nagivationService.navigateTo(Routes.uploadAdView);
+  navigateToWeb() {
+    navigationService.navigateTo(Routes.webPageView,
+        arguments: WebPageViewArguments(url: 'url'));
+  }
+
+  navigateToFundWallet() {
+    changePage(1);
+    notifyListeners();
   }
 }

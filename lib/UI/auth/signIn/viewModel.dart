@@ -12,7 +12,7 @@ import 'package:gomobilez/services/tokenService.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../app/app.locator.dart';
-import '../../../services/authservice.dart';
+import '../../../services/authService.dart';
 
 class LoginViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
