@@ -18,7 +18,8 @@ import 'package:stacked/stacked.dart';
 import '../../helpers/responsive_layout.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  final PageController pageController;
+  const HomeView({Key? key, required this.pageController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +177,10 @@ class HomeView extends StatelessWidget {
                               curve: 18,
                               paddingY: 12,
                               color: primaryColor,
-                              click: () {},
+                              click: () => model.changePage(1),
+                              // pageController.animateTo(2,
+                              //     duration: const Duration(milliseconds: 300),
+                              //     curve: Curves.ease),
                               prefixIcon: SvgPicture.asset(
                                 './assets/images/svg/home_page_fund_wallet_icon.svg',
                                 width: 20,

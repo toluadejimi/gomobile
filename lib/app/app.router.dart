@@ -153,8 +153,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i8.HomeView: (data) {
+      final args = data.getArgs<HomeViewArguments>(nullOk: false);
       return _i14.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.HomeView(),
+        builder: (context) =>
+            _i8.HomeView(key: args.key, pageController: args.pageController),
         settings: data,
       );
     },
@@ -196,6 +198,33 @@ class StackedRouter extends _i1.RouterBase {
 
   @override
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
+}
+
+class HomeViewArguments {
+  const HomeViewArguments({
+    this.key,
+    required this.pageController,
+  });
+
+  final _i14.Key? key;
+
+  final _i14.PageController pageController;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "pageController": "$pageController"}';
+  }
+
+  @override
+  bool operator ==(covariant HomeViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.pageController == pageController;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ pageController.hashCode;
+  }
 }
 
 class WebPageViewArguments {
@@ -310,14 +339,17 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToHomeView([
+  Future<dynamic> navigateToHomeView({
+    _i14.Key? key,
+    required _i14.PageController pageController,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key, pageController: pageController),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -481,14 +513,17 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithHomeView([
+  Future<dynamic> replaceWithHomeView({
+    _i14.Key? key,
+    required _i14.PageController pageController,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key, pageController: pageController),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

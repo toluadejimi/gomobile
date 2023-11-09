@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/enums/app_states.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
 import 'package:gomobilez/services/localStorageService.dart';
@@ -96,5 +98,34 @@ class AppBaseViewModel extends BaseViewModel {
       notifyListeners();
       navigationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
     }
+  }
+
+  showButtomModalSheet(
+      {required BuildContext context,
+      required Widget child,
+      Color color = white,
+      double curve = 20}) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(curve),
+      ),
+      builder: (context) {
+        return Wrap(children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(
+                curve,
+              ),
+            ),
+            child: child,
+          ),
+        ]);
+      },
+    );
   }
 }

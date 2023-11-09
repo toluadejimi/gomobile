@@ -3,7 +3,6 @@ import 'package:gomobilez/UI/contact/emptyContactList.dart';
 import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/pageLoading.dart';
 import 'package:stacked/stacked.dart';

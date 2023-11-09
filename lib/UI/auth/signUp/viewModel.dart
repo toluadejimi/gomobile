@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../app/app.locator.dart';
 import '../../../app/app.router.dart';
-import '../../../services/authservice.dart';
+import '../../../services/authService.dart';
 
 class SignUpViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();

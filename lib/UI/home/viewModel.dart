@@ -51,6 +51,12 @@ class HomeViewModel extends DashBoardViewModel {
   }
 
   navigateToWeb() {
-    navigationService.navigateTo(Routes.webPageView, arguments: WebPageViewArguments(url: 'url'));
+    navigationService.navigateTo(Routes.webPageView,
+        arguments: WebPageViewArguments(url: 'url'));
+  }
+
+  navigateToFundWallet() {
+    changePage(1);
+    notifyListeners();
   }
 }

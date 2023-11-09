@@ -11,7 +11,7 @@ import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
-import 'package:gomobilez/services/authservice.dart';
+import 'package:gomobilez/services/authService.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:gomobilez/services/index.dart';
 import 'package:gomobilez/services/localStorageService.dart';

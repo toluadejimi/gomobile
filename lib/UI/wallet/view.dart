@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gomobilez/UI/wallet/bottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
@@ -54,8 +55,11 @@ class WalletView extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.8,
                   child: InputField(
+                    keyboardType: TextInputType.number,
+                    controller: model.amounController,
                     hint: 'Enter Amount to Fund',
                     hintOut: false,
+                    validator: (val) => model.validateInput(val),
                   ),
                 ),
                 SizedBox(
@@ -65,7 +69,13 @@ class WalletView extends StatelessWidget {
                   width: 110,
                   paddingX: 10,
                   paddingY: 12,
-                  click: () {},
+                  click: () {
+                    if (model.amounController.text.isNotEmpty) {
+                      model.showButtomModalSheet(
+                          context: context,
+                          child: WalletBottomSheet(model: model));
+                    }
+                  },
                   text: 'Continue',
                   suffixIcon: Icon(Icons.arrow_forward),
                 )
@@ -163,7 +173,7 @@ class WalletView extends StatelessWidget {
                                 children: [
                                   BaseText(
                                     'Wallet Funding',
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   SizedBox(height: 2),
