@@ -36,7 +36,8 @@ class AppBaseViewModel extends BaseViewModel {
       User? user = await _localStorageService
           .getUserFromStorage(LocalStorageValues.user);
       if (user != null) {
-        print(user);
+        print('wallet');
+        print(user.wallet);
         // setUser(user);
         setAppState(AppStates.authenticated);
       } else {

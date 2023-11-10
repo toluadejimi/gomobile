@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,8 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 
 class Services extends LocalStorageService {
-  
- final LocalStorageService _storageService = locator<LocalStorageService>();
+  final LocalStorageService _storageService = locator<LocalStorageService>();
   // final MyNavigationService _navigationService = locator<MyNavigationService>();
   final TokenService _tokenService = locator<TokenService>();
 
@@ -53,7 +51,7 @@ class Services extends LocalStorageService {
     bool encodeBody = true,
   }) async {
     final String? token = await _tokenService.getToken();
-    url =  APP_BASE_URL + url ;
+    url = APP_BASE_URL + url;
     Uri uri = Uri.parse(url);
 
     final jsonBody = encodeBody ? jsonEncode(body) : body;
@@ -211,7 +209,7 @@ class Services extends LocalStorageService {
       //   //you can build progressbar feature too
       // }
     });
-    
+
     print("File is saved to download folder.");
     return true;
   }

@@ -280,7 +280,7 @@ class HomeView extends StatelessWidget {
                       itemCount: 2,
                       itemBuilder: (BuildContext context, int index) =>
                           GestureDetector(
-                            onTap: () => model.navigateToWeb(),
+                            onTap: () => {'model.navigateToWeb()'},
                             child: Container(
                               width: 311,
                               padding: EdgeInsets.symmetric(

@@ -12,6 +12,7 @@ import '../services/authService.dart';
 import '../services/contactService.dart';
 import '../services/index.dart';
 import '../services/localStorageService.dart';
+import '../services/paymentService.dart';
 import '../services/tokenService.dart';
 
 final locator = StackedLocator.instance;
@@ -30,4 +31,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => LocalStorageService());
   locator.registerLazySingleton(() => TokenService());
   locator.registerLazySingleton(() => ContactService());
+  locator.registerLazySingleton(() => PaymentService());
 }
