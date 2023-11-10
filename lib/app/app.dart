@@ -2,7 +2,12 @@
 import 'package:gomobilez/UI/WebPage/view.dart';
 import 'package:gomobilez/UI/auth/getStarted/view.dart';
 import 'package:gomobilez/UI/contact/view.dart';
+import 'package:gomobilez/UI/contactUs/view.dart';
+import 'package:gomobilez/UI/legalTerms/view.dart';
+import 'package:gomobilez/UI/manageSubscription/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
+import 'package:gomobilez/UI/updatePassword/view.dart';
+import 'package:gomobilez/UI/updateProfile/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/index.dart';
 import 'package:gomobilez/UI/auth/signIn/index.dart';
@@ -36,6 +41,11 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: ContactView),
     MaterialRoute(page: SettingsView),
     MaterialRoute(page: WebPageView),
+    MaterialRoute(page: UpdateProfileView),
+    MaterialRoute(page: ManageSubscriptionView),
+    MaterialRoute(page: UpdatePasswordView),
+    MaterialRoute(page: ContactUsView),
+    MaterialRoute(page: LegalTermsView),
   ],
   dependencies: [
     LazySingleton(classType: Services),
