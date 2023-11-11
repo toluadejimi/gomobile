@@ -13,6 +13,8 @@ const Color transparentWhite = Color(0x96FFFFFF);
 const Color veryTransparentWhite = Color(0x4DFFFFFF);
 const Color offWhite = Color.fromARGB(255, 235, 244, 230);
 const Color white36 = Color(0x5CFFFFFF);
+const Color blue = Color(0xFF1982FC);
+
 const Color white = Color.fromARGB(255, 255, 255, 255);
 final Map<int, Color> _yellow700Map = {
   50: primaryColor,

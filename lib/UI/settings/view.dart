@@ -258,11 +258,11 @@ class SettingsView extends StatelessWidget {
       ),
       actions: [
         CupertinoDialogAction(
-          child: BaseText('Yes'),
+          child: BaseText('Yes',color: blue,),
           onPressed: () {},
         ),
         CupertinoDialogAction(
-          child: BaseText('No'),
+          child: BaseText('No',color: blue,),
           onPressed: () {},
         ),
       ],
