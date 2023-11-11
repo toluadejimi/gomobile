@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gomobilez/UI/settings/viewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:gomobilez/UI/updateProfile/view.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
