@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gomobilez/UI/settings/viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/custom_svg_icon.dart';
@@ -32,25 +33,36 @@ class SettingsView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'Full Name\n',
-                                style: TextStyle(
-                                    color: textGrey,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 8)),
-                            TextSpan(
-                                text: 'Adejinmi Toluwalope',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: black,
-                                    fontSize: 10))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
+                      FutureBuilder(
+                          future: model.getUser(),
+                          builder: (ctx, snapshot) {
+                            return snapshot.hasData
+                                ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Full Name\n',
+                                                style: TextStyle(
+                                                    color: textGrey,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 8)),
+                                            TextSpan(
+                                              text: snapshot.data!.lastName
+                                                      .nameCase() +' '+
+                                                  snapshot.data!.firstName
+                                                      .nameCase(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: black,
+                                                  fontSize: 10),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
                         height: 8,
                       ),
                       RichText(
@@ -63,7 +75,7 @@ class SettingsView extends StatelessWidget {
                                     fontWeight: FontWeight.w400,
                                     fontSize: 8)),
                             TextSpan(
-                                text: 'davidkings@gmail.com',
+                                text: snapshot.data!.email,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: black,
@@ -71,6 +83,15 @@ class SettingsView extends StatelessWidget {
                           ],
                         ),
                       ),
+                                  ],
+                                )
+                                  
+                                : const BaseText(
+                                    '...',
+                                    fontSize: 18,
+                                    color: black,
+                                  );
+                          }),
                     ],
                   ),
                   Spacer(),
@@ -257,11 +278,17 @@ class SettingsView extends StatelessWidget {
       ),
       actions: [
         CupertinoDialogAction(
-          child: BaseText('Yes',color: blue,),
+          child: BaseText(
+            'Yes',
+            color: blue,
+          ),
           onPressed: () {},
         ),
         CupertinoDialogAction(
-          child: BaseText('No',color: blue,),
+          child: BaseText(
+            'No',
+            color: blue,
+          ),
           onPressed: () {},
         ),
       ],
