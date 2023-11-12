@@ -19,7 +19,7 @@ class UpdatePasswordView extends StatelessWidget {
             child: Column(
               children: [
                 Form(
-                  key: model.formKey,
+                  key: model.updatePasswordformKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
