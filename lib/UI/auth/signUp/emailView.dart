@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/widgets/alreadyHaveAnAccount.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
@@ -36,8 +37,8 @@ class EmailView extends StatelessWidget {
                 ),
               ],
             )),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: 10.h,
         ),
         Center(child: AlreadyHaveAnAccount(click: () => model.goToLoginPage()))
       ],

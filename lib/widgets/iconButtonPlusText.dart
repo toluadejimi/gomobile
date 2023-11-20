@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 
 class IconButtonPlusText extends StatelessWidget {
@@ -13,8 +14,8 @@ class IconButtonPlusText extends StatelessWidget {
       this.suffixIcon,
       this.prefixIcon,
       required this.text,
-      this.paddingX = 15,
-      this.paddingY = 15,
+      this.paddingX = 10,
+      this.paddingY = 10,
       this.width = 200,
       this.curve = 10,
       this.color = white});
@@ -24,8 +25,9 @@ class IconButtonPlusText extends StatelessWidget {
     return GestureDetector(
       onTap: click,
       child: Container(
-        width: width,
-        padding: EdgeInsets.symmetric(vertical: paddingY, horizontal: paddingX),
+        width: width.w,
+        padding:
+            EdgeInsets.symmetric(vertical: paddingY.h, horizontal: paddingX.w),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.all(
@@ -36,17 +38,17 @@ class IconButtonPlusText extends StatelessWidget {
             ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
                   text,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 14.sp),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 6.w),
                 suffixIcon!
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 prefixIcon!,
-                SizedBox(width: 10),
+                SizedBox(width: 6.w),
                 Text(
                   text,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 14.sp),
                 )
               ]),
       ),

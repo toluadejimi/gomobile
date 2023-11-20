@@ -8,6 +8,7 @@ import 'package:gomobilez/helpers/enums/payment_options.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:gomobilez/models/fund_wallet.dart';
+import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/services/paymentService.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,6 +30,31 @@ class WalletViewModel extends DashBoardViewModel {
     notifyListeners();
   }
 
+  Future<List<RecentTransaction>?> getRecentTransactions() async {
+    try {
+      http.Response response = await _paymentService.getRecentTransaction();
+      String? dataAfterResponseHandler = response.body;
+
+      var raw = jsonDecode(dataAfterResponseHandler);
+      if (raw['status'] == true) {
+        List<RecentTransaction> transactions = [];
+        if (raw['data']['transactions'].length > 0) {
+          for (var i = 0; i < raw['data']['transactions'].length; i++) {
+            transactions.add(recentTransactionFromJson(
+                jsonEncode(raw['data']['transactions'][i])));
+          }
+        } else {
+          throw ({'message': 'An error occured'});
+        }
+        return transactions;
+      }
+      return null;
+    } catch (e) {
+      errorHandler(e);
+      return null;
+    }
+  }
+
   proceedToFundWallet() async {
     if (amounController.value.text.trim().isNotEmpty &&
         vendor.name.isNotEmpty) {
@@ -39,7 +65,6 @@ class WalletViewModel extends DashBoardViewModel {
           "vendor": vendor.name
         };
         http.Response response = await _paymentService.fundAccount(data);
-        print(json.decode(response.body));
         String? dataAfterResponseHandler = responseHandler(response);
 
         if (dataAfterResponseHandler != null) {
@@ -47,19 +72,10 @@ class WalletViewModel extends DashBoardViewModel {
           print(raw);
 
           if (raw['status'] == true) {
-            FundWallet data = fundWalletFromJson(jsonEncode(raw['body']));
+            FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));
 
             navigationService.navigateTo(Routes.webPageView,
                 arguments: WebPageViewArguments(url: data.href));
-            // if (!success) {
-            //   throw ('Something went wrong');
-            // }
-            // success = await _localStorageService.addUserToStorage(
-            //     LocalStorageValues.user, user);
-            // if (!success) {
-            //   throw ('Something went wrong');
-            // }
-            // goToApp();
           }
         } else {
           throw ({'message': 'An error occured'});

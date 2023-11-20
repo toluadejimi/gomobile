@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
 
-String? responseHandler(http.Response response) {
+dynamic responseHandler(http.Response response) {
   switch (response.statusCode) {
     case 200:
       {

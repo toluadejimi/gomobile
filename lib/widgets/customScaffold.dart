@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 
 class CustomScaffold extends StatelessWidget {
@@ -21,17 +22,16 @@ class CustomScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-          child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             canPop || title != null
                 ? Visibility(
                     visible: canPop || title != null,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      padding: EdgeInsets.fromLTRB(20.w, 0, 20.h, 20.5),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -44,14 +44,14 @@ class CustomScaffold extends StatelessWidget {
                           ),
                           Visibility(
                             visible: canPop,
-                            child: SizedBox(width: 20),
+                            child: SizedBox(width: 20.w),
                           ),
                           Visibility(
                             visible: title != null,
                             child: Text(
                               title!,
-                              style: const TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 23.sp, fontWeight: FontWeight.w600),
                             ),
                           )
                         ],
@@ -60,15 +60,15 @@ class CustomScaffold extends StatelessWidget {
                   )
                 : const SizedBox(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.symmetric(horizontal: 25.w),
               child: body,
             ),
-            SizedBox(
-              height: 150,
-            )
+            // SizedBox(
+            //   height: 100.h,
+            // )
           ],
         ),
-      )),
+      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/auth/signIn/viewModel.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class LoginView extends StatelessWidget {
         backgroundColor: primaryColor,
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: 28.w),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -31,14 +31,15 @@ class LoginView extends StatelessWidget {
                   Image.asset(
                     'assets/images/png/login_image.png',
                   ),
-                  const Text(
+                  Text(
                     'Login',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+                    style:
+                        TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w900),
                   ),
-                  const SizedBox(height: 5),
-                  const Text(
+                  SizedBox(height: 5.h),
+                  Text(
                     'Welcome back',
-                    style: TextStyle(fontSize: 18, color: grey),
+                    style: TextStyle(fontSize: 16.sp, color: grey),
                   ),
                   const SizedBox(height: 20),
                   Form(
@@ -73,13 +74,13 @@ class LoginView extends StatelessWidget {
                     onTap: () => model.goToForgotPasswordPage(),
                     child: Container(
                       alignment: Alignment.centerRight,
-                      child: const Text('Forgot Password',
+                      child: Text('Forgot Password',
                           style: TextStyle(
-                              fontWeight: FontWeight.w900, fontSize: 16)),
+                              fontWeight: FontWeight.w900, fontSize: 15.sp)),
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
+                  SizedBox(
+                    height: 48.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,30 +91,30 @@ class LoginView extends StatelessWidget {
                           model.login();
                         },
                         loading: model.loading,
-                        horizontalPadding: width(27),
+                        horizontalPadding: width(22.w),
                       ),
                       CustomIconButton(
                         click: () {},
                         widget: SvgPicture.asset(
                           'assets/images/svg/login_icon_button.svg',
                           semanticsLabel: 'Login Image',
-                          width: 20,
+                          width: 20.w,
                         ),
-                        verticalPadding: 15,
-                        horizontalPadding: 20,
+                        verticalPadding: 12.h,
+                        horizontalPadding: 18.w,
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
+                  SizedBox(
+                    height: 15.h,
                   ),
                   LongButton(
                     text: 'Register',
                     click: () => model.goToRegistrationPage(),
                     color: black,
                   ),
-                  const SizedBox(
-                    height: 30,
+                   SizedBox(
+                    height: 30.h,
                   ),
                 ]),
           ),

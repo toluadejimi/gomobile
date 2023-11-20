@@ -61,6 +61,7 @@ class LoginViewModel extends AppBaseViewModel {
           var raw = jsonDecode(dataAfterResponseHandler);
 
           if (raw['status'] == true) {
+
             User user = userFromJson(jsonEncode(raw['data']));
 
             bool success = await _tokenService.setToken(raw['data']['token']);
@@ -75,7 +76,7 @@ class LoginViewModel extends AppBaseViewModel {
             goToApp();
           }
         } else {
-          throw({'message':'An error occured'});
+          throw ({'message': 'An error occured'});
         }
       } catch (e) {
         errorHandler(e);

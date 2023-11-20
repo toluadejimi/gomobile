@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 
 class ContactLoadingScreen extends StatelessWidget {
@@ -7,7 +8,7 @@ class ContactLoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 60,
+        height: 60.h,
         decoration: const BoxDecoration(
           color: veryTransparentWhite,
           borderRadius: BorderRadius.all(Radius.circular(20)),

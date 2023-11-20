@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/models/keyboardCharacters.dart';
@@ -7,7 +8,9 @@ import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:pinput/pinput.dart';
 
 class CallKeyPad extends StatefulWidget {
-  const CallKeyPad({super.key});
+  final void Function(String, {String? name}) call;
+  final VoidCallback click;
+  const CallKeyPad({super.key, required this.call, required this.click});
 
   @override
   State<CallKeyPad> createState() => _CallKeyPadState();
@@ -22,7 +25,6 @@ class _CallKeyPadState extends State<CallKeyPad> {
       KeyboardCharacters(value: '2', id: '2'),
       KeyboardCharacters(value: '3', id: '3'),
     ],
-
     [
       KeyboardCharacters(value: '4', id: '4'),
       KeyboardCharacters(value: '5', id: '5'),
@@ -56,24 +58,27 @@ class _CallKeyPadState extends State<CallKeyPad> {
               controller: _controller,
               showCursor: true,
               readOnly: true,
-              style: const TextStyle(fontSize: 25, letterSpacing: 2),
+              style: TextStyle(fontSize: 20.sp, letterSpacing: 2),
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(55, 10, 5, 0),
+                contentPadding: EdgeInsets.fromLTRB(55.w, 10.h, 5.w, 0),
                 border: InputBorder.none,
                 hintText: 'Enter Phone Number',
-                suffixIcon: Container(
-                  // padding: const EdgeInsets.only(right: 10),
-                  margin: const EdgeInsets.only(bottom: 15),
-                  child: SvgPicture.asset(
-                    './assets/images/svg/phone_dialer_textfield_icon.svg',
-                    width: 15,
+                suffixIcon: GestureDetector(
+                  onTap: widget.click,
+                  child: Container(
+                    // padding: const EdgeInsets.only(right: 10),
+                    margin: EdgeInsets.only(bottom: 15.h),
+                    child: SvgPicture.asset(
+                      './assets/images/svg/phone_dialer_textfield_icon.svg',
+                      width: 15,
+                    ),
                   ),
                 ),
               )),
         ),
       ),
-      const SizedBox(
-        height: 100,
+      SizedBox(
+        height: 80.h,
       ),
       ...characters.map(
         (character) => Column(
@@ -91,13 +96,13 @@ class _CallKeyPadState extends State<CallKeyPad> {
                     }
                   }),
                   icon: SizedBox(
-                    width: 50,
-                    height: 50,
+                    width: 45.w,
+                    height: 45.h,
                     child: Center(
                       child: Text(
                         ch.value,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22.sp),
                       ),
                     ),
                   ),
@@ -106,23 +111,25 @@ class _CallKeyPadState extends State<CallKeyPad> {
                 ),
               ),
             ])),
-            const SizedBox(height: 20)
+            SizedBox(height: 18.h)
           ],
         ),
       ),
-      const SizedBox(
-        height: 20,
+      SizedBox(
+        height: 20.h,
       ),
       RoundedIconButton(
         color: green,
-        click: () => print('call'),
+        click: () => widget.call(
+          _controller.text,
+        ),
         icon: SvgPicture.asset(
           './assets/images/svg/phone_dial_icon.svg',
-          width: 26,
+          width: 24.w,
         ),
       ),
-      const SizedBox(
-        height: 50,
+      SizedBox(
+        height: 40.h,
       ),
     ]);
   }

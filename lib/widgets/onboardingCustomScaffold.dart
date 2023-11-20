@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 
 class OnboardingCustomScaffold extends StatelessWidget {
@@ -27,12 +28,12 @@ class OnboardingCustomScaffold extends StatelessWidget {
           child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: 50.h,
             ),
             canPop || title != null
                 ? Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    padding: EdgeInsets.fromLTRB(18.w, 0, 18.w, 20.h),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -45,8 +46,9 @@ class OnboardingCustomScaffold extends StatelessWidget {
                         title != null
                             ? Text(
                                 title!,
-                                style: const TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.w900),
+                                style: TextStyle(
+                                    fontSize: 28.sp,
+                                    fontWeight: FontWeight.w900),
                               )
                             : const SizedBox(),
                       ],
@@ -54,14 +56,14 @@ class OnboardingCustomScaffold extends StatelessWidget {
                   )
                 : const SizedBox(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              padding: EdgeInsets.symmetric(horizontal: 40.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   subTitle != null
                       ? Text(
                           subTitle!,
-                          style: const TextStyle(fontSize: 16, color: grey),
+                          style: TextStyle(fontSize: 15.sp, color: grey),
                         )
                       : const SizedBox(),
                   decoratedText != null ? decoratedText! : const SizedBox(),

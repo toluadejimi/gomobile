@@ -39,6 +39,7 @@ class LocalStorageService {
     SharedPreferences ref = await pref;
     var mapString = ref.getString(key.name);
     if (mapString != null) {
+      print(mapString);
       User json = userFromJson(mapString);
       return json;
     } else {

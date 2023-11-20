@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/longButton.dart';
@@ -16,12 +17,12 @@ class ForgotPasswordVerificationView extends StatelessWidget {
       title: 'Verify',
       canPop: true,
       decoratedText: RichText(
-        text: const TextSpan(
+        text: TextSpan(
           text: 'Verification code has been sent\nto ',
           style: TextStyle(color: black),
           children: <TextSpan>[
             TextSpan(
-                text: 'ol****@gm***.com',
+                text: model.emailTextController.text,
                 style: TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(text: ' Kindly check\nspam folder if not found in inbox')
           ],
@@ -36,7 +37,7 @@ class ForgotPasswordVerificationView extends StatelessWidget {
             onCompleted: (pin) => model.verifyEmailOTP(),
           ),
         ),
-        const SizedBox(height: 100),
+         SizedBox(height: 90.h),
         LongButton(text: 'Verify', click: () => model.verifyEmailOTP(), loading: model.loading,)
       ],
     );

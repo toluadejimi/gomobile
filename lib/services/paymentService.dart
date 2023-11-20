@@ -6,4 +6,9 @@ class PaymentService extends Services {
     http.Response response = await post('pay-now', isAuth: true, body: data);
     return response;
   }
+
+  Future<http.Response> getRecentTransaction() async {
+    http.Response response = await get('all-transaction', isAuth: true);
+    return response;
+  }
 }

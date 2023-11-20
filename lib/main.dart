@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,26 +25,34 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gomobilez',
-      debugShowCheckedModeBanner: false,
-      builder: BotToastInit(),
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-      ),
-      navigatorKey: StackedService.navigatorKey,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      home: EasySplashScreen(
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return MaterialApp(
+            title: 'Gomobilez',
+            debugShowCheckedModeBanner: false,
+            builder: BotToastInit(),
+            theme: ThemeData(
+              fontFamily: 'Roboto',
+            ),
+            navigatorKey: StackedService.navigatorKey,
+            onGenerateRoute: StackedRouter().onGenerateRoute,
+            home: child
+            // onUnknownRoute: (settings) {
+            //   return MaterialPageRoute(builder: (ctx) => const Home());
+            // },
+            );
+      },
+      child: EasySplashScreen(
         durationInSeconds: 2,
         navigator: Routes.appBaseScreen,
         logo: Image.asset('assets/images/png/logo.png'),
         backgroundColor: primaryColor,
-        logoWidth: 120.0,
+        logoWidth: 120,
         showLoader: false,
       ),
-      // onUnknownRoute: (settings) {
-      //   return MaterialPageRoute(builder: (ctx) => const Home());
-      // },
     );
   }
 }

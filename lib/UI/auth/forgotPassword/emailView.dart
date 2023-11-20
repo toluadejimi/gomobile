@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
@@ -26,10 +27,10 @@ class ForgotPasswordEmailView extends StatelessWidget {
             validator: (value) => model.validateEmailInput(value),
           ),
         ),
-        const SizedBox(height: 100),
+         SizedBox(height: 90.h),
         LongButton(text: 'Continue', click: () => model.verifyEmail(), loading: model.loading,),
-        const SizedBox(
-          height: 5,
+         SizedBox(
+          height: 5.h,
         ),
       ],
     );

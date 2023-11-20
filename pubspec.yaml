@@ -47,6 +47,13 @@ dependencies:
   device_info_plus: ^9.1.0
   country_picker: ^2.0.22
   webview_flutter: ^4.4.2
+  emoji_flag_converter: ^1.1.0
+  bottom_sheet: ^4.0.0
+  flutter_contacts: ^1.1.7+1
+  permission_handler: ^11.0.1
+  flutter_inappwebview: ^5.8.0
+  flutter_screenutil: ^5.9.0
+  emoji_picker_flutter: ^1.6.3
 
 
 
