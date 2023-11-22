@@ -91,6 +91,7 @@
                 height: 0px;
               "
             ></video>
+            <audio id="remoteMedia" autoplay="true" />
             </div>
       
     </div>
@@ -135,18 +136,19 @@
           ringtoneFile: './assets/web-call-out-tune.mp3',
         });
 
-        client.remoteElement = 'remoteVideo';
-        client.localElement = 'localVideo';
+        client.remoteElement = 'remoteMedia';
+        // client.localElement = 'localVideo';
 
-        document.getElementById( 'remoteVideo').mute =false;
+        // document.getElementById( 'remoteVideo').mute =false;
 
-        if (document.getElementById('audio').checked) {
-            console.log('audio')
-            console.log(document.getElementById('audio'))
+        // if (document.getElementById('audio').checked) {
           client.enableMicrophone();
-        } else {
-          client.disableMicrophone();
-        }
+          
+            console.log('audio')
+            console.log(client.getAudioOutDevices());
+        // } else {
+        //   client.disableMicrophone();
+        // }
 
         client.on('telnyx.ready', function () {
           document.getElementById( 'connectStatus').innerHTML = 'Connected';
@@ -179,8 +181,7 @@
 
       function mute(){
          if(document.getElementById( 'audio').style.backgroundColor == 'rgba(0, 0, 0, 0.494)'){
-            console.log( client._audioConstraints)
-            console.log( client._audioConstraints)
+           
             client.disableMicrophone()
             document.getElementById( 'audio').style.backgroundColor = '#000';
          }else{

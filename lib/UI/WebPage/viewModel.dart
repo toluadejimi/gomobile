@@ -27,4 +27,5 @@ class WebPageViewModel extends AppBaseViewModel {
     await refreshUser();
     navigationService.back();
   }
+
 }
