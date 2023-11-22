@@ -162,7 +162,10 @@ class ConversationView extends StatelessWidget {
                               hintOut: false,
                               onChanged: (val) => model.notifyListeners(),
                               prefixIcon: GestureDetector(
-                                  onTap: () {}, child: Icon(Icons.photo_album)),
+                                  onTap: () {
+                                    model.pickImage();
+                                  },
+                                  child: Icon(Icons.photo_album)),
                               suffixIcon: SizedBox(
                                 width: 50.w,
                                 child: GestureDetector(
@@ -188,8 +191,16 @@ class ConversationView extends StatelessWidget {
                         RoundedIconButton(
                           color: transparentWhite,
                           padding: 8.w,
-                          click: () => model.sendMessage(args.phoneNumber,
-                              name: args.name),
+                          click: () {
+                            // model.sendMessage(args.phoneNumber,
+                            //     name: args.name);
+                             if (model.messageController.text.isNotEmpty) {
+                            model.sendMessage(args.phoneNumber, name: args.name);
+                          } else if (model.selectedImage != null) {
+                            //=====this next line is for the api code that sends 
+                            // model.sendImage(args.phoneNumber, name: args.name);
+                          }
+                          },
                           icon: const Icon(Icons.send, color: black),
                         )
                       ],

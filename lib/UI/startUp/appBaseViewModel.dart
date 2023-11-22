@@ -21,6 +21,11 @@ class AppBaseViewModel extends BaseViewModel {
   final _localStorageService = LocalStorageService();
   UserService _userService = locator<UserService>();
 
+  void initState() {
+    getUser();
+    refreshUser();
+  }
+
   AppStates? _state;
   AppStates? get state => _state;
   setAppState(AppStates val) {

@@ -24,6 +24,12 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 class MessageViewModel extends DashBoardViewModel {
   final MessageService _messageService = locator<MessageService>();
 
+  initState() {
+    getNumbers();
+    getRecentMessages();
+    getCoversation('');
+  }
+
   int _getNumberIndex = 0;
   int get getNumberIndex => _getNumberIndex;
   setGetNumberIndex(int val) {
@@ -47,7 +53,7 @@ class MessageViewModel extends DashBoardViewModel {
   //   notifyListeners();
   // }
 
-  init(context, model) async {
+  initt(context, model) async {
     User? _user = await user;
     print(user);
     if (_user != null) {
@@ -189,9 +195,13 @@ class MessageViewModel extends DashBoardViewModel {
         phoneNumber: phoneNumber, name: name, newConversation: false);
   }
 
-  Future<List<Conversation?>?> getCoversation(String phoneNumber, {name = ''}) async {
+  Future<List<Conversation?>?> getCoversation(String phoneNumber,
+      {name = ''}) async {
     try {
-      var data = {"phone_no": phoneNumber.standardPhoneNumberFormart(), "name": name};
+      var data = {
+        "phone_no": phoneNumber.standardPhoneNumberFormart(),
+        "name": name
+      };
       http.Response response = await _messageService.getConversation(data);
       var raw = jsonDecode(response.body);
 
