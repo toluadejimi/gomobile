@@ -24,11 +24,11 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 class MessageViewModel extends DashBoardViewModel {
   final MessageService _messageService = locator<MessageService>();
 
-  initState() {
-    getNumbers();
-    getRecentMessages();
-    getCoversation('');
-  }
+  // initState() async {
+  //   getNumbers();
+  //   getRecentMessages();
+  //   getCoversation('');
+  // }
 
   int _getNumberIndex = 0;
   int get getNumberIndex => _getNumberIndex;
@@ -53,7 +53,7 @@ class MessageViewModel extends DashBoardViewModel {
   //   notifyListeners();
   // }
 
-  initt(context, model) async {
+  init(context, model) async {
     User? _user = await user;
     print(user);
     if (_user != null) {
@@ -63,6 +63,8 @@ class MessageViewModel extends DashBoardViewModel {
         showButtomModalSheet(context: context, child: GetNumber(model: model));
       } else {}
     }
+
+    await getRecentMessages();
   }
 
   Future<Number?> getNumbers() async {
@@ -153,7 +155,15 @@ class MessageViewModel extends DashBoardViewModel {
     displayCountryPicker(context, setSelectedCountry, onCloseCountryModal);
   }
 
-  Future<List<MessageHistory>?> getRecentMessages() async {
+  Future<List<MessageHistory>?>? _listOfRecentMessages = null;
+  Future<List<MessageHistory>?>? get listOfRecentMessages =>
+      _listOfRecentMessages;
+  setListOfRecentMessages(Future<List<MessageHistory>?> data) {
+    _listOfRecentMessages = data;
+    notifyListeners();
+  }
+
+  getRecentMessages() async {
     try {
       http.Response response = await _messageService.getRecentMessages();
       var raw = jsonDecode(response.body);
@@ -167,7 +177,7 @@ class MessageViewModel extends DashBoardViewModel {
             history.add(messageHistoryFromJson(jsonEncode(raw['data'][i])));
           }
         }
-        return history;
+        setListOfRecentMessages(Future.value(history));
       } else {
         return null;
       }
@@ -195,7 +205,15 @@ class MessageViewModel extends DashBoardViewModel {
         phoneNumber: phoneNumber, name: name, newConversation: false);
   }
 
-  Future<List<Conversation?>?> getCoversation(String phoneNumber,
+  Future<List<Conversation>?>? _listOfConversation = null;
+  Future<List<Conversation>?>? get listOfConversation =>
+      _listOfConversation;
+  setListOfConversation(Future<List<Conversation>?> data) {
+    _listOfConversation = data;
+    notifyListeners();
+  }
+ 
+ getCoversation(String phoneNumber,
       {name = ''}) async {
     try {
       var data = {
@@ -214,7 +232,7 @@ class MessageViewModel extends DashBoardViewModel {
             conversation.add(conversationFromJson(jsonEncode(raw['data'][i])));
           }
         }
-        return conversation.reversed.toList();
+        setListOfConversation(Future.value(conversation.reversed.toList()));
       } else {
         return null;
       }

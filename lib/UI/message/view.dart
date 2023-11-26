@@ -15,7 +15,7 @@ class MessageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<MessageViewModel>.reactive(
       disposeViewModel: false,
-      onViewModelReady: (model) async => {model.initt(context, model)},
+      onViewModelReady: (model) async => {model.init(context, model)},
       viewModelBuilder: () => MessageViewModel(),
       builder: (context, model, child) => Scaffold(
         backgroundColor: primaryColor,
@@ -26,6 +26,7 @@ class MessageView extends StatelessWidget {
               right: 28.w,
             ),
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,17 +39,16 @@ class MessageView extends StatelessWidget {
                   ),
                   RefreshIndicator(
                     onRefresh: () async {
-                      await Future.delayed(
-                        Duration(seconds: 1),
-                      );
+                      await model.getRecentMessages();
                     },
                     child: FutureBuilder(
-                      future: model.getRecentMessages(),
+                      future: model.listOfRecentMessages,
                       builder: ((context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             if (snapshot.data!.isNotEmpty) {
                               return ListView.separated(
+                                // physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, i) {
@@ -119,7 +119,8 @@ class MessageView extends StatelessWidget {
                             } else {
                               return Center(
                                 child: BaseText('No message hsitory',
-                                    fontSize: 18.sp, fontWeight: FontWeight.bold),
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold),
                               );
                             }
                           } else {
@@ -131,7 +132,8 @@ class MessageView extends StatelessWidget {
                         } else {
                           return Center(
                               child: BaseText('Loading...',
-                                  fontSize: 18.sp, fontWeight: FontWeight.bold));
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold));
                         }
                       }),
                     ),

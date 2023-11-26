@@ -11,6 +11,7 @@ import 'package:gomobilez/UI/message/conversation/conversationViewModel.dart';
 import 'package:gomobilez/widgets/coversationBubble.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class ConversationView extends StatelessWidget {
@@ -32,6 +33,8 @@ class ConversationView extends StatelessWidget {
             phoneNumber: phoneNumber,
             name: name);
     return ViewModelBuilder<ConversationViewModel>.reactive(
+      onViewModelReady: (model) =>
+          model.getCoversation(args.phoneNumber, name: args.name),
       viewModelBuilder: () => ConversationViewModel(),
       builder: (context, model, child) => Scaffold(
         backgroundColor: primaryColor,
@@ -88,6 +91,20 @@ class ConversationView extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
+                        Spacer(),
+                        RoundedIconButton(
+                          padding: 3.w,
+                          color: transparentWhite,
+                          click: () => !model.reFreshing
+                              ? model.refresh(args.phoneNumber, name: args.name)
+                              : null,
+                          icon: !model.reFreshing
+                              ? Icon(Icons.refresh_rounded)
+                              : LoadingAnimationWidget.inkDrop(
+                                  color: black,
+                                  size: 20.sp,
+                                ),
+                        ),
                       ],
                     ),
                   ),
@@ -95,8 +112,7 @@ class ConversationView extends StatelessWidget {
                     height: 15.h,
                   ),
                   FutureBuilder(
-                      future: model.getCoversation(args.phoneNumber,
-                          name: args.name),
+                      future: model.listOfConversation,
                       builder: (ctx, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -107,7 +123,7 @@ class ConversationView extends StatelessWidget {
                                     shrinkWrap: true,
                                     itemBuilder: (ctx, i) {
                                       Conversation conversation =
-                                          snapshot.data![i]!;
+                                          snapshot.data![i];
                                       return ConversationBubble(
                                           conversation: conversation,
                                           userData: model.user);
@@ -194,12 +210,13 @@ class ConversationView extends StatelessWidget {
                           click: () {
                             // model.sendMessage(args.phoneNumber,
                             //     name: args.name);
-                             if (model.messageController.text.isNotEmpty) {
-                            model.sendMessage(args.phoneNumber, name: args.name);
-                          } else if (model.selectedImage != null) {
-                            //=====this next line is for the api code that sends 
-                            // model.sendImage(args.phoneNumber, name: args.name);
-                          }
+                            if (model.messageController.text.isNotEmpty) {
+                              model.sendMessage(args.phoneNumber,
+                                  name: args.name);
+                            } else if (model.selectedImage != null) {
+                              //=====this next line is for the api code that sends
+                              // model.sendImage(args.phoneNumber, name: args.name);
+                            }
                           },
                           icon: const Icon(Icons.send, color: black),
                         )

@@ -15,6 +15,7 @@ import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
 import 'package:gomobilez/services/authService.dart';
 import 'package:gomobilez/services/contactService.dart';
+import 'package:gomobilez/services/firebaseService.dart';
 import 'package:gomobilez/services/index.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/messageService.dart';
@@ -53,6 +54,7 @@ import 'package:stacked/stacked_annotations.dart';
     LazySingleton(classType: PaymentService),
     LazySingleton(classType: MessageService),
     LazySingleton(classType: UserService),
+    LazySingleton(classType: FirebaseService),
   ],
 )
 class AppSetup {

@@ -10,6 +10,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/authService.dart';
 import '../services/contactService.dart';
+import '../services/firebaseService.dart';
 import '../services/index.dart';
 import '../services/localStorageService.dart';
 import '../services/messageService.dart';
@@ -36,4 +37,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => PaymentService());
   locator.registerLazySingleton(() => MessageService());
   locator.registerLazySingleton(() => UserService());
+  locator.registerLazySingleton(() => FirebaseService());
 }

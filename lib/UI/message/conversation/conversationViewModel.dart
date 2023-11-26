@@ -21,10 +21,24 @@ class ConversationViewModel extends MessageViewModel {
     notifyListeners();
   }
 
+  bool _reFreshing = false;
+  bool get reFreshing => _reFreshing;
+  setRefreshing() {
+    _reFreshing = !_reFreshing;
+    notifyListeners();
+  }
+
+  refresh(String phoneNumber, {name = ''}) async {
+    setRefreshing();
+    await getCoversation(phoneNumber, name: name);
+    setRefreshing();
+  }
+
   XFile? selectedImage;
 
   Future<void> pickImage() async {
-    final  XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       selectedImage = pickedFile;
