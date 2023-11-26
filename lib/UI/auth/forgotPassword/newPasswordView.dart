@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
@@ -49,10 +50,10 @@ class NewPasswordView extends StatelessWidget {
           validator: (text) => model.validatePasswordInput2(text, model.password1TextController.value.text)
         ),
         ]),),
-        const SizedBox(height: 50),
+         SizedBox(height: 50.h),
         LongButton(text: 'Continue', click: () => model.resendOTP(), loading: model.loading,),
-        const SizedBox(
-          height: 40,
+         SizedBox(
+          height: 40.h,
         )
       ],
     );

@@ -1,6 +1,6 @@
 
 import 'package:gomobilez/UI/auth/getStarted/view.dart';
-import 'package:gomobilez/UI/auth/signUp/index.dart';
+import 'package:gomobilez/UI/auth/signIn/index.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/helpers/enums/app_states.dart';
@@ -21,7 +21,7 @@ class AppBaseScreen extends StatelessWidget {
       builder: (context, model, child) => model.state == AppStates.authenticated
           ? const DashBoardView()
           : model.state == AppStates.unAuthenticated
-              ? const SignUpView()
+              ? const LoginView()
               : model.state == AppStates.noState
                   ? const GetStartedView()
                   : Container(

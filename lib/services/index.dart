@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,8 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 
 class Services extends LocalStorageService {
-  
- final LocalStorageService _storageService = locator<LocalStorageService>();
+  final LocalStorageService _storageService = locator<LocalStorageService>();
   // final MyNavigationService _navigationService = locator<MyNavigationService>();
   final TokenService _tokenService = locator<TokenService>();
 
@@ -53,7 +51,38 @@ class Services extends LocalStorageService {
     bool encodeBody = true,
   }) async {
     final String? token = await _tokenService.getToken();
-    url =  APP_BASE_URL + url ;
+    url = APP_BASE_URL + url;
+    Uri uri = Uri.parse(url);
+
+    final jsonBody = encodeBody ? jsonEncode(body) : body;
+    final http.Response res = await http.post(
+      uri,
+      headers: <String, String>{
+        if (isAuth) HttpHeaders.authorizationHeader: 'Bearer $token',
+        ...headers
+      },
+      body: jsonBody,
+    );
+    if (isAuth) {
+      if (res.statusCode == 401) {
+        clearUserData();
+      }
+    }
+    return res;
+  }
+
+  Future<http.Response> formDataPost(
+    String url, {
+    Map<String, String> headers = const {
+      'Content-type': 'multipart/form-data',
+      // 'Accept': 'application/json'
+    },
+    dynamic body,
+    bool isAuth = false,
+    bool encodeBody = true,
+  }) async {
+    final String? token = await _tokenService.getToken();
+    url = APP_BASE_URL + url;
     Uri uri = Uri.parse(url);
 
     final jsonBody = encodeBody ? jsonEncode(body) : body;
@@ -77,8 +106,8 @@ class Services extends LocalStorageService {
     String url,
     FormData data, {
     Map<String, String> headers = const {
-      'Content-type': 'multipart/form-data',
-      'Accept': 'application/json'
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
     },
     bool isAuth = true,
   }) async {
@@ -182,19 +211,15 @@ class Services extends LocalStorageService {
       if (isAuth) request.headers["authorization"] = 'Bearer $token';
 
       Future<http.StreamedResponse> response = _client.send(request);
-      // print('11');
       return response;
     } catch (e) {
       _client.close();
       return null;
     }
-    // // print('returnData');
-    // return returnData;
   }
 
   clearUserData() {
-    _storageService.removeFromStorage(LocalStorageValues.user);
-    _storageService.removeFromStorage(LocalStorageValues.user);
+    _storageService.removeFromStorage(LocalStorageValues.token);
     Alertify(
       title: "Token Expired",
       message: "You'll be logged out now",
@@ -211,7 +236,7 @@ class Services extends LocalStorageService {
       //   //you can build progressbar feature too
       // }
     });
-    
+
     print("File is saved to download folder.");
     return true;
   }

@@ -29,10 +29,10 @@ class DashBoardView extends StatelessWidget {
               HomeView(
                 pageController: model.pageController,
               ),
-              WalletView(),
-              ContactView(),
-              MessageView(),
-              SettingsView()
+              const WalletView(canPop: false),
+              const ContactView(),
+              const MessageView(),
+              const SettingsView()
             ],
             onPageChanged: (page) {
               model.slideChangePageIndex(page);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -14,8 +15,8 @@ class SmallButton extends StatelessWidget {
       this.color = white,
       this.loading = false,
       required this.click,
-      this.horizontalPadding = 45,
-      this.verticalPadding = 15,
+      this.horizontalPadding = 42,
+      this.verticalPadding = 13,
       this.fontSize = 18,
       this.fontWeight = FontWeight.w700,
       super.key});
@@ -28,21 +29,21 @@ class SmallButton extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 2,
             child: LoadingAnimationWidget.inkDrop(
               color: color,
-              size: 45,
+              size: 40.sp,
             ),
           )
         : GestureDetector(
             onTap: () => click(),
             child: Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: horizontalPadding, vertical: verticalPadding),
+                  horizontal: horizontalPadding.w, vertical: verticalPadding.h),
               decoration: BoxDecoration(
                   color: color,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(10.w))),
               child: Text(
                 text,
                 style: TextStyle(
-                    fontSize: fontSize,
+                    fontSize: fontSize.sp,
                     fontWeight: fontWeight,
                     color: color != black ? black : white),
               ),

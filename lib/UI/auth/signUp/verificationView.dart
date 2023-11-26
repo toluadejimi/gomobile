@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/longButton.dart';
@@ -38,7 +39,7 @@ class VerificationView extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 100),
+         SizedBox(height: 90.h),
         LongButton(
           text: 'Verify',
           click: () => model.verifyEmailOTP(),

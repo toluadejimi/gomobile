@@ -19,7 +19,7 @@ final double height;
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: primaryColor, // Change the color as needed
+        color: primaryColor, 
         borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
       ),
       child: Padding(

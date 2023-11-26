@@ -25,6 +25,17 @@ class LocalStorageService {
     }
   }
 
+  Future<bool> addAuthCredentialsToStorage(Map<String, dynamic> data) async {
+    try {
+      SharedPreferences ref = await pref;
+      String val = json.encode(data);
+      ref.setString(LocalStorageValues.credentialsToken.name, val);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> addStringToStorage(LocalStorageValues key, data) async {
     try {
       SharedPreferences ref = await pref;
@@ -39,8 +50,21 @@ class LocalStorageService {
     SharedPreferences ref = await pref;
     var mapString = ref.getString(key.name);
     if (mapString != null) {
+      print(mapString);
       User json = userFromJson(mapString);
       return json;
+    } else {
+      return null;
+    }
+  }
+
+   Future<Map<String, dynamic>?> getAuthCredentialsFromStorage() async {
+    SharedPreferences ref = await pref;
+    var mapString = ref.getString(LocalStorageValues.credentialsToken.name);
+    if (mapString != null) {
+      print(mapString);
+      Map<String, dynamic> credentials = jsonDecode(mapString);
+      return credentials;
     } else {
       return null;
     }
