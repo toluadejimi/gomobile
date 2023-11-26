@@ -1,12 +1,16 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/contact/emptyContactList.dart';
 import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/models/receentCalls.dart';
 import 'package:gomobilez/widgets/base_text.dart';
+import 'package:gomobilez/widgets/callKeyPad.dart';
 import 'package:gomobilez/widgets/pageLoading.dart';
+import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 
 class ContactView extends StatelessWidget {
@@ -18,6 +22,29 @@ class ContactView extends StatelessWidget {
       disposeViewModel: false,
       viewModelBuilder: () => ContactViewModel(),
       builder: (context, model, child) => Scaffold(
+        floatingActionButton: Visibility(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 100.h),
+            child: RoundedIconButton(
+              color: black,
+              click: () => model.showButtomModalSheet(
+                  context: context,
+                  child: CallKeyPad(
+                    call: model.makeCall,
+                    click: () => model.navigationService
+                        .navigateToDeviceContactView(
+                            title: "Select Contact",
+                            click: model.navigateBackFromContactScreen),
+                  ),
+                  curve: 0),
+              icon: Icon(
+                Icons.dialpad,
+                size: 26.w,
+                color: white,
+              ),
+            ),
+          ),
+        ),
         backgroundColor: primaryColor,
         body: SafeArea(
           child: Padding(

@@ -9,15 +9,18 @@ import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/tokenService.dart';
+import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../app/app.locator.dart';
 import '../../../services/authService.dart';
+import 'package:local_auth/local_auth.dart';
 
 class LoginViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
   final _tokenService = locator<TokenService>();
   final _localStorageService = locator<LocalStorageService>();
+  final LocalAuthentication _bioMetricsAuth = LocalAuthentication();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -63,11 +66,12 @@ class LoginViewModel extends AppBaseViewModel {
 
           if (raw['status'] == true) {
             User user = userFromJson(jsonEncode(raw['data']));
-
             bool success = await _tokenService.setToken(raw['data']['token']);
             if (!success) {
               throw ('Something went wrong');
             }
+            
+            success = await _localStorageService.addAuthCredentialsToStorage(data);
             success = await _localStorageService.addUserToStorage(
                 LocalStorageValues.user, user);
             if (!success) {
@@ -83,6 +87,51 @@ class LoginViewModel extends AppBaseViewModel {
       }
 
       setLoadingState();
+    }
+  }
+
+  signUpWithBiometrics() async {
+    try {
+      final bool canAuthenticateWithBiometrics =
+          await _bioMetricsAuth.canCheckBiometrics;
+
+      if (canAuthenticateWithBiometrics) {
+        bool isAuthenticated = await _bioMetricsAuth.authenticate(
+            localizedReason:
+                'Authenticate to access the app', // Displayed to the user
+            options: const AuthenticationOptions(
+                biometricOnly: true, useErrorDialogs: true, stickyAuth: true));
+
+        if (isAuthenticated) {
+          Map<String, dynamic>? authCredentials =
+              await _localStorageService.getAuthCredentialsFromStorage();
+          if (authCredentials != null) {
+            emailTextController.text = authCredentials['email'];
+            passwordController.text = authCredentials['password'];
+            await login();
+            return;
+          } else {
+            Alertify(
+                    title: "Failed",
+                    message: 'Login with your credentials first')
+                .error();
+            return;
+          }
+        } else {
+          // Biometric authentication failed
+          // Handle accordingly (e.g., show an error message)
+          Alertify(title: "Failed", message: 'Authentication Failed').error();
+          return;
+        }
+      } else {
+        Alertify(
+                title: "Action Not Supported",
+                message: 'Your device does not support bimetric login')
+            .error();
+        return;
+      }
+    } catch (e) {
+      Alertify(title: "Fialed", message: "Error authenticating").error();
     }
   }
 

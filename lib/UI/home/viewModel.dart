@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contacts/contact.dart';
-import 'package:gomobilez/UI/dashboard/viewModel.dart';
+import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:gomobilez/UI/message/getNumber/index.dart';
 import 'package:gomobilez/UI/message/viewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/models/home_widget.dart';
 
-class HomeViewModel extends DashBoardViewModel {
+class HomeViewModel extends ContactViewModel {
   ScrollController listViewController = ScrollController();
   ScrollController listViewController2 = ScrollController();
   TextEditingController searchController = TextEditingController();
@@ -50,6 +50,7 @@ class HomeViewModel extends DashBoardViewModel {
 
   void navigateToCallPage(Contact contact) {
     // navigationService.navigateToConversationView(contact: contact);
+    makeCall(contact.phones[0].normalizedNumber, name: contact.displayName);
   }
 
   navigate(String to) {

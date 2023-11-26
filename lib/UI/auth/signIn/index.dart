@@ -94,7 +94,9 @@ class LoginView extends StatelessWidget {
                         horizontalPadding: width(22.w),
                       ),
                       CustomIconButton(
-                        click: () {},
+                        click: () {
+                          model.signUpWithBiometrics();
+                        },
                         widget: SvgPicture.asset(
                           'assets/images/svg/login_icon_button.svg',
                           semanticsLabel: 'Login Image',
@@ -113,7 +115,7 @@ class LoginView extends StatelessWidget {
                     click: () => model.goToRegistrationPage(),
                     color: black,
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 30.h,
                   ),
                 ]),

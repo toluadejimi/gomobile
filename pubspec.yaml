@@ -54,6 +54,7 @@ dependencies:
   flutter_inappwebview: ^5.8.0
   flutter_screenutil: ^5.9.0
   emoji_picker_flutter: ^1.6.3
+  local_auth: ^2.1.7
   image_picker: ^1.0.4
   intl: ^0.18.1
   firebase_messaging: ^14.7.5
