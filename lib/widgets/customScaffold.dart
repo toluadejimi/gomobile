@@ -22,51 +22,54 @@ class CustomScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20.h,
-            ),
-            canPop || title != null
-                ? Visibility(
-                    visible: canPop || title != null,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(20.w, 0, 20.h, 20.5),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Visibility(
-                            visible: canPop,
-                            child: GestureDetector(
-                              onTap: onBackPress,
-                              child: const Icon(Icons.arrow_back),
-                            ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: Column(
+              children: [
+                canPop || title != null
+                    ? Visibility(
+                        visible: canPop || title != null,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.w, 0, 20.h, 20.5),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Visibility(
+                                visible: canPop,
+                                child: GestureDetector(
+                                  onTap: onBackPress,
+                                  child: const Icon(Icons.arrow_back),
+                                ),
+                              ),
+                              Visibility(
+                                visible: canPop,
+                                child: SizedBox(width: 20.w),
+                              ),
+                              Visibility(
+                                visible: title != null,
+                                child: Text(
+                                  title!,
+                                  style: TextStyle(
+                                      fontSize: 23.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            ],
                           ),
-                          Visibility(
-                            visible: canPop,
-                            child: SizedBox(width: 20.w),
-                          ),
-                          Visibility(
-                            visible: title != null,
-                            child: Text(
-                              title!,
-                              style: TextStyle(
-                                  fontSize: 23.sp, fontWeight: FontWeight.w600),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: body,
+                        ),
+                      )
+                    : const SizedBox(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: body,
+                ),
+                // SizedBox(
+                //   height: 100.h,
+                // )
+              ],
             ),
-            // SizedBox(
-            //   height: 100.h,
-            // )
-          ],
+          ),
         ),
       ),
     );

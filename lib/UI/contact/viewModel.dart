@@ -15,6 +15,10 @@ import 'package:permission_handler/permission_handler.dart';
 class ContactViewModel extends DashBoardViewModel {
   ContactService _contactService = locator<ContactService>();
   TextEditingController phoneNumberController = TextEditingController();
+  
+void init() {
+    getContactHistory();
+  }
 
   Future<List<RecentCalls>?> getContactHistory() async {
     try {
