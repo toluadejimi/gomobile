@@ -15,6 +15,9 @@ import 'package:http/http.dart' as http;
 class WalletViewModel extends DashBoardViewModel {
   PaymentService _paymentService = locator<PaymentService>();
   TextEditingController amounController = TextEditingController();
+  void init() {
+    getRecentTransactions();
+  }
 
   bool _loading = false;
   bool get loading => _loading;

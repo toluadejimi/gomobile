@@ -5,16 +5,45 @@ import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/services/messageService.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ConversationViewModel extends MessageViewModel {
   TextEditingController messageController = TextEditingController();
   MessageService _messageService = locator<MessageService>();
+  initState() {
+    pickImage();
+  }
 
   bool _showEmojiPad = false;
   bool get showEmojiPad => _showEmojiPad;
   setShowEmojiPad(bool val) {
     _showEmojiPad = val;
     notifyListeners();
+  }
+
+  bool _reFreshing = false;
+  bool get reFreshing => _reFreshing;
+  setRefreshing() {
+    _reFreshing = !_reFreshing;
+    notifyListeners();
+  }
+
+  refresh(String phoneNumber, {name = ''}) async {
+    setRefreshing();
+    await getCoversation(phoneNumber, name: name);
+    setRefreshing();
+  }
+
+  XFile? selectedImage;
+
+  Future<void> pickImage() async {
+    final XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      selectedImage = pickedFile;
+      notifyListeners();
+    }
   }
 
   sendMessage(String phoneNumber, {name = ''}) async {

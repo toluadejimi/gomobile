@@ -1,8 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gomobilez/firebase_options.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/services/firebaseService.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/app.locator.dart';
@@ -12,10 +15,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await setupLocator();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    await FirebaseService().initNotifcations();
     runApp(const MyApp());
   } catch (e) {
     print(e);
-    print('Locator setup has failed');
   }
 }
 

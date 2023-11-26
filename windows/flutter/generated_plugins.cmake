@@ -5,6 +5,8 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   emoji_picker_flutter
   local_auth_windows
+  file_selector_windows
+  firebase_core
   permission_handler_windows
   smart_auth
 )

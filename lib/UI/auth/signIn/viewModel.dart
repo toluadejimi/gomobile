@@ -62,6 +62,7 @@ class LoginViewModel extends AppBaseViewModel {
 
         if (dataAfterResponseHandler != null) {
           var raw = jsonDecode(dataAfterResponseHandler);
+          print(raw);
 
           if (raw['status'] == true) {
             User user = userFromJson(jsonEncode(raw['data']));
