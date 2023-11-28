@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PageLoadingScreen extends StatefulWidget {
   final int item;
@@ -27,11 +28,11 @@ class _PageLoadingScreenState extends State<PageLoadingScreen>
   Widget build(BuildContext context) {
     return ListView.separated(
         shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(vertical: 50),
+        padding: EdgeInsets.symmetric(vertical: 50.h),
         itemBuilder: (context, index) =>
             FadeTransition(opacity: _animationController, child: widget.widget),
-        separatorBuilder: (context, index) => const SizedBox(
-              height: 10,
+        separatorBuilder: (context, index) => SizedBox(
+              height: 10.h,
             ),
         itemCount: widget.item);
   }

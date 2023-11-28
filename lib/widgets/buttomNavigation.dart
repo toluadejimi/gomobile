@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
@@ -45,28 +46,30 @@ class CustomButtomNavigation extends StatelessWidget {
         child: Container(
           color: primaryColor,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ...pages.map((page) => Container(
-                      margin: const EdgeInsets.only(bottom: 30, top: 10),
-                      child: RoundedIconButton(
-                        click: () => {model.changePage(page.index)},
-                        color: model.pageIndex == page.index
-                            ? white
-                            : transparentWhite,
-                        icon: model.pageIndex == page.index
-                            ? SvgPicture.asset(
-                                page.iconOn,
-                                width: 26,
-                              )
-                            : SvgPicture.asset(
-                                page.iconOff,
-                                width: 26,
-                              ),
-                      ),
-                    ))
+                ...pages.map(
+                  (page) => Container(
+                    margin: EdgeInsets.only(bottom: 28.h, top: 10.h),
+                    child: RoundedIconButton(
+                      click: () => {model.changePage(page.index)},
+                      color: model.pageIndex == page.index
+                          ? white
+                          : transparentWhite,
+                      icon: model.pageIndex == page.index
+                          ? SvgPicture.asset(
+                              page.iconOn,
+                              width: 24.w,
+                            )
+                          : SvgPicture.asset(
+                              page.iconOff,
+                              width: 24.w,
+                            ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

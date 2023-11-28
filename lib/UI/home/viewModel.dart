@@ -1,62 +1,65 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gomobilez/UI/dashboard/viewModel.dart';
+import 'package:flutter_contacts/contact.dart';
+import 'package:gomobilez/UI/contact/viewModel.dart';
+import 'package:gomobilez/UI/message/getNumber/index.dart';
+import 'package:gomobilez/UI/message/viewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
-import '../../helpers/size_config.dart';
+import 'package:gomobilez/models/home_widget.dart';
 
-class HomeViewModel extends DashBoardViewModel {
+class HomeViewModel extends ContactViewModel {
   ScrollController listViewController = ScrollController();
   ScrollController listViewController2 = ScrollController();
   TextEditingController searchController = TextEditingController();
 
-  double _searchHeight = height(16);
-  double get searchHeight => _searchHeight;
-  void setSearchHeight(double val) {
-    if (height(16) > val) {
-      _searchHeight = height(16) - (val - height(2));
-    }
-    notifyListeners();
-  }
-
-  bool _searching = false;
-  bool get searching => _searching;
-  setSearching(bool val) {
-    _searching = val;
-    notifyListeners();
-  }
-
-  bool _done = true;
-
-  startSearch(val) async {
-    if (listViewController.position.pixels < height(16) && _done) {
-      _done = false;
-      setSearchHeight(height(16));
-      await listViewController.animateTo(height(16),
-          duration: const Duration(milliseconds: 300), curve: Curves.ease);
-    }
-    !searching ? setSearching(true) : null;
-    _done = true;
-  }
-
-  closeSearch(context) {
-    FocusScopeNode currentFocus = FocusScope.of(context);
-
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-    setSearching(false);
-  }
-
-  double searchResultHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height - height(23);
-  }
-
-  navigateToWeb() {
-    navigationService.navigateTo(Routes.webPageView,
-        arguments: WebPageViewArguments(url: 'url'));
-  }
+  List homeWidgetList = [
+    HomeWidget(
+        picture: "assets/images/svg/bxs_phone-call.svg",
+        title: "Make a Call",
+        description: "Make a Call\nfrom dial pad",
+        click: 'callPage'),
+    HomeWidget(
+        picture: "assets/images/svg/bxs_contact.svg",
+        title: " Call Friends and Family ",
+        description: "Call anyone on your\naddress book",
+        click: 'contactPage'),
+    HomeWidget(
+        picture: "assets/images/svg/bi_send-arrow-up-fill.svg",
+        title: "Send a top up",
+        description: "Send to up to\nfamily and friends",
+        click: 'topUp'),
+    HomeWidget(
+        picture: "assets/images/svg/vaadin_money-exchange.svg",
+        title: "Send and Receive Money",
+        description: "Send and receive money\nacross borders",
+        click: 'sendMoney'),
+  ];
 
   navigateToFundWallet() {
-    changePage(1);
-    notifyListeners();
+    navigationService.navigateTo(Routes.walletView,
+        arguments: WalletViewArguments(canPop: true));
+  }
+
+  reservePhoneNumber(context) {
+    showButtomModalSheet(
+        context: context, child: GetNumber(model: MessageViewModel()));
+  }
+
+  navigateToContactPage() {
+    navigationService.navigateToDeviceContactView(title: 'Contact', click: navigateToCallPage);
+  }
+
+  void navigateToCallPage(Contact contact) {
+    // navigationService.navigateToConversationView(contact: contact);
+    makeCall(contact.phones[0].normalizedNumber, name: contact.displayName);
+  }
+
+  navigate(String to) {
+    switch (to) {
+      case 'contactPage':
+        return navigateToContactPage();
+        break;
+      default:
+        return () {};
+    }
   }
 }

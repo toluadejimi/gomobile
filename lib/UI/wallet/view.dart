@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/wallet/bottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
@@ -11,49 +14,67 @@ import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 
 class WalletView extends StatelessWidget {
-  const WalletView({Key? key}) : super(key: key);
+  final bool canPop;
+  const WalletView({Key? key, this.canPop = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments != null
+        ? ModalRoute.of(context)!.settings.arguments as WalletViewArguments
+        : WalletViewArguments();
     return ViewModelBuilder<WalletViewModel>.reactive(
       disposeViewModel: false,
       viewModelBuilder: () => WalletViewModel(),
       builder: (context, model, child) => CustomScaffold(
+        canPop: args.canPop,
+        onBackPress: () => model.navigationService.back(),
         title: 'Fund Wallet',
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
-            const BaseText(
+            SizedBox(height: 20.h),
+            BaseText(
               'Main Wallet',
-              fontSize: 16,
+              fontSize: 15.sp,
               fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Row(
               children: [
                 SvgPicture.asset(
                   './assets/images/svg/solar_wallet-bold.svg',
-                  width: 30,
+                  width: 28.w,
                 ),
-                const SizedBox(
-                  width: 4,
+                SizedBox(
+                  width: 4.w,
                 ),
-                const BaseText(
-                  "\$0.00",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
+                FutureBuilder(
+                    future: model.getUser(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return BaseText(
+                          "\$${snapshot.data!.wallet.toString()}",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28.sp,
+                        );
+                      } else {
+                        return BaseText(
+                          "\$____",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        );
+                      }
+                    }),
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 45.h,
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.8,
+                  width: MediaQuery.of(context).size.width * 0.57,
                   child: InputField(
                     keyboardType: TextInputType.number,
                     controller: model.amounController,
@@ -63,12 +84,12 @@ class WalletView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 15,
+                  width: 15.w,
                 ),
                 IconButtonPlusText(
-                  width: 110,
-                  paddingX: 10,
-                  paddingY: 12,
+                  width: 85.w,
+                  paddingX: 8.w,
+                  paddingY: 10.h,
                   click: () {
                     if (model.amounController.text.isNotEmpty) {
                       model.showButtomModalSheet(
@@ -82,22 +103,22 @@ class WalletView extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20.h,
             ),
             BaseText(
               'Subscription',
-              fontSize: 14,
+              fontSize: 13.sp,
               fontWeight: FontWeight.bold,
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Container(
               decoration: BoxDecoration(
                 color: white36,
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
               child: Row(children: [
                 RoundedIconButton(
                   click: () {},
@@ -105,24 +126,24 @@ class WalletView extends StatelessWidget {
                   padding: 12,
                   icon: SvgPicture.asset(
                     './assets/images/svg/home_page_plan_icon.svg',
-                    width: 25,
+                    width: 22.w,
                   ),
                 ),
                 SizedBox(
-                  width: 8,
+                  width: 8.w,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BaseText(
                       'Subscription',
-                      fontSize: 18,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: 3),
+                    SizedBox(height: 3.h),
                     BaseText(
                       'Choose a plan to call family and friends',
-                      fontSize: 14,
+                      fontSize: 12.sp,
                       color: textGrey,
                     )
                   ],
@@ -130,82 +151,103 @@ class WalletView extends StatelessWidget {
               ]),
             ),
             SizedBox(
-              height: 120,
+              height: 70.h,
             ),
             BaseText(
               'Recent Transaction',
-              fontSize: 14,
+              fontSize: 13.sp,
               fontWeight: FontWeight.bold,
             ),
             SizedBox(
-              height: 20,
+              height: 10.h,
             ),
-            ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (context, index) => Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              RoundedIconButton(
-                                color: green,
-                                padding: 10,
-                                click: () {},
-                                icon: Icon(
-                                  Icons.arrow_downward,
-                                  color: white,
+            SizedBox(
+              height: 200.h,
+              child: FutureBuilder(
+                  future: model.getRecentTransactions(),
+                  builder: (ctx, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data != null && snapshot.data!.length > 0) {
+                        List<RecentTransaction> transactions = snapshot.data!;
+                        return ListView.separated(
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            itemCount: transactions.length,
+                            itemBuilder: (context, index) => Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 18.w, vertical: 18.h),
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          RoundedIconButton(
+                                            color: green,
+                                            padding: 10,
+                                            click: () {},
+                                            icon: Icon(
+                                              Icons.arrow_downward,
+                                              color: white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              BaseText(
+                                                'Wallet Funding',
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              SizedBox(height: 2.h),
+                                              BaseText(
+                                                'Wallet',
+                                                fontSize: 14.sp,
+                                                color: textGrey,
+                                              ),
+                                              Row()
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          BaseText(
+                                            '\$20',
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          BaseText(
+                                            '3mins ago',
+                                            fontSize: 14.sp,
+                                            color: textGrey,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  BaseText(
-                                    'Wallet Funding',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SizedBox(height: 2),
-                                  BaseText(
-                                    'Wallet',
-                                    fontSize: 16,
-                                    color: textGrey,
-                                  ),
-                                  Row()
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              BaseText(
-                                '\$20',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              BaseText(
-                                '3mins ago',
-                                fontSize: 16,
-                                color: textGrey,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                separatorBuilder: (context, index) => SizedBox(height: 15))
+                            separatorBuilder: (context, index) =>
+                                SizedBox(height: 15));
+                      } else {
+                        return BaseText('No Recent Transactions');
+                      }
+                    } else {
+                      return BaseText('Loading...');
+                    }
+                  }),
+            ),
           ],
         ),
       ),

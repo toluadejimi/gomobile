@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:gomobilez/UI/WebPage/viewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPageView extends StatelessWidget {
   final String url;
@@ -22,7 +22,43 @@ class WebPageView extends StatelessWidget {
           body: SafeArea(
               child: Stack(
             children: [
-              WebViewWidget(controller: model.controller),
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: Uri.parse(model.link)),
+                initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      transparentBackground: true,
+                      mediaPlaybackRequiresUserGesture: false,
+                    ),
+                    ios: IOSInAppWebViewOptions(
+                      allowsInlineMediaPlayback: true,
+                    )),
+                androidOnPermissionRequest: (InAppWebViewController controller,
+                    String origin, List<String> resources) async {
+                  return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT);
+                },
+                onLoadStart: (InAppWebViewController controller, Uri? url) {
+                  if (url != null) {
+                    if (url.path == '/home') {
+                      NavigationActionPolicy.CANCEL;
+                      return model.pop();
+                    }
+                  }
+                },
+                shouldOverrideUrlLoading: (controller, navigationAction) async {
+                  var uri = navigationAction.request.url!;
+
+                  print(uri.path);
+
+                  if (uri.path == '/home') {
+                    NavigationActionPolicy.CANCEL;
+                    return model.pop();
+                  }
+
+                  return NavigationActionPolicy.CANCEL;
+                },
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 child: RoundedIconButton(

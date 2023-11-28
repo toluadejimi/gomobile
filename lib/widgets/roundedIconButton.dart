@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 
 class RoundedIconButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class RoundedIconButton extends StatelessWidget {
       {super.key,
       required this.click,
       required this.icon,
-      this.padding = 15,
+      this.padding = 14,
       this.color = white});
 
   @override
@@ -18,7 +19,7 @@ class RoundedIconButton extends StatelessWidget {
     return GestureDetector(
       onTap: click,
       child: Container(
-        padding: EdgeInsets.all(padding),
+        padding: EdgeInsets.all(padding.w),
         decoration: BoxDecoration(shape: BoxShape.circle, color: color),
         child: icon,
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/home/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
@@ -5,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/greetings.dart';
 import 'package:gomobilez/helpers/size_config.dart';
 import 'package:gomobilez/helpers/string.dart';
-import 'package:gomobilez/models/home_model.dart';
+import 'package:gomobilez/models/home_widget.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
-import 'package:gomobilez/widgets/home_widget.dart';
+import 'package:gomobilez/widgets/home_widget_view.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
@@ -37,334 +38,501 @@ class HomeView extends StatelessWidget {
         mobile: CustomScaffold(
           backgroundColor: primaryColor,
           body: SafeArea(
-              child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 180,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: white, // Change the color as needed
-                    borderRadius: BorderRadius.circular(
-                        20.0), // Adjust the radius as needed
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BaseText(
-                                  getGreeting(),
-                                  fontSize: 16,
-                                  color: grey,
-                                ),
-                                const SizedBox(height: 2),
-                                FutureBuilder(
-                                    future: model.getUser(),
-                                    builder: (ctx, snapshot) {
-                                      return snapshot.hasData
-                                          ? Text(
-                                              snapshot.data!.firstName
-                                                  .nameCase(),
-                                              textAlign: TextAlign.start,
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold))
-                                          : const BaseText(
-                                              '...',
-                                              fontSize: 18,
-                                              color: black,
-                                            );
-                                    }),
-                              ],
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder(
+                future: model.user,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Visibility(
+                        visible: snapshot.data!.myPlan != null,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 18.h),
+                          decoration: const BoxDecoration(
+                            color: black,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const BaseText(
-                                      'Subscription',
-                                      fontSize: 16,
-                                      color: grey,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    CustomIconButton(
-                                        color: primaryColor,
-                                        click: () {},
-                                        horizontalPadding: 4,
-                                        verticalPadding: 1.5,
-                                        radius: 7,
-                                        widget: const Icon(
-                                          Icons.flip_camera_ios_rounded,
-                                          size: 12,
-                                          color: black,
-                                        ))
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 5.0),
-                                      child: SvgPicture.asset(
-                                        './assets/images/svg/home_page_plan_icon.svg',
-                                        width: 16,
-                                      ),
-                                    ),
-                                    const Text('No Active Plan',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: black,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: SmallButton(
-                            horizontalPadding: 8,
-                            verticalPadding: 4,
-                            text: 'Get Subscription',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            click: () {},
-                            color: primaryColor,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        const BaseText(
-                          'Main Wallet',
-                          fontSize: 16,
-                          color: grey,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  './assets/images/svg/solar_wallet-bold.svg',
-                                  width: 30,
-                                ),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                const BaseText(
-                                  "\$0.00",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 35,
-                                ),
-                              ],
-                            ),
-                            IconButtonPlusText(
-                              curve: 18,
-                              paddingY: 12,
-                              color: primaryColor,
-                              click: () => model.changePage(1),
-                              // pageController.animateTo(2,
-                              //     duration: const Duration(milliseconds: 300),
-                              //     curve: Curves.ease),
-                              prefixIcon: SvgPicture.asset(
-                                './assets/images/svg/home_page_fund_wallet_icon.svg',
-                                width: 20,
+                          child: Row(
+                            children: [
+                              BaseText(
+                                'Your Phone Number',
+                                color: white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
                               ),
-                              width: 140,
-                              text: 'Fund Wallet',
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                              const Spacer(),
+                              BaseText(
+                                snapshot.data!.myNumber!.phoneNo!,
+                                color: white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              const SizedBox(
+                                width: 3,
+                              ),
+                              GestureDetector(
+                                onTap: () => model.copyTextToClipboard(
+                                    snapshot.data!.myNumber!.phoneNo!),
+                                child: SvgPicture.asset(
+                                  './assets/images/svg/copy_icon.svg',
+                                  width: 18.w,
+                                  height: 18.h,
+                                ),
+                              )
+                            ],
+                          ),
+                        ));
+                  } else {
+                    return const SizedBox();
+                  }
+                }),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Container(
+                height: 155.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: white, // Change the color as needed
+                  borderRadius: BorderRadius.circular(
+                      20.0), // Adjust the radius as needed
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30.0),
-                  child: BaseText(
-                    'What would you like to do today ?',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // number of items in each row
-                      mainAxisSpacing:
-                          15.0, // spacing between rows (vertically)
-                      crossAxisSpacing:
-                          10.0, // spacing between columns (horizontally)
-                    ),
-                    shrinkWrap: true,
-                    physics:
-                        const NeverScrollableScrollPhysics(), // padding around the grid
-                    itemCount: homeModel.length, // total number of items
-                    itemBuilder: (context, index) {
-                      final home = homeModel[index];
-                      return HomeWidget(
-                        asset: home['picture'].toString(),
-                        title: home['title'].toString(),
-                        description: home['description'].toString(),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  decoration: ShapeDecoration(
-                    color: white36,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  child: Row(children: [
-                    RoundedIconButton(
-                      padding: 18,
-                      color: primaryColor,
-                      click: () {},
-                      icon: SvgPicture.asset('assets/images/svg/number.svg'),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                child: Padding(
+                  padding: EdgeInsets.all(18.sp),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BaseText(
-                            'Reserve Phone Number',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BaseText(
+                                getGreeting(),
+                                fontSize: 14.sp,
+                                color: grey,
+                              ),
+                              SizedBox(height: 2.h),
+                              FutureBuilder(
+                                  future: model.getUser(),
+                                  builder: (ctx, snapshot) {
+                                    return snapshot.hasData
+                                        ? Text(
+                                            snapshot.data!.firstName.nameCase(),
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold))
+                                        : BaseText(
+                                            '...',
+                                            fontSize: 16.sp,
+                                            color: black,
+                                          );
+                                  }),
+                            ],
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          BaseText(
-                            'Rent a phone number to\ncall and text family and friends',
-                            fontSize: 16,
-                            color: textGrey,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  BaseText(
+                                    'Subscription',
+                                    fontSize: 14.sp,
+                                    color: grey,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  CustomIconButton(
+                                    color: primaryColor,
+                                    click: () {},
+                                    horizontalPadding: 4.w,
+                                    verticalPadding: 1.5.h,
+                                    radius: 7.sp,
+                                    widget: Icon(
+                                      Icons.flip_camera_ios_rounded,
+                                      size: 12.sp,
+                                      color: black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 4.h),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 5.0.w),
+                                    child: SvgPicture.asset(
+                                      './assets/images/svg/home_page_plan_icon.svg',
+                                      width: 16.w,
+                                    ),
+                                  ),
+                                  FutureBuilder(
+                                      future: model.user,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: black,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        } else {
+                                          return Text(
+                                            '_____',
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: black,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        }
+                                      }),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    )
-                  ]),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 17, bottom: 8),
-                  child: BaseText(
-                    'Subscription',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 90,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 2,
-                      itemBuilder: (BuildContext context, int index) =>
-                          GestureDetector(
-                            onTap: () => model.navigateToWeb(),
-                            child: Container(
-                              width: 311,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              decoration: ShapeDecoration(
-                                color: veryTransparentWhite,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Row(children: [
-                                RoundedIconButton(
-                                  padding: 10,
-                                  color: primaryColor,
-                                  click: () {},
-                                  icon: SvgPicture.asset(
-                                      'assets/images/svg/ci_bulb.svg'),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: 4.h),
+                      FutureBuilder(
+                          future: model.getUser(),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data!.myPlan == null) {
+                                return Align(
+                                  alignment: Alignment.centerRight,
+                                  child: SmallButton(
+                                    horizontalPadding: 8.w,
+                                    verticalPadding: 4.h,
+                                    text: 'Get Subscription',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14.sp,
+                                    click: () {},
+                                    color: primaryColor,
+                                  ),
+                                );
+                              } else {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Container(
-                                      width: 200,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          BaseText(
-                                            'Basic Plan',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: '\$25/',
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                              children: [
-                                                TextSpan(
-                                                  style: TextStyle(
-                                                      color: black,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 12),
-                                                  text: 'Month',
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                      margin: EdgeInsets.only(bottom: 15.h),
+                                      height: 1.h,
+                                      width: 45.w,
+                                      color: black,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 15.h),
+                                      height: 1.h,
+                                      width: 45.w,
+                                      color: primaryColor,
+                                    )
+                                  ],
+                                );
+                              }
+                            } else {
+                              return SizedBox(
+                                height: 20.h,
+                              );
+                            }
+                          }),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      BaseText(
+                        'Main Wallet',
+                        fontSize: 14.sp,
+                        color: grey,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                './assets/images/svg/solar_wallet-bold.svg',
+                                width: 25.w,
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              FutureBuilder(
+                                  future: model.getUser(),
+                                  builder: (ctx, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return BaseText(
+                                        "\$${snapshot.data!.wallet}",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25.w,
+                                      );
+                                    } else {
+                                      return BaseText(
+                                        "\$0.00",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25.w,
+                                      );
+                                    }
+                                  }),
+                            ],
+                          ),
+                          IconButtonPlusText(
+                            curve: 10.sp,
+                            paddingY: 8.h,
+                            paddingX: 5.w,
+                            color: primaryColor,
+                            click: () => model.navigateToFundWallet(),
+                            prefixIcon: SvgPicture.asset(
+                              './assets/images/svg/home_page_fund_wallet_icon.svg',
+                              width: 16.sp,
+                            ),
+                            width: 90.sp,
+                            text: 'Fund Wallet',
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 8.0.h),
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: ListView(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 28.0.h, top: 20.h),
+                        child: BaseText(
+                          'What would you like to do today ?',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // number of items in each row
+                            mainAxisSpacing:
+                                15.0, // spacing between rows (vertically)
+                            crossAxisSpacing:
+                                10.0, // spacing between columns (horizontally)
+                          ),
+                          shrinkWrap: true,
+                          physics:
+                              const NeverScrollableScrollPhysics(), // padding around the grid
+                          itemCount: model
+                              .homeWidgetList.length, // total number of items
+                          itemBuilder: (context, index) {
+                            final HomeWidget widget =
+                                model.homeWidgetList[index];
+                            return HomeWidgetView(
+                              asset: widget.picture,
+                              title: widget.title,
+                              description: widget.description,
+                              click: () => model.navigate(widget.click),
+                            );
+                          },
+                        ),
+                      ),
+                      FutureBuilder(
+                          future: model.user,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Visibility(
+                                visible: snapshot.data!.myNumber == null,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    model.reservePhoneNumber(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 18.w, vertical: 14.h),
+                                    decoration: ShapeDecoration(
+                                      color: white36,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.sp),
                                       ),
                                     ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                        'Unlimited Calls to your family and friends\nto one country (USA)',
-                                        softWrap: true,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: textGrey,
-                                        )),
-                                  ],
-                                )
-                              ]),
-                            ),
-                          ),
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 8,
-                        );
-                      }),
-                ),
-                const SizedBox(
-                  height: 90,
-                )
-              ],
-            ),
+                                    child: Row(children: [
+                                      RoundedIconButton(
+                                        padding: 14.w,
+                                        color: primaryColor,
+                                        click: () {},
+                                        icon: SvgPicture.asset(
+                                            'assets/images/svg/number.svg'),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0.w),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            BaseText(
+                                              'Reserve Phone Number',
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            SizedBox(
+                                              height: 3.h,
+                                            ),
+                                            BaseText(
+                                              'Rent a phone number to\ncall and text family and friends',
+                                              fontSize: 14.sp,
+                                              color: textGrey,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }),
+                      Padding(
+                        padding: EdgeInsets.only(top: 17.h, bottom: 10.h),
+                        child: BaseText(
+                          'Subscription',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 90.h,
+                        child: FutureBuilder(
+                            future: model.user,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: snapshot.data!.plans!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      var plan = snapshot.data!.plans![index];
+                                      return GestureDetector(
+                                        onTap: () => {'model.navigateToWeb()'},
+                                        child: Container(
+                                          width: 285.w,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 18.w,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: veryTransparentWhite,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.w),
+                                            ),
+                                          ),
+                                          child: Row(children: [
+                                            RoundedIconButton(
+                                              padding: 10.sp,
+                                              color: primaryColor,
+                                              click: () {},
+                                              icon: SvgPicture.asset(
+                                                  'assets/images/svg/ci_bulb.svg'),
+                                            ),
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: 200,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      BaseText(
+                                                        plan.title!,
+                                                        fontSize: 18.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              '\$${plan.amount}/',
+                                                          style: TextStyle(
+                                                              color: black,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                          children: [
+                                                            TextSpan(
+                                                              style: TextStyle(
+                                                                  color: black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize:
+                                                                      10.sp),
+                                                              text: 'Month',
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 3),
+                                                Text(
+                                                  'Unlimited Calls to your family and friends\nto one country (USA)',
+                                                  softWrap: true,
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: textGrey,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ]),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return SizedBox(
+                                        width: 8.w,
+                                      );
+                                    });
+                              } else {
+                                return Container(
+                                  color: transparentWhite,
+                                  height: 50.w,
+                                  width: 100.h,
+                                );
+                              }
+                            }),
+                      ),
+                      SizedBox(
+                        height: 90.h,
+                      )
+                    ]),
+              ),
+            ],
           )),
         ),
         desktop: const Scaffold(

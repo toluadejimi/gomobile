@@ -1,9 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
-import 'package:gomobilez/UI/wallet/bottomSheet.dart';
+import 'package:gomobilez/app/app.locator.dart';
+import 'package:gomobilez/app/app.router.dart';
+import 'package:gomobilez/helpers/enums/payment_options.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
+import 'package:gomobilez/helpers/responseHandlers.dart';
+import 'package:gomobilez/models/fund_wallet.dart';
+import 'package:gomobilez/models/recentTransaction.dart';
+import 'package:gomobilez/services/paymentService.dart';
+import 'package:http/http.dart' as http;
 
 class WalletViewModel extends DashBoardViewModel {
+  PaymentService _paymentService = locator<PaymentService>();
   TextEditingController amounController = TextEditingController();
+  void init() {
+    getRecentTransactions();
+  }
 
   bool _loading = false;
   bool get loading => _loading;
@@ -12,42 +26,68 @@ class WalletViewModel extends DashBoardViewModel {
     notifyListeners();
   }
 
-  // proceedToFundWallet() async {
-  //   if (amounController.value.text. trim().isNotEmpty) {
-  //     setLoadingState();
-  //     try {
-  //       var data = {
-  //         "email": emailTextController.value.text.trim(),
-  //         "password": passwordController.value.text.trim()
-  //       };
-  //       http.Response response = await _authenticationService.login(data);
-  //       String? dataAfterResponseHandler = responseHandler(response);
+  PaymentOptions _vendor = PaymentOptions.none;
+  PaymentOptions get vendor => _vendor;
+  setVendor(PaymentOptions val) {
+    _vendor = val;
+    notifyListeners();
+  }
 
-  //       if (dataAfterResponseHandler != null) {
-  //         var raw = jsonDecode(dataAfterResponseHandler);
+  Future<List<RecentTransaction>?> getRecentTransactions() async {
+    try {
+      http.Response response = await _paymentService.getRecentTransaction();
+      String? dataAfterResponseHandler = response.body;
 
-  //         if (raw['status'] == true) {
-  //           User user = userFromJson(jsonEncode(raw['data']));
+      var raw = jsonDecode(dataAfterResponseHandler);
+      if (raw['status'] == true) {
+        List<RecentTransaction> transactions = [];
+        if (raw['data']['transactions'].length > 0) {
+          for (var i = 0; i < raw['data']['transactions'].length; i++) {
+            transactions.add(recentTransactionFromJson(
+                jsonEncode(raw['data']['transactions'][i])));
+          }
+        } else {
+          throw ({'message': 'An error occured'});
+        }
+        return transactions;
+      }
+      return null;
+    } catch (e) {
+      errorHandler(e);
+      return null;
+    }
+  }
 
-  //           bool success = await _tokenService.setToken(raw['data']['token']);
-  //           if (!success) {
-  //             throw ('Something went wrong');
-  //           }
-  //           success = await _localStorageService.addUserToStorage(
-  //               LocalStorageValues.user, user);
-  //           if (!success) {
-  //             throw ('Something went wrong');
-  //           }
-  //           goToApp();
-  //         }
-  //       } else {
-  //         throw ({'message': 'An error occured'});
-  //       }
-  //     } catch (e) {
-  //       errorHandler(e);
-  //     }
+  proceedToFundWallet() async {
+    if (amounController.value.text.trim().isNotEmpty &&
+        vendor.name.isNotEmpty) {
+      setLoadingState();
+      try {
+        var data = {
+          "amount": int.parse(amounController.value.text.trim()),
+          "vendor": vendor.name
+        };
+        http.Response response = await _paymentService.fundAccount(data);
+        String? dataAfterResponseHandler = responseHandler(response);
 
-  //     setLoadingState();
-  //   }
-  // }
+        if (dataAfterResponseHandler != null) {
+          var raw = jsonDecode(dataAfterResponseHandler);
+          print(raw);
+
+          if (raw['status'] == true) {
+            FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));
+
+            navigationService.navigateTo(Routes.webPageView,
+                arguments: WebPageViewArguments(url: data.href));
+          }
+        } else {
+          throw ({'message': 'An error occured'});
+        }
+      } catch (e) {
+        errorHandler(e);
+      }
+
+      setLoadingState();
+    }
+  }
 }

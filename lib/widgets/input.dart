@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class InputField extends StatelessWidget {
       this.controller,
       this.onChanged,
       this.onSaved,
-      this.padding = 10,
+      this.padding = 8,
       required this.hint,
       this.obscureText = false,
       this.enableSuggestions = true,
@@ -37,7 +38,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: padding),
+      padding: EdgeInsets.symmetric(vertical: padding.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,10 +51,10 @@ class InputField extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: hintOut ? 5 : 0,
+            height: hintOut ? 5.h : 0,
           ),
           TextFormField(
-            style: const TextStyle(fontSize: 12, height: 1.5),
+            style: TextStyle(fontSize: 12.sp, height: 1.5.sp),
             decoration: InputDecoration(
               hintText: !hintOut ? hint : '',
               prefixIcon: prefixIcon,
@@ -62,16 +63,18 @@ class InputField extends StatelessWidget {
               fillColor: transparentWhite,
               filled: true,
               hoverColor: white,
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: white, width: 1),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: white, width: 1.w),
               ),
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: transparentWhite, width: 0),
               ),
+              prefixIconColor: black,
+              suffixIconColor: black,
               contentPadding:
-                  const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  EdgeInsets.symmetric(vertical: 5.h, horizontal: 15.w),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.w),
               ),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
