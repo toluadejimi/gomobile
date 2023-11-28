@@ -5,6 +5,7 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:flutter/material.dart' as _i19;
 import 'package:flutter/material.dart' as _i16;
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart' as _i17;
@@ -13,17 +14,23 @@ import 'package:gomobilez/UI/auth/getStarted/view.dart' as _i3;
 import 'package:gomobilez/UI/auth/signIn/index.dart' as _i5;
 import 'package:gomobilez/UI/auth/signUp/index.dart' as _i4;
 import 'package:gomobilez/UI/contact/view.dart' as _i11;
+import 'package:gomobilez/UI/contactUs/view.dart' as _i17;
 import 'package:gomobilez/UI/dashboard/view.dart' as _i7;
 import 'package:gomobilez/UI/deviceContact/view.dart' as _i14;
 import 'package:gomobilez/UI/home/view.dart' as _i8;
+import 'package:gomobilez/UI/legalTerms/view.dart' as _i18;
+import 'package:gomobilez/UI/manageSubscription/view.dart' as _i15;
 import 'package:gomobilez/UI/message/conversation/conversationView.dart'
     as _i15;
 import 'package:gomobilez/UI/message/view.dart' as _i9;
 import 'package:gomobilez/UI/settings/view.dart' as _i12;
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart' as _i2;
+import 'package:gomobilez/UI/updatePassword/view.dart' as _i16;
+import 'package:gomobilez/UI/updateProfile/view.dart' as _i14;
 import 'package:gomobilez/UI/wallet/view.dart' as _i10;
 import 'package:gomobilez/UI/WebPage/view.dart' as _i13;
 import 'package:stacked/stacked.dart' as _i1;
+import 'package:stacked_services/stacked_services.dart' as _i20;
 import 'package:stacked_services/stacked_services.dart' as _i18;
 
 class Routes {
@@ -50,6 +57,15 @@ class Routes {
   static const settingsView = '/settings-view';
 
   static const webPageView = '/web-page-view';
+  static const updateProfileView = '/update-profile-view';
+
+  static const manageSubscriptionView = '/manage-subscription-view';
+
+  static const updatePasswordView = '/update-password-view';
+
+  static const contactUsView = '/contact-us-view';
+
+  static const legalTermsView = '/legal-terms-view';
 
   static const deviceContactView = '/device-contact-view';
 
@@ -68,6 +84,11 @@ class Routes {
     contactView,
     settingsView,
     webPageView,
+    updateProfileView,
+    manageSubscriptionView,
+    updatePasswordView,
+    contactUsView,
+    legalTermsView,
     deviceContactView,
     conversationView,
   };
@@ -124,6 +145,24 @@ class StackedRouter extends _i1.RouterBase {
       page: _i13.WebPageView,
     ),
     _i1.RouteDef(
+      Routes.updateProfileView,
+      page: _i14.UpdateProfileView,
+    ),
+    _i1.RouteDef(
+      Routes.manageSubscriptionView,
+      page: _i15.ManageSubscriptionView,
+    ),
+    _i1.RouteDef(
+      Routes.updatePasswordView,
+      page: _i16.UpdatePasswordView,
+    ),
+    _i1.RouteDef(
+      Routes.contactUsView,
+      page: _i17.ContactUsView,
+    ),
+    _i1.RouteDef(
+      Routes.legalTermsView,
+      page: _i18.LegalTermsView,
       Routes.deviceContactView,
       page: _i14.DeviceContactView,
     ),
@@ -135,36 +174,42 @@ class StackedRouter extends _i1.RouterBase {
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.AppBaseScreen: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.AppBaseScreen(),
         settings: data,
       );
     },
     _i3.GetStartedView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.GetStartedView(),
         settings: data,
       );
     },
     _i4.SignUpView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.SignUpView(),
         settings: data,
       );
     },
     _i5.LoginView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.LoginView(),
         settings: data,
       );
     },
     _i6.ForgotPasswordView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ForgotPasswordView(),
         settings: data,
       );
     },
     _i7.DashBoardView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.DashBoardView(),
         settings: data,
@@ -172,6 +217,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i8.HomeView: (data) {
       final args = data.getArgs<HomeViewArguments>(nullOk: false);
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i8.HomeView(key: args.key, pageController: args.pageController),
@@ -179,12 +225,15 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i9.MessageView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.MessageView(),
         settings: data,
       );
     },
     _i10.WalletView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i10.WalletView(),
       final args = data.getArgs<WalletViewArguments>(
         orElse: () => const WalletViewArguments(),
       );
@@ -195,12 +244,14 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i11.ContactView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i11.ContactView(),
         settings: data,
       );
     },
     _i12.SettingsView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => const _i12.SettingsView(),
         settings: data,
@@ -208,11 +259,39 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i13.WebPageView: (data) {
       final args = data.getArgs<WebPageViewArguments>(nullOk: false);
+      return _i19.MaterialPageRoute<dynamic>(
       return _i16.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.WebPageView(key: args.key, url: args.url),
         settings: data,
       );
     },
+    _i14.UpdateProfileView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i14.UpdateProfileView(),
+        settings: data,
+      );
+    },
+    _i15.ManageSubscriptionView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i15.ManageSubscriptionView(),
+        settings: data,
+      );
+    },
+    _i16.UpdatePasswordView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i16.UpdatePasswordView(),
+        settings: data,
+      );
+    },
+    _i17.ContactUsView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i17.ContactUsView(),
+        settings: data,
+      );
+    },
+    _i18.LegalTermsView: (data) {
+      return _i19.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i18.LegalTermsView(),
     _i14.DeviceContactView: (data) {
       final args = data.getArgs<DeviceContactViewArguments>(nullOk: false);
       return _i16.MaterialPageRoute<dynamic>(
@@ -247,6 +326,9 @@ class HomeViewArguments {
     required this.pageController,
   });
 
+  final _i19.Key? key;
+
+  final _i19.PageController pageController;
   final _i16.Key? key;
 
   final _i16.PageController pageController;
@@ -301,6 +383,7 @@ class WebPageViewArguments {
     required this.url,
   });
 
+  final _i19.Key? key;
   final _i16.Key? key;
 
   final String url;
@@ -321,7 +404,8 @@ class WebPageViewArguments {
     return key.hashCode ^ url.hashCode;
   }
 }
-
+        
+extension NavigatorStateExtension on _i20.NavigationService {
 class DeviceContactViewArguments {
   const DeviceContactViewArguments({
     this.key,
@@ -477,6 +561,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToHomeView({
+    _i19.Key? key,
+    required _i19.PageController pageController,
     _i16.Key? key,
     required _i16.PageController pageController,
     int? routerId,
@@ -553,6 +639,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> navigateToWebPageView({
+    _i19.Key? key,
     _i16.Key? key,
     required String url,
     int? routerId,
@@ -569,6 +656,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToUpdateProfileView([
   Future<dynamic> navigateToDeviceContactView({
     _i16.Key? key,
     required String title,
@@ -578,6 +666,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.updateProfileView,
   }) async {
     return navigateTo<dynamic>(Routes.deviceContactView,
         arguments:
@@ -588,6 +678,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToManageSubscriptionView([
   Future<dynamic> navigateToConversationView({
     _i16.Key? key,
     required String phoneNumber,
@@ -598,6 +689,50 @@ extension NavigatorStateExtension on _i18.NavigationService {
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.manageSubscriptionView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToUpdatePasswordView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.updatePasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToContactUsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.contactUsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToLegalTermsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.legalTermsView,
   }) async {
     return navigateTo<dynamic>(Routes.conversationView,
         arguments: ConversationViewArguments(
@@ -696,6 +831,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithHomeView({
+    _i19.Key? key,
+    required _i19.PageController pageController,
     _i16.Key? key,
     required _i16.PageController pageController,
     int? routerId,
@@ -772,6 +909,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
   }
 
   Future<dynamic> replaceWithWebPageView({
+    _i19.Key? key,
     _i16.Key? key,
     required String url,
     int? routerId,
@@ -788,6 +926,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> replaceWithUpdateProfileView([
   Future<dynamic> replaceWithDeviceContactView({
     _i16.Key? key,
     required String title,
@@ -797,6 +936,8 @@ extension NavigatorStateExtension on _i18.NavigationService {
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.updateProfileView,
   }) async {
     return replaceWith<dynamic>(Routes.deviceContactView,
         arguments:
@@ -807,6 +948,7 @@ extension NavigatorStateExtension on _i18.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> replaceWithManageSubscriptionView([
   Future<dynamic> replaceWithConversationView({
     _i16.Key? key,
     required String phoneNumber,
@@ -817,6 +959,50 @@ extension NavigatorStateExtension on _i18.NavigationService {
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.manageSubscriptionView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithUpdatePasswordView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.updatePasswordView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithContactUsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.contactUsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithLegalTermsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.legalTermsView,
   }) async {
     return replaceWith<dynamic>(Routes.conversationView,
         arguments: ConversationViewArguments(
