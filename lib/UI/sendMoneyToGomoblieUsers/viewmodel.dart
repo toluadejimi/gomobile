@@ -1,5 +1,5 @@
 import 'package:stacked/stacked.dart';
 
-class sendMoneyToGomoblieUsersViewmodel extends BaseViewModel{
+class SendMoneyToGomoblieUsersViewmodel extends BaseViewModel{
   
 }
