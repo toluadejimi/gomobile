@@ -20,7 +20,7 @@ class RecentCallBox extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          const SvgIconInCircle(
+           SvgIconInCircle(
             svgAssetPath: 'assets/images/svg/ci_bulb.svg',
           ),
           const Padding(

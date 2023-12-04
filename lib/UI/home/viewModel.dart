@@ -45,7 +45,12 @@ class HomeViewModel extends ContactViewModel {
   }
 
   navigateToContactPage() {
-    navigationService.navigateToDeviceContactView(title: 'Contact', click: navigateToCallPage);
+    navigationService.navigateToDeviceContactView(
+        title: 'Contact', click: navigateToCallPage);
+  }
+
+  navigateToSendMoneyPage() {
+    navigationService.navigateTo('/send-and-receive-money-view');
   }
 
   void navigateToCallPage(Contact contact) {
@@ -58,6 +63,8 @@ class HomeViewModel extends ContactViewModel {
       case 'contactPage':
         return navigateToContactPage();
         break;
+      case 'sendMoney':
+        return navigateToSendMoneyPage();
       default:
         return () {};
     }

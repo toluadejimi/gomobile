@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/settings/viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
@@ -26,6 +27,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/profileIcon.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 45.h,
+                    width: 45.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -38,9 +41,10 @@ class SettingsView extends StatelessWidget {
                           builder: (ctx, snapshot) {
                             return snapshot.hasData
                                 ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RichText(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RichText(
                                         text: TextSpan(
                                           children: <TextSpan>[
                                             TextSpan(
@@ -51,7 +55,8 @@ class SettingsView extends StatelessWidget {
                                                     fontSize: 8)),
                                             TextSpan(
                                               text: snapshot.data!.lastName
-                                                      .nameCase() +' '+
+                                                      .nameCase() +
+                                                  ' ' +
                                                   snapshot.data!.firstName
                                                       .nameCase(),
                                               style: TextStyle(
@@ -63,29 +68,28 @@ class SettingsView extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
-                        height: 8,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'Email\n',
-                                style: TextStyle(
-                                    color: textGrey,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 8)),
-                            TextSpan(
-                                text: snapshot.data!.email,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: black,
-                                    fontSize: 10))
-                          ],
-                        ),
-                      ),
-                                  ],
-                                )
-                                  
+                                        height: 8,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: 'Email\n',
+                                                style: TextStyle(
+                                                    color: textGrey,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 8)),
+                                            TextSpan(
+                                                text: snapshot.data!.email,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: black,
+                                                    fontSize: 10))
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 : const BaseText(
                                     '...',
                                     fontSize: 18,
@@ -99,8 +103,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/icon_settings_on.svg',
                     circleSize: 34,
                     circleColor: shadeOfYellow,
-                    pressed: () => model.navigationService
-                        .navigateTo('/update-profile-view'),
+                    height: 15.h,
+                    width: 15.w,
                   ),
                   SizedBox(
                     width: 5,
@@ -109,6 +113,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/logoutIcon.svg',
                     circleSize: 34,
                     circleColor: shadeOfYellow,
+                    height: 15.h,
+                    width: 15.w,
                   ),
                 ],
               ),
@@ -125,9 +131,11 @@ class SettingsView extends StatelessWidget {
               Row(
                 children: [
                   SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/profileIcon.svg',
+                    svgAssetPath: 'assets/images/svg/manageSubscription.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -136,6 +144,42 @@ class SettingsView extends StatelessWidget {
                     'Manage Subscription',
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
+                    onPressed: () {
+                       model.navigationService.navigateTo('/manage-subscription-view');
+                    }
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 13,
+              ),
+              Divider(
+                color: dividerGrey,
+                height: 3,
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              Row(
+                children: [
+                  SvgIconInCircle(
+                    svgAssetPath: 'assets/images/svg/manage_debit_credit.svg',
+                    circleSize: 60,
+                    circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
+                  ),
+                  SizedBox(
+                    width: 14,
+                  ),
+                  BaseText(
+                    'Manage Debit/Credit Card',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    onPressed: () {
+                      model.navigationService
+                          .navigateTo('/manage-debit-and-credit-view');
+                    },
                   )
                 ],
               ),
@@ -155,6 +199,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/updatePasswordIcon.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -184,6 +230,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/logoutIcon.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -214,6 +262,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/legalTermsIcon.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -244,6 +294,8 @@ class SettingsView extends StatelessWidget {
                     svgAssetPath: 'assets/images/svg/deleteAccountIcon.svg',
                     circleSize: 60,
                     circleColor: shadeOfYellow,
+                    height: 26.h,
+                    width: 26.w,
                   ),
                   SizedBox(
                     width: 14,
