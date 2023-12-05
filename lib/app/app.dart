@@ -5,6 +5,7 @@ import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/contactUs/view.dart';
 import 'package:gomobilez/UI/legalTerms/view.dart';
 import 'package:gomobilez/UI/manageDebitAndCredit/view.dart';
+import 'package:gomobilez/UI/manageSubscription/subsciptionPlanView.dart';
 import 'package:gomobilez/UI/manageSubscription/view.dart';
 import 'package:gomobilez/UI/sendAndReceiveMoney/view.dart';
 import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/view.dart';
@@ -60,6 +61,7 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: ManageDebitAndCreditView),
     MaterialRoute(page: SendAndReceiveMoneyView),
     MaterialRoute(page: SendMoneyToGomoblieUsersView),
+    MaterialRoute(page: subsciptionPlanView),
   ],
   dependencies: [
     LazySingleton(classType: Services),
