@@ -9,15 +9,14 @@ import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
 import 'package:stacked/stacked.dart';
-class ManageSubscriptionView extends StatelessWidget {
- const ManageSubscriptionView({Key? key}) : super(key: key);
 
- @override
- Widget build(BuildContext context) {
-   return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
-    
-     builder: (context, model, child) => 
-     CustomScaffold(
+class ManageSubscriptionView extends StatelessWidget {
+  const ManageSubscriptionView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
+      builder: (context, model, child) => CustomScaffold(
         title: 'My Subscription',
         canPop: true,
         body: Column(
@@ -41,7 +40,7 @@ class ManageSubscriptionView extends StatelessWidget {
               ),
               child: Row(children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(17.w, 16.h,0, 12.h),
+                  padding: EdgeInsets.fromLTRB(17.w, 16.h, 0, 12.h),
                   child: SvgIconInCircle(
                     svgAssetPath: 'assets/images/svg/ci_bulb.svg',
                     circleSize: 57,
@@ -52,7 +51,7 @@ class ManageSubscriptionView extends StatelessWidget {
                   width: 17.w,
                 ),
                 Padding(
-                  padding:  EdgeInsets.fromLTRB(0, 23.h, 0, 18.h),
+                  padding: EdgeInsets.fromLTRB(0, 23.h, 0, 18.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -65,7 +64,7 @@ class ManageSubscriptionView extends StatelessWidget {
                         height: 9,
                       ),
                       Container(
-                        height:3.h ,
+                        height: 3.h,
                         width: 182.w,
                         child: LinearProgressIndicator(
                           backgroundColor: primaryColor,
@@ -100,7 +99,7 @@ class ManageSubscriptionView extends StatelessWidget {
                   fontSize: 12,
                   click: () {
                     showCupertinoDialog(
-                          context: context, builder: createDialog);
+                        context: context, builder: createDialog);
                   },
                   color: red,
                   fontWeight: FontWeight.w500,
@@ -113,7 +112,9 @@ class ManageSubscriptionView extends StatelessWidget {
                   verticalPadding: 10.h,
                   text: 'Change Plan',
                   fontSize: 12,
-                  click: () {},
+                  click: () {
+                    model.navigateToSubsciptionPlanPage();
+                  },
                   color: black,
                   fontWeight: FontWeight.w500,
                 )
@@ -141,19 +142,21 @@ class ManageSubscriptionView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Row(
-                    children: [
+                  child: Row(children: [
                     Padding(
-                      padding:  EdgeInsets.fromLTRB(19,17,8,14),
+                      padding: EdgeInsets.fromLTRB(19, 17, 8, 14),
                       child: RoundedIconButton(
                         click: () {},
-                        icon: Icon(Icons.arrow_upward_outlined,color: white,),
+                        icon: Icon(
+                          Icons.arrow_upward_outlined,
+                          color: white,
+                        ),
                         color: red,
                         padding: 8,
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.fromLTRB(0,24,0,20),
+                      padding: EdgeInsets.fromLTRB(0, 24, 0, 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -178,7 +181,7 @@ class ManageSubscriptionView extends StatelessWidget {
                   width: 8,
                 ),
                 Container(
-                   height: 80,
+                  height: 80,
                   decoration: ShapeDecoration(
                     color: white,
                     shape: RoundedRectangleBorder(
@@ -186,11 +189,14 @@ class ManageSubscriptionView extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding:  EdgeInsets.all(13.0),
+                    padding: EdgeInsets.all(13.0),
                     child: Column(children: [
                       RoundedIconButton(
                         click: () {},
-                        icon: Icon(Icons.refresh_rounded,color: white,),
+                        icon: Icon(
+                          Icons.refresh_rounded,
+                          color: white,
+                        ),
                         color: black,
                         padding: 3,
                       ),
@@ -214,14 +220,14 @@ class ManageSubscriptionView extends StatelessWidget {
               height: 11,
             ),
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 itemCount: 8,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding:  EdgeInsets.symmetric(vertical:8.h ),
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
                     child: Container(
-                       height: 79,
+                      height: 79,
                       decoration: ShapeDecoration(
                         color: white,
                         shape: RoundedRectangleBorder(
@@ -230,23 +236,29 @@ class ManageSubscriptionView extends StatelessWidget {
                       ),
                       child: Row(children: [
                         Padding(
-                          padding:  EdgeInsets.fromLTRB(19.w,17.h,8.w,14.h),
+                          padding: EdgeInsets.fromLTRB(19.w, 17.h, 8.w, 14.h),
                           child: RoundedIconButton(
                             click: () {},
-                            icon: Icon(Icons.arrow_upward_outlined,color: white,),
+                            icon: Icon(
+                              Icons.arrow_upward_outlined,
+                              color: white,
+                            ),
                             color: red,
                             padding: 8,
                           ),
                         ),
-                        SizedBox(width: 8.w,),
+                        SizedBox(
+                          width: 8.w,
+                        ),
                         Expanded(
                           child: Padding(
-                            padding:  EdgeInsets.fromLTRB(0,22.h,19.h,20.h),
+                            padding: EdgeInsets.fromLTRB(0, 22.h, 19.h, 20.h),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     BaseText(
                                       'Basic Plan',
@@ -260,25 +272,27 @@ class ManageSubscriptionView extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                
-                            SizedBox(height: 7.h,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                BaseText(
-                                  '10/21/2003 - 11/21/2023',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: textGrey,
+                                SizedBox(
+                                  height: 7.h,
                                 ),
-                                BaseText(
-                                  '2/10/2023',
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: textGrey,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BaseText(
+                                      '10/21/2003 - 11/21/2023',
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      color: textGrey,
+                                    ),
+                                    BaseText(
+                                      '2/10/2023',
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      color: textGrey,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
                               ],
                             ),
                           ),
@@ -292,8 +306,8 @@ class ManageSubscriptionView extends StatelessWidget {
       ),
       viewModelBuilder: () => ManageSubscriptionViewModel(),
     );
-    
   }
+
   Widget createDialog(BuildContext context) {
     return CupertinoAlertDialog(
       title: BaseText(

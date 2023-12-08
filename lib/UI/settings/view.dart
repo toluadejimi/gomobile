@@ -210,7 +210,7 @@ class SettingsView extends StatelessWidget {
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                     onPressed: () => model.navigationService
-                        .navigateTo('/update-password-view'),
+                        .navigateTo('/update-profile-view'),
                   )
                 ],
               ),
