@@ -42,7 +42,7 @@ class SendMoneyToGomoblieUsersView extends StatelessWidget {
                  ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-                itemCount: 8,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding:  EdgeInsets.symmetric(vertical:8.h ),
