@@ -5,8 +5,6 @@ import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/custom_svg_icon.dart';
-import 'package:gomobilez/widgets/roundedIconButton.dart';
-import 'package:gomobilez/widgets/smallButton.dart';
 import 'package:stacked/stacked.dart';
 
 class subsciptionPlanView extends StatelessWidget {

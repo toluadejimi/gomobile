@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
-import 'package:gomobilez/app/app.locator.dart';
-import 'package:gomobilez/helpers/errorHandler.dart';
-import 'package:gomobilez/helpers/responseHandlers.dart';
-import 'package:gomobilez/models/user.dart';
-import 'package:gomobilez/services/authservice.dart';
-import 'package:http/http.dart' as http;
+import 'package:stacked/stacked.dart';
 
-class UpdatePasswordViewModel extends AppBaseViewModel {
-  final _authenticationService = locator<AuthService>();
+class UpdatePasswordViewModel extends BaseViewModel {
+ // final _authenticationService = locator<AuthService>();
   final GlobalKey<FormState> updatePasswordformKey = GlobalKey<FormState>();
 
   final TextEditingController passwordController = TextEditingController();
@@ -56,31 +50,31 @@ class UpdatePasswordViewModel extends AppBaseViewModel {
     notifyListeners();
   }
 
-  updatePasword() async {
-    if (updatePasswordformKey.currentState!.validate()) {
-      setLoadingState();
-      User? userData = await user;
-      String email = await userData!.email;
-      try {
-        var data = {
-          "email": email,
-          "password": passwordController,
-          "confirm_password": confirmPasswordController
-        };
-        http.Response response =
-            await _authenticationService.resetPassword(data);
-        String? dataAfterResponseHandler = responseHandler(response);
+  // updatePasword() async {
+  //   if (updatePasswordformKey.currentState!.validate()) {
+  //     setLoadingState();
+  //     User? userData = await user;
+  //     String email = await userData!.email;
+  //     try {
+  //       var data = {
+  //         "email": email,
+  //         "password": passwordController,
+  //         "confirm_password": confirmPasswordController
+  //       };
+  //       http.Response response =
+  //           await _authenticationService.resetPassword(data);
+  //       String? dataAfterResponseHandler = responseHandler(response);
 
-        if (dataAfterResponseHandler != null) {
-          navigationService.popUntil((route) => false);
-          // goToNextPage();
-        } else {
-          throw (response.body);
-        }
-      } catch (e) {
-        errorHandler(e);
-      }
-      setLoadingState();
-    }
-  }
+  //       if (dataAfterResponseHandler != null) {
+  //         navigationService.popUntil((route) => false);
+  //         // goToNextPage();
+  //       } else {
+  //         throw (response.body);
+  //       }
+  //     } catch (e) {
+  //       errorHandler(e);
+  //     }
+  //     setLoadingState();
+  //   }
+  // }
 }

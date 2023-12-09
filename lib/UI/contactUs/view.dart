@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/contactUs/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
@@ -21,7 +22,7 @@ class ContactUsView extends StatelessWidget {
           ),
           BaseText(
             'Do you have any questions? Contact us to the following email, we will be more than happy to help you',
-            fontSize: 12,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
           SizedBox(
@@ -29,7 +30,7 @@ class ContactUsView extends StatelessWidget {
           ),
           BaseText(
             'Start a call with support',
-            fontSize: 12,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
           Row(
@@ -37,7 +38,7 @@ class ContactUsView extends StatelessWidget {
             children: [
               BaseText(
                 '+1(774)-366-3362',
-                fontSize: 12,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
               SvgIconInCircle(
@@ -60,7 +61,7 @@ class ContactUsView extends StatelessWidget {
           ),
           BaseText(
             'Send us an Email',
-            fontSize: 12,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
           Row(
@@ -68,7 +69,7 @@ class ContactUsView extends StatelessWidget {
             children: [
               BaseText(
                 'support@gomobilez.com',
-                fontSize: 12,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
               SvgIconInCircle(
