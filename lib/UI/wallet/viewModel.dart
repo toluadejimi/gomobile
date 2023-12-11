@@ -40,42 +40,7 @@ class WalletViewModel extends DashBoardViewModel {
     notifyListeners();
   }
 
-  String daysBetween(DateTime from, DateTime to) {
-    from = DateTime(from.year, from.month, from.day);
-    to = DateTime(to.year, to.month, to.day);
-    var diff = (to.difference(from).inHours / 24).round();
-    var stringDiff = '';
-    if (diff < 1) {
-      stringDiff = hoursBetween(from, to);
-      return stringDiff;
-    } else {
-      return '${diff} ${diff == 1 ? 'day' : 'days'}';
-    }
-  }
-
-  String hoursBetween(DateTime from, DateTime to) {
-    from = DateTime(from.year, from.month, from.day);
-    to = DateTime(to.year, to.month, to.day);
-    var diff = (to.difference(from).inHours).round();
-    var stringDiff = '';
-    if (diff < 1) {
-      stringDiff = minutesBetween(from, to);
-      return stringDiff;
-    } else {
-      return '${diff} ${diff == 1 ? 'hour' : 'hours'}';
-    }
-  }
-
-  String minutesBetween(DateTime from, DateTime to) {
-    from = DateTime(from.year, from.month, from.day);
-    to = DateTime(to.year, to.month, to.day);
-    var diff = (to.difference(from).inMinutes).round();
-    if (diff < 1) {
-      return 'few seconds';
-    }
-
-    return "${diff} ${diff == 1 ? 'minute' : 'minutes'}";
-  }
+  
 
   Future<List<RecentTransaction>?> getRecentTransactions() async {
     try {
@@ -83,8 +48,6 @@ class WalletViewModel extends DashBoardViewModel {
       String? dataAfterResponseHandler = response.body;
 
       var raw = jsonDecode(dataAfterResponseHandler);
-
-      print(raw);
       if (raw['status'] == true) {
         List<RecentTransaction> transactions = [];
         if (raw['data']['transactions'].length > 0) {
@@ -122,7 +85,6 @@ class WalletViewModel extends DashBoardViewModel {
 
         if (dataAfterResponseHandler != null) {
           var raw = jsonDecode(dataAfterResponseHandler);
-          print(raw);
 
           if (raw['status'] == true) {
             FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));

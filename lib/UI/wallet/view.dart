@@ -9,6 +9,7 @@ import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
+import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
@@ -121,48 +122,43 @@ class WalletView extends StatelessWidget {
                   if (snapshot.hasData) {
                     if (snapshot.data!.myPlan == null &&
                         snapshot.data!.myPlan!.status != 1) {
-                      return GestureDetector(
-                        onTap: () {
-                          model.navigateToSubscriptionPage();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: white36,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 14.w, vertical: 16.h),
-                          child: Row(children: [
-                            RoundedIconButton(
-                              click: () {},
-                              color: primaryColor,
-                              padding: 12,
-                              icon: SvgPicture.asset(
-                                './assets/images/svg/home_page_plan_icon.svg',
-                                width: 22.w,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 8.w,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BaseText(
-                                  'Subscription',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                SizedBox(height: 3.h),
-                                BaseText(
-                                  'Choose a plan to call family and friends',
-                                  fontSize: 12.sp,
-                                  color: textGrey,
-                                )
-                              ],
-                            )
-                          ]),
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: white36,
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14.w, vertical: 16.h),
+                        child: Row(children: [
+                          RoundedIconButton(
+                            click: () {},
+                            color: primaryColor,
+                            padding: 12,
+                            icon: SvgPicture.asset(
+                              './assets/images/svg/home_page_plan_icon.svg',
+                              width: 22.w,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BaseText(
+                                'Subscription',
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              SizedBox(height: 3.h),
+                              BaseText(
+                                'Choose a plan to call family and friends',
+                                fontSize: 12.sp,
+                                color: textGrey,
+                              )
+                            ],
+                          )
+                        ]),
                       );
                     } else {
                       return Container(
@@ -172,82 +168,89 @@ class WalletView extends StatelessWidget {
                             color: white,
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: Column(
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  BaseText(
-                                    'Subscription',
-                                    fontSize: 16.sp,
-                                    color: grey,
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  CustomIconButton(
-                                    color: primaryColor,
-                                    click: () {},
-                                    horizontalPadding: 4.w,
-                                    verticalPadding: 1.5.h,
-                                    radius: 7.sp,
-                                    widget: Icon(
-                                      Icons.flip_camera_ios_rounded,
-                                      size: 14.sp,
-                                      color: black,
-                                    ),
-                                  )
-                                ],
+                              SvgIconInCircle(
+                                svgAssetPath: 'assets/images/svg/ci_bulb.svg',
+                                circleSize: 55.sp,
+                                circleColor: dividerGrey,
                               ),
-                              SizedBox(height: 10.h),
-                              Row(
+                              SizedBox(width: 15.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 5.0.w),
-                                    child: SvgPicture.asset(
-                                      './assets/images/svg/home_page_plan_icon.svg',
-                                      width: 18.w,
-                                    ),
+                                  Row(
+                                    children: [
+                                      BaseText(
+                                        'Subscription',
+                                        fontSize: 16.sp,
+                                        color: grey,
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      CustomIconButton(
+                                        color: primaryColor,
+                                        click: () {},
+                                        horizontalPadding: 4.w,
+                                        verticalPadding: 1.5.h,
+                                        radius: 7.sp,
+                                        widget: Icon(
+                                          Icons.flip_camera_ios_rounded,
+                                          size: 14.sp,
+                                          color: black,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 5.0.w),
+                                        child: SvgPicture.asset(
+                                          './assets/images/svg/home_page_plan_icon.svg',
+                                          width: 18.w,
+                                        ),
+                                      ),
+                                      FutureBuilder(
+                                          future: model.user,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Text(
+                                                '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
+                                                style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    color: black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              );
+                                            } else {
+                                              return Text(
+                                                '_____',
+                                                style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    color: black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              );
+                                            }
+                                          }),
+                                    ],
                                   ),
                                   FutureBuilder(
-                                      future: model.user,
+                                      future:
+                                          model.subscriptionProgessWidget(200),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
-                                          return Text(
-                                            '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
-                                            style: TextStyle(
-                                                fontSize: 18.sp,
-                                                color: black,
-                                                fontWeight: FontWeight.bold),
-                                          );
+                                          return snapshot.data!;
                                         } else {
-                                          return Text(
-                                            '_____',
-                                            style: TextStyle(
-                                                fontSize: 18.sp,
-                                                color: black,
-                                                fontWeight: FontWeight.bold),
-                                          );
+                                          return SizedBox();
                                         }
                                       }),
                                 ],
                               ),
-                              Stack(children: [
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 10.h, top: 10.h),
-                                  height: 2.h,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: black,
-                                ),
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 10.h, top: 10.h),
-                                  height: 2.h,
-                                  width: 100.w,
-                                  color: primaryColor,
-                                ),
-                              ])
                             ],
                           ));
                     }

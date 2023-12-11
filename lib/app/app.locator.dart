@@ -15,6 +15,7 @@ import '../services/index.dart';
 import '../services/localStorageService.dart';
 import '../services/messageService.dart';
 import '../services/paymentService.dart';
+import '../services/settingsService.dart';
 import '../services/tokenService.dart';
 import '../services/userService.dart';
 
@@ -38,4 +39,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => MessageService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => FirebaseService());
+  locator.registerLazySingleton(() => SettingsService());
 }

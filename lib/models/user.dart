@@ -195,33 +195,41 @@ class MyNumber {
 
 class MyPlan {
   int? id;
-  int? userId;
   int? planId;
+  int? smsCredit;
+  int? daysRemaining;
+  String? expiresAt;
   int? amount;
   int? status;
 
   MyPlan({
     this.id,
-    this.userId,
     this.planId,
+    this.smsCredit,
+    this.daysRemaining,
+    this.expiresAt,
     this.amount,
     this.status,
   });
 
   factory MyPlan.fromJson(Map<String, dynamic> json) => MyPlan(
         id: json["id"],
-        userId: json["user_id"],
         planId: json["plan_id"],
+        smsCredit: json["sms_credit"],
         amount: json["amount"],
         status: json["status"],
+        daysRemaining: json["days_remaining"],
+        expiresAt: json["expires_at"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "user_id": userId,
         "plan_id": planId,
+        "sms_credit": smsCredit,
         "amount": amount,
         "status": status,
+        "days_remaining": daysRemaining,
+        "expires_at":expiresAt
       };
 }
 

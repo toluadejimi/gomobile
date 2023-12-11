@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/manageSubscription/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/models/plans.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/custom_svg_icon.dart';
@@ -13,9 +14,11 @@ class subsciptionPlanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
+      onViewModelReady: (model) => model.init(),
       builder: (context, model, child) => CustomScaffold(
         title: 'Subscription',
         canPop: true,
+        onBackPress: () => model.navigationService.back(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,99 +34,83 @@ class subsciptionPlanView extends StatelessWidget {
               height: 13.h,
             ),
             Container(
-              height: 190.h,
-              child: ListView.separated(
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Expanded(
-                  child: Container(
-                    height: 93.h,
-                    width: 311.w,
-                    decoration: ShapeDecoration(
-                      color: white36,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8.w, 24.h, 5.w, 12.h),
-                        child: SvgIconInCircle(
-                          svgAssetPath: 'assets/images/svg/ci_bulb.svg',
-                          circleSize: 60,
-                          circleColor: shadeOfYellow,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 17.w,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 18.h, 15.w, 20.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 200.w,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+              height: 200.h,
+              child: FutureBuilder(
+                  future: model.plans,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.comboPlans.length,
+                        itemBuilder: (context, index) {
+                          Plan plan = snapshot.data!.comboPlans[index];
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12.w, vertical: 15.h),
+                            decoration: ShapeDecoration(
+                              color: white36,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  BaseText(
-                                    'Basic Plan',
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
+                                  SvgIconInCircle(
+                                    svgAssetPath:
+                                        'assets/images/svg/ci_bulb.svg',
+                                    circleSize: 50.sp,
+                                    circleColor: shadeOfYellow,
                                   ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: '\$25/',
-                                      style: TextStyle(
-                                          color: black,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        TextSpan(
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            BaseText(
+                                              plan.title,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            BaseText(
+                                              '\$${plan.amount}/month',
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 7.h,
+                                        ),
+                                        Text(
+                                          '${plan.note}',
                                           style: TextStyle(
-                                              color: black,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 10.sp),
-                                          text: 'Month',
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5.h,
+                                            color: textGrey,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            BaseText(
-                              '• Unlimited Calls to one country (USA)',
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600,
-                              color: textGrey,
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            BaseText(
-                              '• 300 SMS / MMS Credit',
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w400,
-                              color: textGrey,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 10.h,
-                  );
-                },
-              ),
+                                ]),
+                          );
+                        },
+                        separatorBuilder: (_, __) => SizedBox(height: 10.h),
+                      );
+                    } else {
+                      return BaseText('No Plans Available');
+                    }
+                  }),
             ),
             SizedBox(
               height: 30.h,
@@ -144,77 +131,81 @@ class subsciptionPlanView extends StatelessWidget {
               height: 20.h,
             ),
             Container(
-              height: 250.h,
-              child: ListView.separated(
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Expanded(
-                  child: Container(
-                    height: 77.h,
-                    width: 311.w,
-                    decoration: ShapeDecoration(
-                      color: white36,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8.w, 24.h, 5.w, 12.h),
-                        child: SvgIconInCircle(
-                          svgAssetPath: 'assets/images/svg/ci_bulb.svg',
-                          circleSize: 50,
-                          circleColor: shadeOfYellow,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 17.w,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 18.h, 15.w, 20.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 200.w,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  BaseText(
-                                    'Basic Plan',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  BaseText(
-                                    '\$2',
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ],
+              height: 200.h,
+              child: FutureBuilder(
+                  future: model.plans,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.callPlan.length,
+                        itemBuilder: (context, index) {
+                          Plan plan = snapshot.data!.callPlan[index];
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12.w, vertical: 15.h),
+                            decoration: ShapeDecoration(
+                              color: white36,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            SizedBox(
-                              height: 12.h,
-                            ),
-                            BaseText(
-                              '• 100 SMS / MMS Credit',
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w400,
-                              color: textGrey,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 10.h,
-                  );
-                },
-              ),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SvgIconInCircle(
+                                    svgAssetPath:
+                                        'assets/images/svg/ci_bulb.svg',
+                                    circleSize: 50.sp,
+                                    circleColor: shadeOfYellow,
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            BaseText(
+                                              plan.title,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            BaseText(
+                                              '\$${plan.amount}/month',
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 7.h,
+                                        ),
+                                        Text('${plan.note}',
+                                            style: TextStyle(
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.5.h,
+                                              color: textGrey,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          );
+                        },
+                        separatorBuilder: (_, __) => SizedBox(height: 10.h),
+                      );
+                    } else {
+                      return BaseText('No Plans Available');
+                    }
+                  }),
             ),
           ],
         ),

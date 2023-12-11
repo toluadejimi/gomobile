@@ -62,12 +62,15 @@ class HomeViewModel extends ContactViewModel {
     switch (to) {
       case 'contactPage':
         return navigateToContactPage();
+        // ignore: dead_code
         break;
       case 'sendMoney':
         return navigateToSendMoneyPage();
+        // ignore: dead_code
         break;
       case 'callPage':
         return navigationService.navigateToContactView(canPop: true);
+        // ignore: dead_code
         break;
       default:
         return () {};

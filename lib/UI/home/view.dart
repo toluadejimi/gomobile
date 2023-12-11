@@ -58,11 +58,30 @@ class HomeView extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              BaseText(
-                                'Your Phone Number',
-                                color: white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  BaseText(
+                                    'SMS Credit: ${snapshot.data!.myPlan!.smsCredit} ',
+                                    color: white,
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  BaseText(
+                                    'Your Phone Number',
+                                    color: white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  BaseText(
+                                    'Expires ${snapshot.data!.myPlan!.expiresAt} ',
+                                    color: white,
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
                               ),
                               const Spacer(),
                               BaseText(
@@ -221,22 +240,18 @@ class HomeView extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 15.h),
-                                      height: 1.h,
-                                      width: 45.w,
-                                      color: black,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 15.h),
-                                      height: 1.h,
-                                      width: 45.w,
-                                      color: primaryColor,
-                                    )
-                                  ],
+                                return Align(
+                                  alignment: Alignment.centerRight,
+                                  child: FutureBuilder(
+                                      future:
+                                          model.subscriptionProgessWidget(100),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return snapshot.data!;
+                                        } else {
+                                          return SizedBox();
+                                        }
+                                      }),
                                 );
                               }
                             } else {
@@ -407,18 +422,21 @@ class HomeView extends StatelessWidget {
                           }),
                       FutureBuilder(
                         future: model.user,
-                        builder: (context, snapshot) => snapshot.hasData? Visibility(
-                          visible: snapshot.data!.myPlan == null &&
-                              snapshot.data!.myPlan!.status != 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 17.h, bottom: 10.h),
-                            child: BaseText(
-                              'Subscription',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ): SizedBox(),
+                        builder: (context, snapshot) => snapshot.hasData
+                            ? Visibility(
+                                visible: snapshot.data!.myPlan == null &&
+                                    snapshot.data!.myPlan!.status != 1,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 17.h, bottom: 10.h),
+                                  child: BaseText(
+                                    'Subscription',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
                       ),
                       SizedBox(
                         height: 90.h,

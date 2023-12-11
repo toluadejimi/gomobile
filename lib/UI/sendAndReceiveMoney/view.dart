@@ -20,20 +20,25 @@ class SendAndReceiveMoneyView extends StatelessWidget {
             SizedBox(
               height: 40.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BaseText(
-                  'Send Money to Gomobilez User',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-                IconButton(
-                    onPressed: () {
-                      model.navigateToSendMoneyToGomobilesUsersPage();
-                    },
-                    icon: Icon(Icons.arrow_forward))
-              ],
+            GestureDetector(
+              onTap: () {
+                model.navigateToSendMoneyToGomobilesUsersPage();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BaseText(
+                    'Send Money to Gomobilez User',
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        model.navigateToSendMoneyToGomobilesUsersPage();
+                      },
+                      icon: Icon(Icons.arrow_forward))
+                ],
+              ),
             ),
             SizedBox(
               height: 15.h,

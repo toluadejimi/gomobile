@@ -79,7 +79,9 @@ class CustomButtomNavigation extends StatelessWidget {
                                 child: RoundedIconButton(
                                   color: red,
                                   padding: 5,
-                                  click: () {},
+                                  click: () {
+                                    model.changePage(page.index);
+                                  },
                                   icon: Text(
                                     snapshot.data!.pendingMessages != null
                                         ? snapshot.data!.pendingMessages!

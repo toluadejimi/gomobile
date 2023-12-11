@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:gomobilez/services/index.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +11,12 @@ class PaymentService extends Services {
 
   Future<http.Response> getRecentTransaction() async {
     http.Response response = await get('all-transaction', isAuth: true);
+    return response;
+  }
+
+  Future<http.Response> verifyEmail(data) async {
+    http.Response response =
+        await post('verify-account', isAuth: true, body: data);
     return response;
   }
 }

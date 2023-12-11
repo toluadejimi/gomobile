@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/enums/app_states.dart';
@@ -217,5 +219,74 @@ class AppBaseViewModel extends BaseViewModel {
   void copyTextToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
     Alertify(title: 'Copied', message: 'Copied to clipboard').success();
+  }
+
+  dateTimeToDay(DateTime val) {
+    return '${val.day}/${val.month}/${val.year}';
+  }
+
+  String daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inHours / 24).round();
+    var stringDiff = '';
+    if (diff < 1) {
+      stringDiff = hoursBetween(from, to);
+      return stringDiff;
+    } else {
+      return '${diff} ${diff == 1 ? 'day' : 'days'}';
+    }
+  }
+
+  String hoursBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inHours).round();
+    var stringDiff = '';
+    if (diff < 1) {
+      stringDiff = minutesBetween(from, to);
+      return stringDiff;
+    } else {
+      return '${diff} ${diff == 1 ? 'hour' : 'hours'}';
+    }
+  }
+
+  String minutesBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inMinutes).round();
+    if (diff < 1) {
+      return 'few seconds';
+    }
+
+    return "${diff} ${diff == 1 ? 'minute' : 'minutes'}";
+  }
+
+  int secondsBetweenAlone(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inSeconds).round();
+    return diff;
+  }
+
+  Future<Widget> subscriptionProgessWidget(double maxWith) async {
+    User? user = await getUser();
+    int expiryDate = user!.myPlan!.daysRemaining!;
+    int length = (((30 - expiryDate) / 30) * maxWith).floor();
+
+    return Stack(children: [
+      Container(
+        margin: EdgeInsets.only(top: 10.h),
+        height: 2.h,
+        width: maxWith.w,
+        color: black,
+      ),
+      Container(
+        margin: EdgeInsets.only(top: 10.h),
+        height: 2.h,
+        width: length.w,
+        color: primaryColor,
+      ),
+    ]);
   }
 }

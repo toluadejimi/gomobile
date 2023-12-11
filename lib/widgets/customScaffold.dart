@@ -5,7 +5,7 @@ import 'package:gomobilez/helpers/app_colors.dart';
 class CustomScaffold extends StatelessWidget {
   final Widget body;
   final Color backgroundColor;
-  final bool canPop;
+  final bool canPop, scrollable;
   final String? title;
   final VoidCallback? onBackPress;
   const CustomScaffold({
@@ -14,6 +14,7 @@ class CustomScaffold extends StatelessWidget {
     this.backgroundColor = primaryColor,
     this.title,
     this.canPop = false,
+    this.scrollable = true,
     this.onBackPress,
   });
 
@@ -23,6 +24,9 @@ class CustomScaffold extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: scrollable
+              ? BouncingScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.only(top: 20.h),
             child: Column(

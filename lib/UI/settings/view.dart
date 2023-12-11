@@ -19,16 +19,19 @@ class SettingsView extends StatelessWidget {
       viewModelBuilder: () => SettingsViewModel(),
       builder: (context, model, child) => CustomScaffold(
           backgroundColor: primaryColor,
+          scrollable: false,
+          title: 'Profile',
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   SvgIconInCircle(
                     svgAssetPath: 'assets/images/svg/profileIcon.svg',
-                    circleSize: 60,
+                    circleSize: 70.sp,
                     circleColor: shadeOfYellow,
-                    height: 45.h,
-                    width: 45.w,
+                    height: 50.h,
+                    width: 50.w,
                   ),
                   SizedBox(
                     width: 14,
@@ -68,7 +71,7 @@ class SettingsView extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 8,
+                                        height: 8.h,
                                       ),
                                       RichText(
                                         text: TextSpan(
@@ -123,192 +126,246 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 32,
+                height: 32.h,
               ),
               Divider(
-                color: dividerGrey,
-                height: 3,
+                color: grey15,
+                height: 3.h,
               ),
               SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/manageSubscription.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText('Manage Subscription',
-                      fontSize: 14, fontWeight: FontWeight.w500, onPressed: () {
-                    model.navigationService
-                        .navigateTo('/manage-subscription-view');
-                  })
-                ],
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Divider(
-                color: dividerGrey,
-                height: 3,
-              ),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/manage_debit_credit.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText(
-                    'Manage Debit/Credit Card',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () {
-                      model.navigationService
-                          .navigateTo('/manage-debit-and-credit-view');
-                    },
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Divider(
-                color: dividerGrey,
-                height: 3,
-              ),
-              SizedBox(
-                height: 17,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/updatePasswordIcon.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText('Update Password',
-                      fontSize: 14, fontWeight: FontWeight.w500, onPressed: () {
-                    model.navigationService.navigateTo('/update-password-view');
-                  })
-                ],
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Divider(
-                color: dividerGrey,
-                height: 3,
-              ),
-              SizedBox(
-                height: 17,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/logoutIcon.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText(
-                    'Contact us',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () {
-                      model.navigationService.navigateTo('/contact-us-view');
-                    },
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Divider(
-                color: dividerGrey,
-                height: 3,
-              ),
-              SizedBox(
-                height: 17,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/legalTermsIcon.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText(
-                    'Legal Terms',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () {
-                      model.navigationService.navigateTo('/legal-terms-view');
-                    },
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 13,
-              ),
-              Divider(
-                color: dividerGrey,
-                height: 3,
-              ),
-              SizedBox(
-                height: 17,
-              ),
-              Row(
-                children: [
-                  SvgIconInCircle(
-                    svgAssetPath: 'assets/images/svg/deleteAccountIcon.svg',
-                    circleSize: 60,
-                    circleColor: shadeOfYellow,
-                    height: 26.h,
-                    width: 26.w,
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  BaseText(
-                    'Delete Account',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () {
-                      showCupertinoDialog(
-                          context: context, builder: createDialog);
-                    },
-                  )
-                ],
-              ),
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        model.navigationService
+                            .navigateTo('/manage-subscription-view');
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath:
+                                  'assets/images/svg/manageSubscription.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Manage Subscription',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+                    Divider(
+                      color: dividerGrey,
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      height: 14.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        model.navigationService
+                            .navigateTo('/manage-debit-and-credit-view');
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath:
+                                  'assets/images/svg/manage_debit_credit.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Manage Debit/Credit Card',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+                    Divider(
+                      color: dividerGrey,
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        model.navigationService
+                            .navigateTo('/update-password-view');
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath:
+                                  'assets/images/svg/updatePasswordIcon.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Update Password',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+                    Divider(
+                      color: dividerGrey,
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        model.navigationService.navigateTo('/contact-us-view');
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath: 'assets/images/svg/logoutIcon.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Contact us',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+                    Divider(
+                      color: dividerGrey,
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        model.navigationService.navigateTo('/legal-terms-view');
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath:
+                                  'assets/images/svg/legalTermsIcon.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Legal Terms',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13.h,
+                    ),
+                    Divider(
+                      color: dividerGrey,
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showCupertinoDialog(
+                            context: context, builder: createDialog);
+                      },
+                      child: Container(
+                        color: primaryColor,
+                        child: Row(
+                          children: [
+                            SvgIconInCircle(
+                              svgAssetPath:
+                                  'assets/images/svg/deleteAccountIcon.svg',
+                              circleSize: 60.sp,
+                              circleColor: shadeOfYellow,
+                              height: 26.h,
+                              width: 26.w,
+                            ),
+                            SizedBox(
+                              width: 14.w,
+                            ),
+                            BaseText(
+                              'Delete Account',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 100.h)
+                  ],
+                ),
+              )
             ],
           )),
     );

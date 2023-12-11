@@ -1,33 +1,46 @@
+import 'dart:convert';
+
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/saved_cards.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:http/http.dart' as http;
-import 'package:stacked/stacked.dart';
 
-class ManageDebitAndCreditViewmodel extends BaseViewModel {
+class ManageDebitAndCreditViewmodel extends AppBaseViewModel {
   UserService _userService = locator<UserService>();
 
-  List<Info> savedCards = [];
-  Future<void> fetchSavedCards() async {
+  init() {
+    fetchSavedCards();
+  }
+
+  Future<List<Info>?>? _savedCards;
+  Future<List<Info>?>? get savedCards => _savedCards;
+  setSavedCards(Future<List<Info>?>? val) {
+    _savedCards = val;
+    notifyListeners();
+  }
+
+  fetchSavedCards() async {
     try {
       http.Response response = await _userService.getSavedCards();
+      var raw = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        SavedCards savedCardsResponse = savedCardsFromJson(response.body);
-        savedCards = savedCardsResponse.data.info;
-        print('Response body: ${savedCards}');
-        notifyListeners();
+      if (raw['status'] == true) {
+        print(raw);
+        SavedCards savedCardsResponse =
+            savedCardsFromJson(jsonEncode(raw['data']));
+        setSavedCards(Future.value(savedCardsResponse.info));
       } else {
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        print('Res');
+        throw {'Error'};
       }
     } catch (error) {
-      print('Error during API call: $error'); 
+      errorHandler(error);
     }
   }
-    void removeSavedCard(int cardIndex) {
-    savedCards.removeAt(cardIndex);
+
+  void removeSavedCard(int cardIndex) {
+    // connect to endpoint
     notifyListeners();
   }
 }
