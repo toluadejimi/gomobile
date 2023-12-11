@@ -15,7 +15,7 @@ class Conversation {
   String toNo;
   int status;
   dynamic media;
-  String text;
+  String? text;
   DateTime createdAt;
 
   Conversation({

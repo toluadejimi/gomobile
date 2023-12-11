@@ -15,8 +15,8 @@ import 'package:permission_handler/permission_handler.dart';
 class ContactViewModel extends DashBoardViewModel {
   ContactService _contactService = locator<ContactService>();
   TextEditingController phoneNumberController = TextEditingController();
-  
-void init() {
+
+  void init() {
     getContactHistory();
   }
 
@@ -72,11 +72,15 @@ void init() {
           await Permission.camera.request();
 
           navigationService.navigateTo(Routes.webPageView,
-              arguments: WebPageViewArguments(url: raw['data']['url']));
+              arguments: WebPageViewArguments(url: raw['data']['call_url']));
         }
       } catch (e) {
         errorHandler(e);
       }
     }
+  }
+
+  pop() {
+    navigationService.back();
   }
 }

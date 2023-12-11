@@ -33,12 +33,58 @@ class WalletViewModel extends DashBoardViewModel {
     notifyListeners();
   }
 
+  Future<List<RecentTransaction>?>? _recentTransaction = null;
+  Future<List<RecentTransaction>?>? get recentTransaction => _recentTransaction;
+  setRecentTransaction(Future<List<RecentTransaction>?>? val) {
+    _recentTransaction = val;
+    notifyListeners();
+  }
+
+  String daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inHours / 24).round();
+    var stringDiff = '';
+    if (diff < 1) {
+      stringDiff = hoursBetween(from, to);
+      return stringDiff;
+    } else {
+      return '${diff} ${diff == 1 ? 'day' : 'days'}';
+    }
+  }
+
+  String hoursBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inHours).round();
+    var stringDiff = '';
+    if (diff < 1) {
+      stringDiff = minutesBetween(from, to);
+      return stringDiff;
+    } else {
+      return '${diff} ${diff == 1 ? 'hour' : 'hours'}';
+    }
+  }
+
+  String minutesBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    var diff = (to.difference(from).inMinutes).round();
+    if (diff < 1) {
+      return 'few seconds';
+    }
+
+    return "${diff} ${diff == 1 ? 'minute' : 'minutes'}";
+  }
+
   Future<List<RecentTransaction>?> getRecentTransactions() async {
     try {
       http.Response response = await _paymentService.getRecentTransaction();
       String? dataAfterResponseHandler = response.body;
 
       var raw = jsonDecode(dataAfterResponseHandler);
+
+      print(raw);
       if (raw['status'] == true) {
         List<RecentTransaction> transactions = [];
         if (raw['data']['transactions'].length > 0) {
@@ -49,13 +95,17 @@ class WalletViewModel extends DashBoardViewModel {
         } else {
           throw ({'message': 'An error occured'});
         }
-        return transactions;
+        setRecentTransaction(Future.value(transactions));
       }
       return null;
     } catch (e) {
       errorHandler(e);
       return null;
     }
+  }
+
+  navigateToSubscriptionPage(){
+    navigationService.navigateToSubsciptionPlanView();
   }
 
   proceedToFundWallet() async {

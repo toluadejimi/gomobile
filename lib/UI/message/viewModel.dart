@@ -168,8 +168,6 @@ class MessageViewModel extends DashBoardViewModel {
       http.Response response = await _messageService.getRecentMessages();
       var raw = jsonDecode(response.body);
 
-      print(raw);
-
       if (raw['status'] == true) {
         List<MessageHistory> history = [];
         if (raw['data'].length > 0) {
