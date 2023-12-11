@@ -1,8 +1,5 @@
-import 'dart:async';
 
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
-import 'package:gomobilez/helpers/app_colors.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io' show Platform;
 

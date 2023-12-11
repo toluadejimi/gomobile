@@ -52,7 +52,7 @@ class SettingsView extends StatelessWidget {
                                                 style: TextStyle(
                                                     color: textGrey,
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 8)),
+                                                    fontSize: 14)),
                                             TextSpan(
                                               text: snapshot.data!.lastName
                                                       .nameCase() +
@@ -62,7 +62,7 @@ class SettingsView extends StatelessWidget {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: black,
-                                                  fontSize: 10),
+                                                  fontSize: 14),
                                             )
                                           ],
                                         ),
@@ -78,13 +78,13 @@ class SettingsView extends StatelessWidget {
                                                 style: TextStyle(
                                                     color: textGrey,
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 8)),
+                                                    fontSize: 14)),
                                             TextSpan(
                                                 text: snapshot.data!.email,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: black,
-                                                    fontSize: 10))
+                                                    fontSize: 14))
                                           ],
                                         ),
                                       ),
@@ -105,6 +105,10 @@ class SettingsView extends StatelessWidget {
                     circleColor: shadeOfYellow,
                     height: 15.h,
                     width: 15.w,
+                    pressed: () {
+                      model.navigationService
+                          .navigateTo('/update-profile-view');
+                    },
                   ),
                   SizedBox(
                     width: 5,
@@ -126,7 +130,7 @@ class SettingsView extends StatelessWidget {
                 height: 3,
               ),
               SizedBox(
-                height: 32,
+                height: 15,
               ),
               Row(
                 children: [
@@ -140,14 +144,11 @@ class SettingsView extends StatelessWidget {
                   SizedBox(
                     width: 14,
                   ),
-                  BaseText(
-                    'Manage Subscription',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () {
-                       model.navigationService.navigateTo('/manage-subscription-view');
-                    }
-                  )
+                  BaseText('Manage Subscription',
+                      fontSize: 14, fontWeight: FontWeight.w500, onPressed: () {
+                    model.navigationService
+                        .navigateTo('/manage-subscription-view');
+                  })
                 ],
               ),
               SizedBox(
@@ -174,7 +175,7 @@ class SettingsView extends StatelessWidget {
                   ),
                   BaseText(
                     'Manage Debit/Credit Card',
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     onPressed: () {
                       model.navigationService
@@ -205,13 +206,10 @@ class SettingsView extends StatelessWidget {
                   SizedBox(
                     width: 14,
                   ),
-                  BaseText(
-                    'Update Password',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () => model.navigationService
-                        .navigateTo('/update-profile-view'),
-                  )
+                  BaseText('Update Password',
+                      fontSize: 14, fontWeight: FontWeight.w500, onPressed: () {
+                    model.navigationService.navigateTo('/update-password-view');
+                  })
                 ],
               ),
               SizedBox(
@@ -238,7 +236,7 @@ class SettingsView extends StatelessWidget {
                   ),
                   BaseText(
                     'Contact us',
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     onPressed: () {
                       model.navigationService.navigateTo('/contact-us-view');
@@ -270,7 +268,7 @@ class SettingsView extends StatelessWidget {
                   ),
                   BaseText(
                     'Legal Terms',
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     onPressed: () {
                       model.navigationService.navigateTo('/legal-terms-view');
@@ -302,7 +300,7 @@ class SettingsView extends StatelessWidget {
                   ),
                   BaseText(
                     'Delete Account',
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     onPressed: () {
                       showCupertinoDialog(
