@@ -110,18 +110,27 @@ class ConversationBubble extends StatelessWidget {
   }
 
   Widget _buildMessageContent(User user, BuildContext context) {
-    if (conversation.media != null) {
-      return Image.network(conversation.media!);
-    } else if (selectedImage != null) {
-      return Image.file(selectedImage! as File);
-    } else {
-      return Text(
-        conversation.text,
-        softWrap: true,
-        textAlign: user.myNumber!.phoneNo != conversation.fromNo
-            ? TextAlign.start
-            : TextAlign.end,
-      );
-    }
+    return Column(
+      crossAxisAlignment: user.myNumber!.phoneNo != conversation.fromNo
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.end,
+      children: [
+        Visibility(
+            visible: conversation.media != null,
+            child: conversation.media != null
+                ? Image.network(
+                    "https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D")
+                : SizedBox()),
+        Visibility(
+            visible: conversation.media != null, child: SizedBox(height: 5.h)),
+        Text(
+          conversation.text != null ? conversation.text! : '',
+          softWrap: true,
+          textAlign: user.myNumber!.phoneNo != conversation.fromNo
+              ? TextAlign.start
+              : TextAlign.end,
+        ),
+      ],
+    );
   }
 }

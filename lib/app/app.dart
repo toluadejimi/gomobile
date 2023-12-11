@@ -4,14 +4,17 @@ import 'package:gomobilez/UI/auth/getStarted/view.dart';
 import 'package:gomobilez/UI/contact/view.dart';
 import 'package:gomobilez/UI/contactUs/view.dart';
 import 'package:gomobilez/UI/legalTerms/view.dart';
+import 'package:gomobilez/UI/manageDebitAndCredit/view.dart';
+import 'package:gomobilez/UI/manageSubscription/subsciptionPlanView.dart';
 import 'package:gomobilez/UI/manageSubscription/view.dart';
+import 'package:gomobilez/UI/sendAndReceiveMoney/view.dart';
+import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/updatePassword/view.dart';
 import 'package:gomobilez/UI/updateProfile/view.dart';
 import 'package:gomobilez/UI/wallet/view.dart';
 import 'package:gomobilez/UI/deviceContact/view.dart';
 import 'package:gomobilez/UI/message/conversation/conversationView.dart';
-import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/auth/forgotPassword/index.dart';
 import 'package:gomobilez/UI/auth/signIn/index.dart';
 import 'package:gomobilez/UI/auth/signUp/index.dart';
@@ -19,7 +22,6 @@ import 'package:gomobilez/UI/message/view.dart';
 import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:gomobilez/UI/home/view.dart';
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart';
-import 'package:gomobilez/UI/wallet/view.dart';
 import 'package:gomobilez/services/authService.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:gomobilez/services/firebaseService.dart';
@@ -56,6 +58,10 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: LegalTermsView),
     MaterialRoute(page: DeviceContactView),
     MaterialRoute(page: ConversationView),
+    MaterialRoute(page: ManageDebitAndCreditView),
+    MaterialRoute(page: SendAndReceiveMoneyView),
+    MaterialRoute(page: SendMoneyToGomoblieUsersView),
+    MaterialRoute(page: subsciptionPlanView),
   ],
   dependencies: [
     LazySingleton(classType: Services),

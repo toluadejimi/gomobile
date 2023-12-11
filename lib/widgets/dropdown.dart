@@ -3,21 +3,21 @@ import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class InputField extends StatelessWidget {
-  final String? Function(String?)? validator;
+class DropDown extends StatelessWidget {
+  final String? Function(Object?)? validator;
   final List<TextInputFormatter>? textInputFormatter;
   final String hint;
   final String? errorText;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-  final Function(String?)? onChanged;
-  final Function(String?)? onSaved;
+  final Function(Object?)? onChanged;
+  final Function(Object?)? onSaved;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final double padding;
-  final FocusNode? focusNode;
-  final bool obscureText, enableSuggestions, autocorrect, hintOut, readOnly, showCursor;
-  const InputField(
+  final List<DropdownMenuItem<Object?>>? items;
+  final bool obscureText, enableSuggestions, autocorrect, hintOut;
+  const DropDown(
       {Key? key,
       this.textInputFormatter,
       this.errorText,
@@ -28,13 +28,11 @@ class InputField extends StatelessWidget {
       this.controller,
       this.onChanged,
       this.onSaved,
-      this.focusNode,
       this.padding = 8,
       required this.hint,
+      required this.items,
       this.obscureText = false,
       this.enableSuggestions = true,
-      this.readOnly = false,
-      this.showCursor =true,
       this.hintOut = true,
       this.autocorrect = false})
       : super(key: key);
@@ -57,8 +55,9 @@ class InputField extends StatelessWidget {
           SizedBox(
             height: hintOut ? 5.h : 0,
           ),
-          TextFormField(
-            style: TextStyle(fontSize: 12.sp, height: 1.5.sp),
+          DropdownButtonFormField<Object?>(
+            items: items,
+            style: TextStyle(fontSize: 12.sp, height: 1.5.sp, color: black),
             decoration: InputDecoration(
               hintText: !hintOut ? hint : '',
               prefixIcon: prefixIcon,
@@ -83,18 +82,8 @@ class InputField extends StatelessWidget {
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: validator,
-            onChanged: onChanged,
-            onSaved: onSaved,
-            controller: controller,
-            cursorColor: primaryColor,
-            keyboardType: keyboardType,
-            inputFormatters: textInputFormatter,
-            obscureText: obscureText,
-            enableSuggestions: enableSuggestions,
-            autocorrect: autocorrect,
-            focusNode: focusNode,
-            readOnly: readOnly,
-            showCursor: showCursor,
+            onChanged: (val) => onChanged!(val),
+            // onSaved: onSaved,
           ),
         ],
       ),

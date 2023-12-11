@@ -16,12 +16,15 @@ class RoundedIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: click,
-      child: Container(
-        padding: EdgeInsets.all(padding.w),
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: icon,
+    return Material(
+      color: white.withOpacity(0),
+      child: GestureDetector(
+        onTap: click,
+        child: Container(
+          padding: EdgeInsets.all(padding.w),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+          child: icon,
+        ),
       ),
     );
   }

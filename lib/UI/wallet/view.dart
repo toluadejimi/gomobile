@@ -7,6 +7,7 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/widgets/base_text.dart';
+import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
 import 'package:gomobilez/widgets/input.dart';
@@ -24,6 +25,7 @@ class WalletView extends StatelessWidget {
         : WalletViewArguments();
     return ViewModelBuilder<WalletViewModel>.reactive(
       disposeViewModel: false,
+      onViewModelReady: (model) => model.init(),
       viewModelBuilder: () => WalletViewModel(),
       builder: (context, model, child) => CustomScaffold(
         canPop: args.canPop,
@@ -113,43 +115,146 @@ class WalletView extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: white36,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
-              child: Row(children: [
-                RoundedIconButton(
-                  click: () {},
-                  color: primaryColor,
-                  padding: 12,
-                  icon: SvgPicture.asset(
-                    './assets/images/svg/home_page_plan_icon.svg',
-                    width: 22.w,
-                  ),
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BaseText(
-                      'Subscription',
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    SizedBox(height: 3.h),
-                    BaseText(
-                      'Choose a plan to call family and friends',
-                      fontSize: 12.sp,
-                      color: textGrey,
-                    )
-                  ],
-                )
-              ]),
-            ),
+            FutureBuilder(
+                future: model.user,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.myPlan == null &&
+                        snapshot.data!.myPlan!.status != 1) {
+                      return GestureDetector(
+                        onTap: () {
+                          model.navigateToSubscriptionPage();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: white36,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 14.w, vertical: 16.h),
+                          child: Row(children: [
+                            RoundedIconButton(
+                              click: () {},
+                              color: primaryColor,
+                              padding: 12,
+                              icon: SvgPicture.asset(
+                                './assets/images/svg/home_page_plan_icon.svg',
+                                width: 22.w,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BaseText(
+                                  'Subscription',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(height: 3.h),
+                                BaseText(
+                                  'Choose a plan to call family and friends',
+                                  fontSize: 12.sp,
+                                  color: textGrey,
+                                )
+                              ],
+                            )
+                          ]),
+                        ),
+                      );
+                    } else {
+                      return Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 14.w, vertical: 16.h),
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  BaseText(
+                                    'Subscription',
+                                    fontSize: 16.sp,
+                                    color: grey,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  CustomIconButton(
+                                    color: primaryColor,
+                                    click: () {},
+                                    horizontalPadding: 4.w,
+                                    verticalPadding: 1.5.h,
+                                    radius: 7.sp,
+                                    widget: Icon(
+                                      Icons.flip_camera_ios_rounded,
+                                      size: 14.sp,
+                                      color: black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 10.h),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 5.0.w),
+                                    child: SvgPicture.asset(
+                                      './assets/images/svg/home_page_plan_icon.svg',
+                                      width: 18.w,
+                                    ),
+                                  ),
+                                  FutureBuilder(
+                                      future: model.user,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
+                                            style: TextStyle(
+                                                fontSize: 18.sp,
+                                                color: black,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        } else {
+                                          return Text(
+                                            '_____',
+                                            style: TextStyle(
+                                                fontSize: 18.sp,
+                                                color: black,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        }
+                                      }),
+                                ],
+                              ),
+                              Stack(children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 10.h, top: 10.h),
+                                  height: 2.h,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: black,
+                                ),
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 10.h, top: 10.h),
+                                  height: 2.h,
+                                  width: 100.w,
+                                  color: primaryColor,
+                                ),
+                              ])
+                            ],
+                          ));
+                    }
+                  } else {
+                    return Container();
+                  }
+                }),
             SizedBox(
               height: 70.h,
             ),
@@ -164,7 +269,7 @@ class WalletView extends StatelessWidget {
             SizedBox(
               height: 200.h,
               child: FutureBuilder(
-                  future: model.getRecentTransactions(),
+                  future: model.recentTransaction,
                   builder: (ctx, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data != null && snapshot.data!.length > 0) {
@@ -188,11 +293,16 @@ class WalletView extends StatelessWidget {
                                       Row(
                                         children: [
                                           RoundedIconButton(
-                                            color: green,
+                                            color:
+                                                transactions[index].status == 4
+                                                    ? green
+                                                    : red,
                                             padding: 10,
                                             click: () {},
                                             icon: Icon(
-                                              Icons.arrow_downward,
+                                              transactions[index].type == 2
+                                                  ? Icons.arrow_upward
+                                                  : Icons.arrow_downward,
                                               color: white,
                                             ),
                                           ),
@@ -204,7 +314,9 @@ class WalletView extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               BaseText(
-                                                'Wallet Funding',
+                                                transactions[index].type == 2
+                                                    ? 'Wallet Withdrawal'
+                                                    : 'Wallet Funding',
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -224,12 +336,12 @@ class WalletView extends StatelessWidget {
                                             CrossAxisAlignment.end,
                                         children: [
                                           BaseText(
-                                            '\$20',
+                                            '\$${transactions[index].amount.toString()}',
                                             fontSize: 18.sp,
                                             fontWeight: FontWeight.w600,
                                           ),
                                           BaseText(
-                                            '3mins ago',
+                                            '${model.daysBetween(DateTime.parse(transactions[index].createdAt), DateTime.now())} ago',
                                             fontSize: 14.sp,
                                             color: textGrey,
                                           )

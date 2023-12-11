@@ -1,8 +1,10 @@
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/helpers/enums/localStorageValues.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/getDeviceId.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
+import 'package:gomobilez/services/localStorageService.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../app/app.locator.dart';
@@ -11,6 +13,7 @@ import '../../../services/authService.dart';
 
 class SignUpViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
+  final _storageService =locator<LocalStorageService>();
 
   final GlobalKey<FormState> emailViewFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> registerViewFormKey = GlobalKey<FormState>();
@@ -20,11 +23,18 @@ class SignUpViewModel extends AppBaseViewModel {
   final TextEditingController signupOtpController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
+  //  TextEditingController genderController = TextEditingController();
   final TextEditingController registrationPassword1Controller =
       TextEditingController();
   final TextEditingController registrationPassword2Controller =
       TextEditingController();
+
+       String? _genderController = null;
+  String? get genderController => _genderController;
+  setGenderController(Object? val) {
+    // _genderController = val;
+    notifyListeners();
+  }
 
   bool _passwordState = true;
   bool get passworState => _passwordState;
@@ -52,6 +62,14 @@ class SignUpViewModel extends AppBaseViewModel {
       pageController.animateToPage(pageController.page!.toInt() + 1,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
+  }
+
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Male"), value: "Male"),
+      DropdownMenuItem(child: Text("Female"), value: "Female"),
+    ];
+    return menuItems;
   }
 
   goToPreviousPage() {
@@ -85,7 +103,7 @@ class SignUpViewModel extends AppBaseViewModel {
         if (dataAfterResponseHandler != null) {
           goToNextPage();
         } else {
-          throw(response.body);
+          throw (response.body);
         }
       } catch (e) {
         errorHandler(e);
@@ -99,7 +117,7 @@ class SignUpViewModel extends AppBaseViewModel {
     try {
       var data = {"email": emailTextController.value.text.trim()};
       http.Response response = await _authenticationService.resendOTP(data);
-      throw(response.body);
+      throw (response.body);
     } catch (e) {
       errorHandler(e);
     }
@@ -122,7 +140,7 @@ class SignUpViewModel extends AppBaseViewModel {
           if (dataAfterResponseHandler != null) {
             goToNextPage();
           } else {
-            throw(response.body);
+            throw (response.body);
           }
         }
       } catch (e) {
@@ -133,7 +151,7 @@ class SignUpViewModel extends AppBaseViewModel {
   }
 
   register() async {
-    if (registerViewFormKey.currentState!.validate()) {
+    if (registerViewFormKey.currentState!.validate() && _genderController != null) {
       setLoadingState();
       try {
         String? deviceId = await getId();
@@ -142,16 +160,17 @@ class SignUpViewModel extends AppBaseViewModel {
           "device_id": deviceId,
           "first_name": firstNameController.value.text.trim(),
           "last_name": lastNameController.value.text.trim(),
-          "gender": genderController.value.text.trim(),
+          "gender": genderController!.trim(),
           "password": registrationPassword1Controller.value.text.trim()
         };
         http.Response response = await _authenticationService.register(data);
         String? dataAfterResponseHandler = responseHandler(response);
 
         if (dataAfterResponseHandler != null) {
+          _storageService.removeFromStorage(LocalStorageValues.credentialsToken);
           goToLoginPage();
         } else {
-          throw(response.body);
+          throw (response.body);
         }
       } catch (e) {
         errorHandler(e);

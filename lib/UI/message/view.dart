@@ -150,7 +150,7 @@ class MessageView extends StatelessWidget {
             onPressed: () {
               model.navigateToDeviceContactPage();
             },
-            child: const SvgIconInCircle(
+            child:  SvgIconInCircle(
               svgAssetPath: 'assets/images/svg/mi_message.svg',
               circleColor: white,
             ),
