@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/sendAndReceiveMoney/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
@@ -14,13 +15,17 @@ class SendAndReceiveMoneyView extends StatelessWidget {
       builder: (context, model, child) => CustomScaffold(
           title: 'Send And Receive Money',
           canPop: true,
+          onBackPress: () => model.navigationService.back(),
           body: Column(children: [
+            SizedBox(
+              height: 40.h,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BaseText(
                   'Send Money to Gomobilez User',
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 IconButton(
@@ -31,21 +36,21 @@ class SendAndReceiveMoneyView extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 30,
+              height: 15.h,
             ),
             Divider(
               color: dividerGrey,
-              height: 3,
+              height: 3.h,
             ),
             SizedBox(
-              height: 30,
+              height: 15.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BaseText(
                   'Send money to Bank',
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))

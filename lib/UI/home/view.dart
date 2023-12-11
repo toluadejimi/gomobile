@@ -405,13 +405,20 @@ class HomeView extends StatelessWidget {
                               return const SizedBox();
                             }
                           }),
-                      Padding(
-                        padding: EdgeInsets.only(top: 17.h, bottom: 10.h),
-                        child: BaseText(
-                          'Subscription',
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      FutureBuilder(
+                        future: model.user,
+                        builder: (context, snapshot) => snapshot.hasData? Visibility(
+                          visible: snapshot.data!.myPlan == null &&
+                              snapshot.data!.myPlan!.status != 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 17.h, bottom: 10.h),
+                            child: BaseText(
+                              'Subscription',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ): SizedBox(),
                       ),
                       SizedBox(
                         height: 90.h,
@@ -419,105 +426,111 @@ class HomeView extends StatelessWidget {
                             future: model.user,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot.data!.plans!.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      var plan = snapshot.data!.plans![index];
-                                      return GestureDetector(
-                                        onTap: () => {'model.navigateToWeb()'},
-                                        child: Container(
-                                          width: 285.w,
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 18.w,
-                                          ),
-                                          decoration: ShapeDecoration(
-                                            color: veryTransparentWhite,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.w),
+                                return Visibility(
+                                  visible: snapshot.data!.myPlan == null &&
+                                      snapshot.data!.myPlan!.status != 1,
+                                  child: ListView.separated(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data!.plans!.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        var plan = snapshot.data!.plans![index];
+                                        return GestureDetector(
+                                          onTap: () =>
+                                              {'model.navigateToWeb()'},
+                                          child: Container(
+                                            width: 285.w,
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 18.w,
                                             ),
-                                          ),
-                                          child: Row(children: [
-                                            RoundedIconButton(
-                                              padding: 10.sp,
-                                              color: primaryColor,
-                                              click: () {},
-                                              icon: SvgPicture.asset(
-                                                  'assets/images/svg/ci_bulb.svg'),
+                                            decoration: ShapeDecoration(
+                                              color: veryTransparentWhite,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.w),
+                                              ),
                                             ),
-                                            SizedBox(
-                                              width: 10.w,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: 200,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      BaseText(
-                                                        plan.title!,
-                                                        fontSize: 18.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text:
-                                                              '\$${plan.amount}/',
-                                                          style: TextStyle(
-                                                              color: black,
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          children: [
-                                                            TextSpan(
-                                                              style: TextStyle(
-                                                                  color: black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontSize:
-                                                                      10.sp),
-                                                              text: 'Month',
-                                                            ),
-                                                          ],
+                                            child: Row(children: [
+                                              RoundedIconButton(
+                                                padding: 10.sp,
+                                                color: primaryColor,
+                                                click: () {},
+                                                icon: SvgPicture.asset(
+                                                    'assets/images/svg/ci_bulb.svg'),
+                                              ),
+                                              SizedBox(
+                                                width: 10.w,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 200,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        BaseText(
+                                                          plan.title!,
+                                                          fontSize: 18.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
-                                                      ),
-                                                    ],
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text:
+                                                                '\$${plan.amount}/',
+                                                            style: TextStyle(
+                                                                color: black,
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                            children: [
+                                                              TextSpan(
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontSize:
+                                                                        10.sp),
+                                                                text: 'Month',
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                const SizedBox(height: 3),
-                                                Text(
-                                                  'Unlimited Calls to your family and friends\nto one country (USA)',
-                                                  softWrap: true,
-                                                  overflow: TextOverflow.clip,
-                                                  style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    color: textGrey,
+                                                  const SizedBox(height: 3),
+                                                  Text(
+                                                    'Unlimited Calls to your family and friends\nto one country (USA)',
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.clip,
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: textGrey,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            )
-                                          ]),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return SizedBox(
-                                        width: 8.w,
-                                      );
-                                    });
+                                                ],
+                                              )
+                                            ]),
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return SizedBox(
+                                          width: 8.w,
+                                        );
+                                      }),
+                                );
                               } else {
                                 return Container(
                                   color: transparentWhite,

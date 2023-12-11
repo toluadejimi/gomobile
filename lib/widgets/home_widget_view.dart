@@ -36,7 +36,7 @@ class HomeWidgetView extends StatelessWidget {
               Center(
                 child: RoundedIconButton(
                   color: primaryColor,
-                  click: () {},
+                  click: click,
                   icon: SvgPicture.asset(asset),
                 ),
               ),

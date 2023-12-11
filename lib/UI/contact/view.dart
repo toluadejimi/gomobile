@@ -14,7 +14,8 @@ import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 
 class ContactView extends StatelessWidget {
-  const ContactView({Key? key}) : super(key: key);
+  final bool canPop;
+  const ContactView({Key? key, this.canPop = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +53,26 @@ class ContactView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BaseText(
-                  'Call Logs',
-                  fontSize: 23.sp,
-                  fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Visibility(
+                      visible: canPop,
+                      child: GestureDetector(
+                          onTap: () => model.pop(),
+                          child: Icon(Icons.arrow_back)),
+                    ),
+                    Visibility(
+                      visible: canPop,
+                      child: SizedBox(
+                        width: 20.w,
+                      ),
+                    ),
+                    BaseText(
+                      'Call Logs',
+                      fontSize: 23.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20.h),
                 FutureBuilder(

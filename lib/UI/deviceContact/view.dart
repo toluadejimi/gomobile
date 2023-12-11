@@ -6,6 +6,8 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/widgets/base_text.dart';
+import 'package:gomobilez/widgets/iconButtonPlusText.dart';
+import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 
@@ -23,6 +25,7 @@ class DeviceContactView extends StatelessWidget {
         : DeviceContactViewArguments(title: title, click: click);
     return ViewModelBuilder<DeviceContactViewModel>.reactive(
       viewModelBuilder: () => DeviceContactViewModel(),
+      onViewModelReady: (model) => model.getDeviceContact(),
       builder: (context, model, child) => Scaffold(
         backgroundColor: primaryColor,
         body: SafeArea(
@@ -64,11 +67,15 @@ class DeviceContactView extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: TextFormField(
-                        // controller: model.amounController,
-                        decoration: const InputDecoration(
-                            hintText: 'Type a name, phone number',
-                            filled: false,
-                            border: InputBorder.none)),
+                      controller: model.searchController,
+                      decoration: const InputDecoration(
+                          hintText: 'Type a name, phone number',
+                          filled: false,
+                          border: InputBorder.none),
+                      onChanged: (val) {
+                        model.onSearchChanged(val);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -87,104 +94,183 @@ class DeviceContactView extends StatelessWidget {
                 height: 15.h,
               ),
               FutureBuilder(
-                  future: model.getDeviceContact(),
+                  future: model.deviceContact,
                   builder: (ctx, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
                         if (snapshot.data != null) {
-                          return Expanded(
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                itemBuilder: (ctx, i) {
-                                  Contact contact = snapshot.data![i];
-                                  return GestureDetector(
-                                    onTap: () => args.click(contact),
+                          if (snapshot.data!.length == 0) {
+                            if (RegExp(r'^[a-z]+$')
+                                .hasMatch(model.searchController.text)) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 50.h),
+                                child: BaseText(
+                                  "You don't have \"${model.searchController.text}\" saved.",
+                                  fontSize: 16.sp,
+                                ),
+                              );
+                            } else {
+                              return Column(children: [
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 5.h),
+                                    decoration: BoxDecoration(
+                                        color: red,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10.h),
+                                            topRight: Radius.circular(10.h))),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: [
-                                        contact.photo != null
-                                            ? RoundedIconButton(
-                                                click: () {},
-                                                icon: Image.memory(
-                                                    contact.photo!,
-                                                    width: 15.w))
-                                            : RoundedIconButton(
-                                                padding: 12.w,
-                                                click: () {},
-                                                icon: BaseText(
-                                                  contact.displayName
-                                                      .firstLetter(),
-                                                  fontSize: 20.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                        Icon(
+                                          Icons.warning_amber_rounded,
+                                          color: white,
+                                        ),
                                         SizedBox(
-                                          width: 8.w,
+                                          width: 5.w,
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.58,
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: BaseText(
-                                                  contact.displayName,
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.58,
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(children: [
-                                                  ...contact.phones.map((cnt) =>
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 5,
-                                                                horizontal: 1),
-                                                        child: BaseText(
-                                                          cnt.number,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ))
-                                                ]),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const Spacer(),
                                         BaseText(
-                                          'Mobile',
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
+                                          "You don't have this number saved",
+                                          color: white,
+                                          fontSize: 16,
                                         ),
                                       ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (ctx, i) {
-                                  return SizedBox(
-                                    height: 8.h,
-                                  );
-                                },
-                                itemCount: snapshot.data!.length),
-                          );
+                                    )),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 150.h,
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10.h),
+                                        bottomRight: Radius.circular(10.h)),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                          child: BaseText(
+                                        model.searchController.text,
+                                        fontSize: 16.sp,
+                                      )),
+                                      SizedBox(
+                                        height: 25.h,
+                                      ),
+                                      RoundedIconButton(
+                                          color: green,
+                                          click: () {
+                                            model.callUnkownNumber(
+                                                model.searchController.text
+                                                    .trim(),
+                                                args.click);
+                                          },
+                                          padding: 10,
+                                          icon: Icon(
+                                            Icons.call,
+                                            size: 20.w,
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              ]);
+                            }
+                          } else {
+                            return Expanded(
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  itemBuilder: (ctx, i) {
+                                    Contact contact = snapshot.data![i];
+                                    return GestureDetector(
+                                      onTap: () => args.click(contact),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          contact.photo != null
+                                              ? RoundedIconButton(
+                                                  click: () {},
+                                                  icon: Image.memory(
+                                                      contact.photo!,
+                                                      width: 15.w))
+                                              : RoundedIconButton(
+                                                  padding: 12.w,
+                                                  click: () {},
+                                                  icon: BaseText(
+                                                    contact.displayName
+                                                        .firstLetter(),
+                                                    fontSize: 20.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                          SizedBox(
+                                            width: 8.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.58,
+                                                child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: BaseText(
+                                                    contact.displayName,
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.58,
+                                                child: SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(children: [
+                                                    ...contact.phones
+                                                        .map((cnt) => Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          5,
+                                                                      horizontal:
+                                                                          1),
+                                                              child: BaseText(
+                                                                cnt.number,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ))
+                                                  ]),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          BaseText(
+                                            'Mobile',
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (ctx, i) {
+                                    return SizedBox(
+                                      height: 8.h,
+                                    );
+                                  },
+                                  itemCount: snapshot.data!.length),
+                            );
+                          }
                         } else {
                           return const Center(child: BaseText('No contact'));
                         }

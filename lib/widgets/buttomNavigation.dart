@@ -53,21 +53,50 @@ class CustomButtomNavigation extends StatelessWidget {
                 ...pages.map(
                   (page) => Container(
                     margin: EdgeInsets.only(bottom: 28.h, top: 10.h),
-                    child: RoundedIconButton(
-                      click: () => {model.changePage(page.index)},
-                      color: model.pageIndex == page.index
-                          ? white
-                          : transparentWhite,
-                      icon: model.pageIndex == page.index
-                          ? SvgPicture.asset(
-                              page.iconOn,
-                              width: 24.w,
-                            )
-                          : SvgPicture.asset(
-                              page.iconOff,
-                              width: 24.w,
-                            ),
-                    ),
+                    child: Stack(alignment: Alignment.topRight, children: [
+                      RoundedIconButton(
+                        click: () => {model.changePage(page.index)},
+                        color: model.pageIndex == page.index
+                            ? white
+                            : transparentWhite,
+                        icon: model.pageIndex == page.index
+                            ? SvgPicture.asset(
+                                page.iconOn,
+                                width: 24.w,
+                              )
+                            : SvgPicture.asset(
+                                page.iconOff,
+                                width: 24.w,
+                              ),
+                      ),
+                      FutureBuilder(
+                          future: model.user,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Visibility(
+                                visible: page.index == 3 &&
+                                    snapshot.data!.pendingMessages != null,
+                                child: RoundedIconButton(
+                                  color: red,
+                                  padding: 5,
+                                  click: () {},
+                                  icon: Text(
+                                    snapshot.data!.pendingMessages != null
+                                        ? snapshot.data!.pendingMessages!
+                                            .toString()
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Text('');
+                            }
+                          })
+                    ]),
                   ),
                 )
               ],

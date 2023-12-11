@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/auth/signUp/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/alreadyHaveAnAccount.dart';
+import 'package:gomobilez/widgets/dropdown.dart';
 import 'package:gomobilez/widgets/onboardingCustomScaffold.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
@@ -33,11 +34,10 @@ class RegisterView extends StatelessWidget {
                 controller: model.lastNameController,
                 validator: (value) => model.validateInput(value),
               ),
-              InputField(
-                hint: 'Gender',
-                controller: model.genderController,
-                validator: (value) => model.validateInput(value),
-              ),
+              DropDown(
+                  hint: '- Select Gender -',
+                  items: model.dropdownItems,
+                  onChanged: model.setGenderController),
               InputField(
                 hint: 'Password',
                 controller: model.registrationPassword1Controller,
@@ -70,9 +70,13 @@ class RegisterView extends StatelessWidget {
             ],
           ),
         ),
-         SizedBox(height: 45.h),
-        LongButton(text: 'Continue', click: () => model.register(), loading: model.loading,),
-         SizedBox(
+        SizedBox(height: 45.h),
+        LongButton(
+          text: 'Continue',
+          click: () => model.register(),
+          loading: model.loading,
+        ),
+        SizedBox(
           height: 40.h,
         ),
         Center(

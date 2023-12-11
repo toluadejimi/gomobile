@@ -65,6 +65,10 @@ class HomeViewModel extends ContactViewModel {
         break;
       case 'sendMoney':
         return navigateToSendMoneyPage();
+        break;
+      case 'callPage':
+        return navigationService.navigateToContactView(canPop: true);
+        break;
       default:
         return () {};
     }

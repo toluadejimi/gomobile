@@ -148,7 +148,7 @@ class ConversationView extends StatelessWidget {
                         }
                       }),
                   SizedBox(
-                    height: 60.h,
+                    height: model.selectedImage != null ? 170.h : 60.h,
                   ),
                   Visibility(
                     visible: model.showEmojiPad,
@@ -160,7 +160,33 @@ class ConversationView extends StatelessWidget {
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    height: 100.h,
+                    child: Visibility(
+                        visible: model.selectedImage != null,
+                        child: model.selectedImage != null
+                            ? Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Image.file(model.selectedImage!),
+                                  RoundedIconButton(
+                                      color: red,
+                                      padding: 3,
+                                      click: () {
+                                        model.deleteImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: white,
+                                        size: 12.sp,
+                                      ))
+                                ],
+                              )
+                            : SizedBox()),
+                  ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
                     alignment: Alignment.bottomCenter,
@@ -173,10 +199,12 @@ class ConversationView extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () => model.setShowEmojiPad(false),
                             child: InputField(
+                              showCursor: true,
+                              readOnly: model.showEmojiPad,
                               controller: model.messageController,
+                              focusNode: model.focusNode,
                               hint: 'Text message',
                               hintOut: false,
-                              onChanged: (val) => model.notifyListeners(),
                               prefixIcon: GestureDetector(
                                   onTap: () {
                                     model.pickImage();

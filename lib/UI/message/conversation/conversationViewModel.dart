@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/message/viewModel.dart';
@@ -10,8 +12,11 @@ import 'package:image_picker/image_picker.dart';
 class ConversationViewModel extends MessageViewModel {
   TextEditingController messageController = TextEditingController();
   MessageService _messageService = locator<MessageService>();
+  FocusNode focusNode = FocusNode();
   initState() {
-    pickImage();
+    focusNode.addListener(() {
+      setShowEmojiPad(false);
+    });
   }
 
   bool _showEmojiPad = false;
@@ -34,16 +39,21 @@ class ConversationViewModel extends MessageViewModel {
     setRefreshing();
   }
 
-  XFile? selectedImage;
+  File? selectedImage = null;
 
   Future<void> pickImage() async {
     final XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      selectedImage = pickedFile;
+      selectedImage = File(pickedFile.path);
       notifyListeners();
     }
+  }
+
+  deleteImage() {
+    selectedImage = null;
+    notifyListeners();
   }
 
   sendMessage(String phoneNumber, {name = ''}) async {
@@ -53,6 +63,7 @@ class ConversationViewModel extends MessageViewModel {
           "receiver": phoneNumber.standardPhoneNumberFormart(),
           "message": messageController.text,
           "name": name,
+          'file': selectedImage
         });
 
         Response response = await _messageService.sendMessage(data);

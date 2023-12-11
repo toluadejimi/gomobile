@@ -269,8 +269,12 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i11.ContactView: (data) {
+      final args = data.getArgs<ContactViewArguments>(
+        orElse: () => const ContactViewArguments(),
+      );
       return _i25.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i11.ContactView(),
+        builder: (context) =>
+            _i11.ContactView(key: args.key, canPop: args.canPop),
         settings: data,
       );
     },
@@ -413,6 +417,33 @@ class WalletViewArguments {
 
   @override
   bool operator ==(covariant WalletViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.canPop == canPop;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ canPop.hashCode;
+  }
+}
+
+class ContactViewArguments {
+  const ContactViewArguments({
+    this.key,
+    this.canPop = false,
+  });
+
+  final _i25.Key? key;
+
+  final bool canPop;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "canPop": "$canPop"}';
+  }
+
+  @override
+  bool operator ==(covariant ContactViewArguments other) {
     if (identical(this, other)) return true;
     return other.key == key && other.canPop == canPop;
   }
@@ -652,14 +683,17 @@ extension NavigatorStateExtension on _i27.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToContactView([
+  Future<dynamic> navigateToContactView({
+    _i25.Key? key,
+    bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.contactView,
+        arguments: ContactViewArguments(key: key, canPop: canPop),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -997,14 +1031,17 @@ extension NavigatorStateExtension on _i27.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithContactView([
+  Future<dynamic> replaceWithContactView({
+    _i25.Key? key,
+    bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.contactView,
+        arguments: ContactViewArguments(key: key, canPop: canPop),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
