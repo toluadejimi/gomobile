@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/home/viewModel.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/greetings.dart';
@@ -160,29 +161,33 @@ class HomeView extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  BaseText(
-                                    'Subscription',
-                                    fontSize: 14.sp,
-                                    color: grey,
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  CustomIconButton(
-                                    color: primaryColor,
-                                    click: () {},
-                                    horizontalPadding: 4.w,
-                                    verticalPadding: 1.5.h,
-                                    radius: 7.sp,
-                                    widget: Icon(
-                                      Icons.flip_camera_ios_rounded,
-                                      size: 12.sp,
-                                      color: black,
+                              GestureDetector(
+                                onTap: () => model.navigationService
+                                    .navigateToManageSubscriptionView(),
+                                child: Row(
+                                  children: [
+                                    BaseText(
+                                      'Subscription',
+                                      fontSize: 14.sp,
+                                      color: grey,
                                     ),
-                                  )
-                                ],
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    CustomIconButton(
+                                      color: primaryColor,
+                                      click: () {},
+                                      horizontalPadding: 4.w,
+                                      verticalPadding: 1.5.h,
+                                      radius: 7.sp,
+                                      widget: Icon(
+                                        Icons.flip_camera_ios_rounded,
+                                        size: 12.sp,
+                                        color: black,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               SizedBox(height: 4.h),
                               Row(
@@ -235,7 +240,8 @@ class HomeView extends StatelessWidget {
                                     text: 'Get Subscription',
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14.sp,
-                                    click: () {},
+                                    click: () => model.navigationService
+                                        .navigateToManageSubscriptionView(),
                                     color: primaryColor,
                                   ),
                                 );
@@ -309,7 +315,7 @@ class HomeView extends StatelessWidget {
                               './assets/images/svg/home_page_fund_wallet_icon.svg',
                               width: 16.sp,
                             ),
-                            width: 90.sp,
+                            width: 90.w,
                             text: 'Fund Wallet',
                           )
                         ],

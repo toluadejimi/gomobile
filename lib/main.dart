@@ -53,9 +53,11 @@ class MyApp extends StatelessWidget {
       child: EasySplashScreen(
         durationInSeconds: 2,
         navigator: Routes.appBaseScreen,
-        logo: Image.asset('assets/images/png/logo.png'),
+        logo: Image.asset(
+          'assets/images/png/logo.png',
+        ),
         backgroundColor: primaryColor,
-        logoWidth: 120,
+        logoWidth: 100,
         showLoader: false,
       ),
     );

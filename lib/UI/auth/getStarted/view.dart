@@ -56,10 +56,22 @@ class GetStartedView extends StatelessWidget {
                           'assets/images/png/w.png',
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom: 30.h),
-                          child: SmallButton(
-                            text: 'Get Started',
-                            click: model.goToNextPage,
+                          padding: EdgeInsets.only(bottom: 30.sp),
+                          child: Column(
+                            children: [
+                              SmallButton(
+                                text: 'Get Started',
+                                horizontalPadding: 42.w,
+                                click: () => model.goToNextPage('register'),
+                              ),
+                              SizedBox(height: 10.h),
+                              SmallButton(
+                                text: 'Login',
+                                color: black,
+                                horizontalPadding: 60.w,
+                                click: () => model.goToNextPage('login'),
+                              ),
+                            ],
                           ),
                         ),
                       ],
