@@ -86,7 +86,7 @@ class ConversationView extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: BaseText(
-                            args.name,
+                            args.name.isEmpty ? args.phoneNumber : args.name,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w700,
                           ),

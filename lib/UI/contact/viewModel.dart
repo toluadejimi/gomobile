@@ -20,12 +20,19 @@ class ContactViewModel extends DashBoardViewModel {
     getContactHistory();
   }
 
-  Future<List<RecentCalls>?> getContactHistory() async {
+  Future<List<RecentCalls>?>? _contactHistory = null;
+  Future<List<RecentCalls>?>? get contactHistory => _contactHistory;
+  setContactHistory(Future<List<RecentCalls>?> val) {
+    _contactHistory = val;
+    notifyListeners();
+  }
+
+  getContactHistory() async {
     try {
       http.Response response = await _contactService.getRecentCall();
 
       var raw = jsonDecode(response.body);
-      print(raw);
+      print(response.body);
 
       if (raw['status'] == true) {
         List<RecentCalls> transactions = [];
@@ -34,10 +41,10 @@ class ContactViewModel extends DashBoardViewModel {
             transactions
                 .add(recentCallsFromJson(jsonEncode(raw['data']['calls'][i])));
           }
+          setContactHistory(Future.value(transactions));
         } else {
           throw ({'message': 'An error occured'});
         }
-        return transactions;
       } else {
         return null;
       }
@@ -53,6 +60,17 @@ class ContactViewModel extends DashBoardViewModel {
     navigationService.back();
     await makeCall(contact.phones[0].normalizedNumber,
         name: contact.displayName);
+  }
+
+  redial(String url) {
+    navigationService.navigateToWebPageView(url: url);
+  }
+
+  message(String phoneNumber, String? name) {
+    navigationService.navigateToConversationView(
+        phoneNumber: phoneNumber,
+        name: name != null ? name : phoneNumber,
+        newConversation: false);
   }
 
   makeCall(String number, {String? name}) async {

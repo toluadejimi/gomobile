@@ -10,8 +10,6 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/responseHandlers.dart';
-import 'package:gomobilez/helpers/string.dart';
-import 'package:gomobilez/models/conversation.dart';
 import 'package:gomobilez/models/messageHistory.dart';
 import 'package:gomobilez/models/numbers.dart';
 import 'package:gomobilez/services/messageService.dart';
@@ -203,40 +201,5 @@ class MessageViewModel extends DashBoardViewModel {
         phoneNumber: phoneNumber, name: name, newConversation: false);
   }
 
-  Future<List<Conversation>?>? _listOfConversation = null;
-  Future<List<Conversation>?>? get listOfConversation =>
-      _listOfConversation;
-  setListOfConversation(Future<List<Conversation>?> data) {
-    _listOfConversation = data;
-    notifyListeners();
-  }
- 
- getCoversation(String phoneNumber,
-      {name = ''}) async {
-    try {
-      var data = {
-        "phone_no": phoneNumber.standardPhoneNumberFormart(),
-        "name": name
-      };
-      http.Response response = await _messageService.getConversation(data);
-      var raw = jsonDecode(response.body);
-
-      print(raw);
-
-      if (raw['status'] == true) {
-        List<Conversation> conversation = [];
-        if (raw['data'].length > 0) {
-          for (var i = 0; i < raw['data'].length; i++) {
-            conversation.add(conversationFromJson(jsonEncode(raw['data'][i])));
-          }
-        }
-        setListOfConversation(Future.value(conversation.reversed.toList()));
-      } else {
-        return null;
-      }
-    } catch (e) {
-      errorHandler(e);
-      return null;
-    }
-  }
+  
 }

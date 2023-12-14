@@ -1,10 +1,12 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/contact/emptyContactList.dart';
 import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/helpers/dateTime.dart';
 import 'package:gomobilez/models/receentCalls.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/callKeyPad.dart';
@@ -20,6 +22,7 @@ class ContactView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ContactViewModel>.reactive(
       disposeViewModel: false,
+      onViewModelReady: (model) => model.init(),
       viewModelBuilder: () => ContactViewModel(),
       builder: (context, model, child) => Scaffold(
         floatingActionButton: Visibility(
@@ -75,7 +78,7 @@ class ContactView extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 FutureBuilder(
-                  future: model.getContactHistory(),
+                  future: model.contactHistory,
                   builder: (ctx, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasError) {
@@ -94,12 +97,107 @@ class ContactView extends StatelessWidget {
                                 itemCount: data.length,
                                 itemBuilder: (ctx, i) => Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 8.w, vertical: 10.h),
-                                  child: Text(
-                                    data[i].name != null
-                                        ? data[i].name!
-                                        : 'name',
-                                    style: TextStyle(fontSize: 16.sp),
+                                      horizontal: 12.w, vertical: 15.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      RoundedIconButton(
+                                          click: () {},
+                                          padding: 8.w,
+                                          color: primaryColor,
+                                          icon: SvgPicture.asset(
+                                            './assets/images/svg/call_log_call_outbound.svg',
+                                            width: 20.sp,
+                                          )),
+                                      SizedBox(width: 5.w),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 95.w,
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              physics: BouncingScrollPhysics(),
+                                              child: Text(
+                                                data[i].name != null
+                                                    ? data[i].name!
+                                                    : data[i].toPhone,
+                                                style:
+                                                    TextStyle(fontSize: 14.sp),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 2.h),
+                                          SizedBox(
+                                            width: 95.w,
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              physics: BouncingScrollPhysics(),
+                                              child: Text(
+                                                data[i].toPhone,
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.w),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: primaryColor,
+                                          ),
+                                          height: 40.h,
+                                          width: 1.5.w,
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            data[i].createdAt.getTime(),
+                                            style: TextStyle(fontSize: 14.sp),
+                                          ),
+                                          SizedBox(height: 2.h),
+                                          Text(
+                                            'Outgoing call',
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: textGrey),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.w),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: primaryColor,
+                                          ),
+                                          height: 40.h,
+                                          width: 1.5.w,
+                                        ),
+                                      ),
+                                      RoundedIconButton(
+                                        click: () {model.redial(data[i].callUrl);},
+                                        padding: 0,
+                                        icon: SvgPicture.asset(
+                                            './assets/images/svg/call_log_call.svg'),
+                                      ),
+                                      SizedBox(
+                                        width: 8.w,
+                                      ),
+                                      RoundedIconButton(
+                                        padding: 0,
+                                        click: () {model.message(data[i].toPhone, data[i].name);},
+                                        icon: SvgPicture.asset(
+                                            './assets/images/svg/call_log_message.svg'),
+                                      ),
+                                    ],
                                   ),
                                   decoration: BoxDecoration(
                                       color: white,

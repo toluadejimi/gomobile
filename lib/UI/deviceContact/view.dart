@@ -216,6 +216,7 @@ class DeviceContactView extends StatelessWidget {
                                                 child: SingleChildScrollView(
                                                   scrollDirection:
                                                       Axis.horizontal,
+                                                      physics: BouncingScrollPhysics(),
                                                   child: BaseText(
                                                     contact.displayName,
                                                     fontSize: 16.sp,
@@ -231,6 +232,7 @@ class DeviceContactView extends StatelessWidget {
                                                 child: SingleChildScrollView(
                                                   scrollDirection:
                                                       Axis.horizontal,
+                                                      physics: BouncingScrollPhysics(),
                                                   child: Row(children: [
                                                     ...contact.phones
                                                         .map((cnt) => Padding(
