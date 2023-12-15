@@ -32,20 +32,33 @@ class SendMoneyToGomoblieUsersView extends StatelessWidget {
               controller: model.emailTextController,
               onChanged: (val) => model.onSearchChanged(),
             ),
-            Row(
-              children: [
-                BaseText(
-                  '${model.recipientName != null ? model.recipientName : 'Input a registered email'}',
-                  fontWeight: FontWeight.bold,
+            Visibility(
+              visible: model.recipientName != null,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                    color: black,
+                    borderRadius: BorderRadius.all(Radius.circular(8.sp))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BaseText(
+                      '${model.recipientName != '' ? model.recipientName : 'Input a registered email'}',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: white,
+                    ),
+                    Visibility(
+                      visible: model.recipientName != '',
+                      child: Icon(
+                        Icons.verified,
+                        size: 12.sp,
+                        color: white,
+                      ),
+                    )
+                  ],
                 ),
-                Visibility(
-                  visible: model.recipientName != null,
-                  child: Icon(
-                    Icons.verified,
-                    size: 12.sp,
-                  ),
-                )
-              ],
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -72,7 +85,7 @@ class SendMoneyToGomoblieUsersView extends StatelessWidget {
               height: 10.h,
             ),
             SizedBox(
-              height: 370.h,
+              height: 340.h,
               child: FutureBuilder(
                   future: model.recentTransaction,
                   builder: (ctx, snapshot) {

@@ -48,7 +48,7 @@ class CustomScaffold extends StatelessWidget {
                               ),
                               Visibility(
                                 visible: canPop,
-                                child: SizedBox(width: 20.w),
+                                child: SizedBox(width: 10.w),
                               ),
                               Visibility(
                                 visible: title != null,
