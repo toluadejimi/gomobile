@@ -5,24 +5,21 @@ import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/input.dart';
 import 'package:gomobilez/widgets/longButton.dart';
-import 'package:gomobilez/widgets/roundedIconButton.dart';
 
-class SendMoneyToGomobileUserBottomSheet extends StatefulWidget {
+class CreatePin extends StatefulWidget {
   final SendMoneyToGomoblieUsersViewmodel model;
-  const SendMoneyToGomobileUserBottomSheet({super.key, required this.model});
+  const CreatePin({super.key, required this.model});
 
   @override
-  State<SendMoneyToGomobileUserBottomSheet> createState() =>
-      _SendMoneyToGomobileUserBottomSheet();
+  State<CreatePin> createState() => _CreatePin();
 }
 
-class _SendMoneyToGomobileUserBottomSheet
-    extends State<SendMoneyToGomobileUserBottomSheet> {
+class _CreatePin extends State<CreatePin> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          5.w,
+          8.w,
           12.h,
           5.w,
           widget.model.pinFocus
@@ -32,7 +29,7 @@ class _SendMoneyToGomobileUserBottomSheet
         mainAxisSize: MainAxisSize.min,
         children: [
           BaseText(
-            'Transaction Pin',
+            'Create a Transaction Pin',
             fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -50,52 +47,23 @@ class _SendMoneyToGomobileUserBottomSheet
               fillColor: grey15,
               hintOut: false,
               autofocus: true,
-              controller: widget.model.pinController,
+              controller: widget.model.createPinController,
               validator: (val) => widget.model.validateInput(val),
             ),
           ),
           SizedBox(
             height: 8.h,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
-                decoration: BoxDecoration(
-                    color: black, borderRadius: BorderRadius.circular(20.sp)),
-                child: Row(
-                  children: [
-                    RoundedIconButton(
-                      padding: 0,
-                      click: () {},
-                      icon: Icon(
-                        Icons.refresh,
-                        size: 12.sp,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                    BaseText(
-                      'Rest Pin',
-                      color: white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
           SizedBox(
             height: 16.h,
           ),
           LongButton(
               color: black,
+              loading: widget.model.createPInLoadining,
               text: 'Continue',
               click: () {
-                widget.model.proceedToTransferMoneyToGomobileUser();
+                widget.model.createPin(context, widget.model);
+                setState(() {});
               })
         ],
       ),

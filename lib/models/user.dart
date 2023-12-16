@@ -33,68 +33,68 @@ class User {
   int? pendingMessages;
   int? messageCredit;
   List<Plan>? plans;
+  String? pin;
 
-  User({
-    required this.id,
-    required this.email,
-    required this.gender,
-    required this.firstName,
-    required this.lastName,
-    this.city,
-    this.street,
-    this.zipcode,
-    this.country,
-    this.state,
-    this.phone,
-    required this.wallet,
-    required this.deviceId,
-    required this.isEmailVerified,
-    required this.code,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    this.myPlan,
-    this.billingInformation,
-    this.myNumber,
-    this.messageCredit,
-    this.pendingMessages,
-    this.plans,
-  });
+  User(
+      {required this.id,
+      required this.email,
+      required this.gender,
+      required this.firstName,
+      required this.lastName,
+      this.city,
+      this.street,
+      this.zipcode,
+      this.country,
+      this.state,
+      this.phone,
+      required this.wallet,
+      required this.deviceId,
+      required this.isEmailVerified,
+      required this.code,
+      required this.status,
+      required this.createdAt,
+      required this.updatedAt,
+      this.myPlan,
+      this.billingInformation,
+      this.myNumber,
+      this.messageCredit,
+      this.pendingMessages,
+      this.plans,
+      this.pin});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        email: json["email"],
-        gender: json["gender"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        city: json["city"],
-        street: json["street"],
-        zipcode: json["zipcode"],
-        country: json["country"],
-        state: json["state"],
-        phone: json["phone"],
-        wallet: json["wallet"],
-        deviceId: json["device_id"],
-        isEmailVerified: json["is_email_verified"],
-        code: json["code"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        myPlan:
-            json["my_plan"] != null ? MyPlan.fromJson(json["my_plan"]) : null,
-        billingInformation: json["billing_information"] != null
-            ? List<BillingInformation>.from(json["billing_information"]
-                .map((x) => BillingInformation.fromJson(x)))
-            : null,
-        myNumber: json["my_number"] != null
-            ? MyNumber.fromJson(json["my_number"])
-            : null,
-        pendingMessages: json["pending_messages"],
-        messageCredit: json['message_credit'],
-        plans: json["plans"] != null
-            ? List<Plan>.from(json["plans"].map((x) => Plan.fromJson(x)))
-            : null,
-      );
+      id: json["id"],
+      email: json["email"],
+      gender: json["gender"],
+      firstName: json["first_name"],
+      lastName: json["last_name"],
+      city: json["city"],
+      street: json["street"],
+      zipcode: json["zipcode"],
+      country: json["country"],
+      state: json["state"],
+      phone: json["phone"],
+      wallet: json["wallet"],
+      deviceId: json["device_id"],
+      isEmailVerified: json["is_email_verified"],
+      code: json["code"],
+      status: json["status"],
+      createdAt: DateTime.parse(json["created_at"]),
+      updatedAt: DateTime.parse(json["updated_at"]),
+      myPlan: json["my_plan"] != null ? MyPlan.fromJson(json["my_plan"]) : null,
+      billingInformation: json["billing_information"] != null
+          ? List<BillingInformation>.from(json["billing_information"]
+              .map((x) => BillingInformation.fromJson(x)))
+          : null,
+      myNumber: json["my_number"] != null
+          ? MyNumber.fromJson(json["my_number"])
+          : null,
+      pendingMessages: json["pending_messages"],
+      messageCredit: json['message_credit'],
+      plans: json["plans"] != null
+          ? List<Plan>.from(json["plans"].map((x) => Plan.fromJson(x)))
+          : null,
+      pin: json['pin']);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -125,6 +125,7 @@ class User {
         "plans": plans != null
             ? List<dynamic>.from(plans!.map((x) => x.toJson()))
             : null,
+        'pin': pin
       };
 }
 
@@ -229,7 +230,7 @@ class MyPlan {
         "amount": amount,
         "status": status,
         "days_remaining": daysRemaining,
-        "expires_at":expiresAt
+        "expires_at": expiresAt
       };
 }
 

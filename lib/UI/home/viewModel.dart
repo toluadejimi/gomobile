@@ -1,15 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:gomobilez/UI/message/getNumber/index.dart';
 import 'package:gomobilez/UI/message/viewModel.dart';
+import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/app/app.router.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/home_widget.dart';
+import 'package:gomobilez/models/plans.dart';
+import 'package:gomobilez/services/settingsService.dart';
+import 'package:http/http.dart'as http;
 
 class HomeViewModel extends ContactViewModel {
   ScrollController listViewController = ScrollController();
   ScrollController listViewController2 = ScrollController();
   TextEditingController searchController = TextEditingController();
+
+  SettingsService _settingsService = locator<SettingsService>();
+
+  init() {
+    getPlans();
+  }
 
   List homeWidgetList = [
     HomeWidget(
@@ -33,6 +46,13 @@ class HomeViewModel extends ContactViewModel {
         description: "Send and receive money\nacross borders",
         click: 'sendMoney'),
   ];
+
+  Future<Plans>? _plans = null;
+  Future<Plans>? get plans => _plans;
+  setPlans(Future<Plans>? val) {
+    _plans = val;
+    notifyListeners();
+  }
 
   navigateToFundWallet() {
     navigationService.navigateTo(Routes.walletView,
@@ -74,6 +94,23 @@ class HomeViewModel extends ContactViewModel {
         break;
       default:
         return () {};
+    }
+  }
+
+   getPlans() async {
+    try {
+      http.Response response = await _settingsService.getPlans();
+      String? dataAfterResponseHandler = response.body;
+
+      var raw = jsonDecode(dataAfterResponseHandler);
+
+      if (raw['status'] == true) {
+        Plans data = plansFromJson(jsonEncode(raw['data']));
+
+        setPlans(Future.value(data));
+      }
+    } catch (e) {
+      errorHandler(e);
     }
   }
 }

@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/bottomSheet.dart';
+import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/createPinBottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/paymentService.dart';
+import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
 
 class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
@@ -15,6 +17,7 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController pinController = TextEditingController();
+  final TextEditingController createPinController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool _emailVerified = false;
@@ -28,6 +31,13 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
   bool get sendButtonLoading => _sendButtonLoading;
   setSendButtonLoading(bool val) {
     _sendButtonLoading = val;
+    notifyListeners();
+  }
+
+  bool _createPInLoadining = false;
+  bool get createPInLoadining => _createPInLoadining;
+  setCreatePInLoadining(bool val) {
+    _createPInLoadining = val;
     notifyListeners();
   }
 
@@ -91,17 +101,24 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
     });
   }
 
-  onSendMoneyToGomobileUserClicked(BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
+  onSendMoneyToGomobileUserClicked(
+      BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
     setSendButtonLoading(true);
     if (formKey.currentState!.validate()) {
       await verifyTransaction(context, model);
     } else {}
   }
 
-  verifyTransaction(BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
+  verifyTransaction(
+      BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
+    User? user = await getUser();
+
     showButtomModalSheet(
         context: context,
-        child: SendMoneyToGomobileUserBottomSheet(model: model)); }
+        child: user!.pin != null
+            ? SendMoneyToGomobileUserBottomSheet(model: model)
+            : CreatePin(model: model));
+  }
 
   verifyAccount() async {
     try {
@@ -118,15 +135,47 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
   proceedToTransferMoneyToGomobileUser() async {
     if (formKey.currentState!.validate() &&
         pinController.text.trim().isNotEmpty) {
-          navigationService.back();
+      navigationService.back();
       var data = {
         "amount": amountController.text.trim(),
         "email": emailTextController.text.trim(),
         "password": pinController.text.trim()
       };
 
-      print(data);
-    } else {}
+      http.Response response =
+          await _paymentService.sendMoneyToGomobileUser(data);
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+      var rawData = jsonDecode(dataAfterResponseHandler);
+
+      if (rawData['status']) {
+        Alertify(title: 'Success', message: 'Transaction succesful').success();
+      } else {
+        Alertify(title: 'Failed', message: rawData['data']['message']).error();
+      }
+    }
     setSendButtonLoading(false);
+  }
+
+  createPin(context, model) async {
+    setCreatePInLoadining(true);
+
+    if (createPinController.text.trim().isNotEmpty) {
+      var data = {"pin": createPinController.text.trim()};
+
+      http.Response response = await _paymentService.createPin(data);
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+      var rawData = jsonDecode(dataAfterResponseHandler);
+
+      if (rawData['status']) {
+        navigationService.back();
+        verifyTransaction(context, model);
+        await refreshUser();
+      } else {
+        Alertify(title: 'Failed', message: rawData['data']['message']).error();
+      }
+    }
+    setCreatePInLoadining(false);
   }
 }

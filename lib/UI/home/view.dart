@@ -28,6 +28,7 @@ class HomeView extends StatelessWidget {
     SizeConfig.init(context);
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
+      onViewModelReady: (model)=> model.init(),
       disposeViewModel: false,
       builder: (context, model, child) => ResponsiveLayout(
         tab: const CustomScaffold(
@@ -435,10 +436,25 @@ class HomeView extends StatelessWidget {
                                 child: Padding(
                                   padding:
                                       EdgeInsets.only(top: 17.h, bottom: 10.h),
-                                  child: BaseText(
-                                    'Subscription',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      BaseText(
+                                        'Subscription',
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => model.navigationService
+                                            .navigateToManageSubscriptionView(),
+                                        child: BaseText(
+                                          'View All',
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               )
