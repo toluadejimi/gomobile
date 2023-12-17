@@ -375,12 +375,12 @@ class SettingsView extends StatelessWidget {
     return CupertinoAlertDialog(
       title: BaseText(
         'Are you sure you want to\n Delete Account',
-        fontSize: 14,
+        fontSize: 14.sp,
         fontWeight: FontWeight.bold,
       ),
       content: BaseText(
         'This action will remove all your\n information on our server, your\n active plan will be deactivated\n with no refund',
-        fontSize: 12,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w400,
       ),
       actions: [

@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
     SizeConfig.init(context);
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
-      onViewModelReady: (model)=> model.init(),
+      onViewModelReady: (model) => model.init(),
       disposeViewModel: false,
       builder: (context, model, child) => ResponsiveLayout(
         tab: const CustomScaffold(
@@ -460,15 +460,15 @@ class HomeView extends StatelessWidget {
                               )
                             : SizedBox(),
                       ),
-                      SizedBox(
-                        height: 90.h,
-                        child: FutureBuilder(
-                            future: model.user,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Visibility(
-                                  visible: snapshot.data!.myPlan == null &&
-                                      snapshot.data!.myPlan!.status != 1,
+                      FutureBuilder(
+                          future: model.user,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Visibility(
+                                visible: snapshot.data!.myPlan == null &&
+                                    snapshot.data!.myPlan!.status != 1,
+                                child: SizedBox(
+                                  height: 90.h,
                                   child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: snapshot.data!.plans!.length,
@@ -570,7 +570,184 @@ class HomeView extends StatelessWidget {
                                           width: 8.w,
                                         );
                                       }),
-                                );
+                                ),
+                              );
+                            } else {
+                              return Container(
+                                color: transparentWhite,
+                                height: 50.w,
+                                width: 100.h,
+                              );
+                            }
+                          }),
+                      FutureBuilder(
+                          future: model.user,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Visibility(
+                                visible:
+                                    snapshot.data!.myPlan!.smsCredit == null ||
+                                        snapshot.data!.myPlan!.smsCredit == 0,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    BaseText(
+                                      'SMS Credit',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          }),
+                      SizedBox(
+                        height: 90.h,
+                        child: FutureBuilder(
+                            future: model.user,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return FutureBuilder(
+                                    future: model.plans,
+                                    builder: (context, sn) {
+                                      if (sn.hasData) {
+                                        return Visibility(
+                                          visible: snapshot.data!.myPlan!
+                                                      .smsCredit ==
+                                                  null ||
+                                              snapshot.data!.myPlan!
+                                                      .smsCredit ==
+                                                  0,
+                                          child: ListView.separated(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount:
+                                                  sn.data!.smsPlan.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                var plan =
+                                                    sn.data!.smsPlan[index];
+                                                return GestureDetector(
+                                                  onTap: () =>
+                                                      {'model.navigateToWeb()'},
+                                                  child: Container(
+                                                    width: 285.w,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal: 18.w,
+                                                    ),
+                                                    decoration: ShapeDecoration(
+                                                      color:
+                                                          veryTransparentWhite,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20.w),
+                                                      ),
+                                                    ),
+                                                    child: Row(children: [
+                                                      RoundedIconButton(
+                                                        padding: 10.sp,
+                                                        color: primaryColor,
+                                                        click: () {},
+                                                        icon: SvgPicture.asset(
+                                                            'assets/images/svg/ci_bulb.svg'),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10.w,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 200,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                BaseText(
+                                                                  plan.title,
+                                                                  fontSize:
+                                                                      18.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                                RichText(
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text:
+                                                                        '\$${plan.amount}/',
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                            black,
+                                                                        fontSize: 14
+                                                                            .sp,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                black,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            fontSize: 10.sp),
+                                                                        text:
+                                                                            'Month',
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 3),
+                                                          Text(
+                                                            plan.note,
+                                                            softWrap: true,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              color: textGrey,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ]),
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return SizedBox(
+                                                  width: 8.w,
+                                                );
+                                              }),
+                                        );
+                                      } else {
+                                        return SizedBox();
+                                      }
+                                    });
                               } else {
                                 return Container(
                                   color: transparentWhite,

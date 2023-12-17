@@ -35,6 +35,7 @@ class ContactViewModel extends DashBoardViewModel {
       print(response.body);
 
       if (raw['status'] == true) {
+        print(raw['data']['calls'][104]);
         List<RecentCalls> transactions = [];
         if (raw['data']['calls'].length > 0) {
           for (var i = 0; i < raw['data']['calls'].length; i++) {

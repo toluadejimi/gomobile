@@ -123,7 +123,7 @@ class subsciptionPlanView extends StatelessWidget {
               height: 30.h,
             ),
             BaseText(
-              'SMS/ MMS Refill',
+              'SMS/MMS/Call Refill ',
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -139,9 +139,14 @@ class subsciptionPlanView extends StatelessWidget {
                       return ListView.separated(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: snapshot.data!.callPlan.length,
+                        itemCount: snapshot.data!.smsPlan.length +
+                            snapshot.data!.callPlan.length,
                         itemBuilder: (context, index) {
-                          Plan plan = snapshot.data!.callPlan[index];
+                          List<Plan> plans = [
+                            ...snapshot.data!.smsPlan,
+                            ...snapshot.data!.callPlan
+                          ];
+                          Plan plan = plans[index];
                           return Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 12.w, vertical: 15.h),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:gomobilez/helpers/enums/localStorageValues.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
+import 'package:gomobilez/widgets/base_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -288,5 +290,41 @@ class AppBaseViewModel extends BaseViewModel {
         color: primaryColor,
       ),
     ]);
+  }
+
+  createCriticalDialog(BuildContext context, String title, String body,
+      VoidCallback yesAction, VoidCallback noAction) {
+    return showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: BaseText(
+              title,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            content: BaseText(
+              body,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+            ),
+            actions: [
+              CupertinoDialogAction(
+                child: BaseText(
+                  'Yes',
+                  color: blue,
+                ),
+                onPressed: yesAction,
+              ),
+              CupertinoDialogAction(
+                child: BaseText(
+                  'No',
+                  color: blue,
+                ),
+                onPressed: noAction,
+              ),
+            ],
+          );
+        });
   }
 }

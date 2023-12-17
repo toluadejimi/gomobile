@@ -11,6 +11,10 @@ class UserService extends Services {
     http.Response response = await get('saved-cards', isAuth: true);
     return response;
   }
+  Future<http.Response> removeSavedCards(data) async {
+    http.Response response = await post('delete-card', isAuth: true, body: data);
+    return response;
+  }
   Future<http.Response> getContactUs() async {
     http.Response response = await get('contact-us', isAuth: true);
     return response;

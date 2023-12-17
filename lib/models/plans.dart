@@ -11,7 +11,7 @@ String plansToJson(Plans data) => json.encode(data.toJson());
 class Plans {
   List<Plan> comboPlans;
   List<Plan> smsPlan;
-  List<dynamic> callPlan;
+  List<Plan> callPlan;
 
   Plans({
     required this.comboPlans,
@@ -23,13 +23,14 @@ class Plans {
         comboPlans:
             List<Plan>.from(json["combo_plans"].map((x) => Plan.fromJson(x))),
         smsPlan: List<Plan>.from(json["sms_plan"].map((x) => Plan.fromJson(x))),
-        callPlan: List<dynamic>.from(json["call_plan"].map((x) => x)),
+        callPlan:
+            List<Plan>.from(json["call_plan"].map((x) => Plan.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "combo_plans": List<dynamic>.from(comboPlans.map((x) => x.toJson())),
         "sms_plan": List<dynamic>.from(smsPlan.map((x) => x.toJson())),
-        "call_plan": List<dynamic>.from(callPlan.map((x) => x)),
+        "call_plan": List<dynamic>.from(callPlan.map((x) => x.toJson())),
       };
 }
 

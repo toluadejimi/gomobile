@@ -103,6 +103,7 @@ class HomeViewModel extends ContactViewModel {
       String? dataAfterResponseHandler = response.body;
 
       var raw = jsonDecode(dataAfterResponseHandler);
+      print(raw);
 
       if (raw['status'] == true) {
         Plans data = plansFromJson(jsonEncode(raw['data']));

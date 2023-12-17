@@ -27,14 +27,14 @@ class ManageSubscriptionViewModel extends WalletViewModel {
     navigationService.navigateTo('/subsciption-plan-view');
   }
 
-  
-
   getPlans() async {
     try {
       http.Response response = await _settingsService.getPlans();
       String? dataAfterResponseHandler = response.body;
 
       var raw = jsonDecode(dataAfterResponseHandler);
+      print(raw['data']['sms_plan']);
+      print(raw['data']['call_plan']);
 
       if (raw['status'] == true) {
         Plans data = plansFromJson(jsonEncode(raw['data']));

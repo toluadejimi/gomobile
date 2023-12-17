@@ -12,13 +12,13 @@ String recentCallsToJson(RecentCalls data) => json.encode(data.toJson());
 class RecentCalls {
   String toPhone;
   String? name;
-  String callUrl;
+  String? callUrl;
   DateTime createdAt;
 
   RecentCalls({
     required this.toPhone,
-    required this.name,
-    required this.callUrl,
+    this.name,
+    this.callUrl,
     required this.createdAt,
   });
 
