@@ -19,4 +19,12 @@ class UserService extends Services {
     http.Response response = await get('contact-us', isAuth: true);
     return response;
   }
+  Future<http.Response> cancelSubscription(data) async {
+    http.Response response = await post('cancle-subscription', isAuth: true, body: data);
+    return response;
+  }
+  Future<http.Response> subscribeAgain(data) async {
+    http.Response response = await post('resubscribe', isAuth: true, body: data);
+    return response;
+  }
 }
