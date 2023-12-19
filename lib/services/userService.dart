@@ -27,4 +27,8 @@ class UserService extends Services {
     http.Response response = await post('resubscribe', isAuth: true, body: data);
     return response;
   }
+  Future<http.Response> subscribe(data) async {
+    http.Response response = await post('subscribe', isAuth: true, body: data);
+    return response;
+  }
 }

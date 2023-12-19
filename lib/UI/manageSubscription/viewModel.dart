@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
@@ -108,6 +109,49 @@ class ManageSubscriptionViewModel extends WalletViewModel {
       if (raw['status'] == true) {
         print(raw);
         Alertify(title: 'Successfully resubscribed');
+      } else {
+        print(response.statusCode);
+        throw {'Error'};
+      }
+    } catch (e) {
+      errorHandler(error);
+    }
+  }
+
+  SubscribeDialog(context, Id) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Subscribe'),
+          content: Text('Do you want to subscribe?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Subscribe(Id);
+                Navigator.of(context).pop();
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Subscribe(id) async {
+    try {
+      http.Response response = await _userService.subscribe({"id": id});
+      var raw = jsonDecode(response.body);
+      if (raw['status'] == true) {
+        print(raw);
+        Alertify(title: 'Successfully subscribed');
       } else {
         throw {'Error'};
       }

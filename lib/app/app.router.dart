@@ -137,18 +137,18 @@ class StackedRouter extends _i1.RouterBase {
       Routes.dashBoardView,
       page: _i7.DashBoardView,
     ),
-    _i1.RouteDef(
-      Routes.homeView,
-      page: _i8.HomeView,
-    ),
+    // _i1.RouteDef(
+    //   Routes.homeView,
+    //   page: _i8.HomeView,
+    // ),
     _i1.RouteDef(
       Routes.messageView,
       page: _i9.MessageView,
     ),
-    _i1.RouteDef(
-      Routes.walletView,
-      page: _i10.WalletView,
-    ),
+    // _i1.RouteDef(
+    //   Routes.walletView,
+    //   page: _i10.WalletView,
+    // ),
     _i1.RouteDef(
       Routes.contactView,
       page: _i11.ContactView,
@@ -244,30 +244,30 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
-    _i8.HomeView: (data) {
-      final args = data.getArgs<HomeViewArguments>(nullOk: false);
-      return _i25.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i8.HomeView(key: args.key, pageController: args.pageController),
-        settings: data,
-      );
-    },
+    // _i8.HomeView: (data) {
+    //   final args = data.getArgs<HomeViewArguments>(nullOk: false);
+    //   return _i25.MaterialPageRoute<dynamic>(
+    //     builder: (context) =>
+    //         _i8.HomeView(key: args.key, pageController: args.pageController),
+    //     settings: data,
+    //   );
+    // },
     _i9.MessageView: (data) {
       return _i25.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.MessageView(),
         settings: data,
       );
     },
-    _i10.WalletView: (data) {
-      final args = data.getArgs<WalletViewArguments>(
-        orElse: () => const WalletViewArguments(),
-      );
-      return _i25.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i10.WalletView(key: args.key, canPop: args.canPop),
-        settings: data,
-      );
-    },
+    // _i10.WalletView: (data) {
+    //   final args = data.getArgs<WalletViewArguments>(
+    //     orElse: () => const WalletViewArguments(),
+    //   );
+    //   return _i25.MaterialPageRoute<dynamic>(
+    //     builder: (context) =>
+    //         _i10.WalletView(key: args.key, canPop: args.canPop),
+    //     settings: data,
+    //   );
+    // },
     _i11.ContactView: (data) {
       final args = data.getArgs<ContactViewArguments>(
         orElse: () => const ContactViewArguments(),

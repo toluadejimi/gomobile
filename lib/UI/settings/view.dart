@@ -144,7 +144,11 @@ class SettingsView extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         model.navigationService
-                            .navigateTo('/manage-subscription-view');
+                            .navigateTo
+                            (
+                              //'/subsciption-plan-view'
+                              '/manage-subscription-view'
+                              );
                       },
                       child: Container(
                         color: primaryColor,
