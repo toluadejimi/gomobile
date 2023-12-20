@@ -60,6 +60,7 @@ dependencies:
   firebase_messaging: ^14.7.5
   firebase_core: ^2.23.0
   flutter_local_notifications: ^16.1.0
+  in_date_utils: ^1.2.0+2
 
 
 

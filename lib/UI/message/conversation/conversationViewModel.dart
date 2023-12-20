@@ -50,6 +50,7 @@ class ConversationViewModel extends MessageViewModel {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      print(File(pickedFile.path));
       selectedImage = File(pickedFile.path);
       notifyListeners();
     }
@@ -62,12 +63,17 @@ class ConversationViewModel extends MessageViewModel {
 
   sendMessage(String phoneNumber, {name = ''}) async {
     if (messageController.text.isNotEmpty) {
+      print(await selectedImage!.length());
       try {
         var data = FormData.fromMap({
           "receiver": phoneNumber.standardPhoneNumberFormart(),
           "message": messageController.text,
           "name": name,
-          'file': selectedImage
+          // 'file': selectedImage,
+          "file": selectedImage != null
+              ? await MultipartFile.fromFile(selectedImage!.path,
+                  filename: await selectedImage!.path.split('/').last)
+              : null,
         });
 
         Response response = await _messageService.sendMessage(data);

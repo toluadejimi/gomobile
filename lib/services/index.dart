@@ -121,9 +121,9 @@ class Services extends LocalStorageService {
         headers: {"Authorization": "Bearer $token", ...headers},
         responseType: ResponseType.json,
       ),
-      onSendProgress: (int sent, int total) {
-        print("Sent - $sent , Total : $total");
-      },
+      // onSendProgress: (int sent, int total) {
+      //   print("Sent - $sent , Total : $total");
+      // },
     );
     print(response);
 

@@ -15,6 +15,7 @@ import 'package:gomobilez/services/userService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_date_utils/in_date_utils.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../app/app.router.dart';
@@ -274,7 +275,8 @@ class AppBaseViewModel extends BaseViewModel {
   Future<Widget> subscriptionProgessWidget(double maxWith) async {
     User? user = await getUser();
     int expiryDate = user!.myPlan!.daysRemaining!;
-    int length = (((30 - expiryDate) / 30) * maxWith).floor();
+    var lastDay = DTU.lastDayOfMonth(DateTime.parse(user.myPlan!.expiresAt!)).day;  
+    int length = (((lastDay - expiryDate) / lastDay) * maxWith).floor();
 
     return Stack(children: [
       Container(
@@ -286,7 +288,7 @@ class AppBaseViewModel extends BaseViewModel {
       Container(
         margin: EdgeInsets.only(top: 10.h),
         height: 2.h,
-        width: length.w,
+        width: length > 0 ? length.w : maxWith.w,
         color: primaryColor,
       ),
     ]);
