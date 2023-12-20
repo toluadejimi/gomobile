@@ -27,10 +27,10 @@ class DashBoardView extends StatelessWidget {
             controller: model.pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              HomeView(
-                pageController: model.pageController,
-              ),
-              const WalletView(canPop: false),
+              // HomeView(
+              //   pageController: model.pageController,
+              // ),
+              //const WalletView(canPop: false),
               const ContactView(),
               const MessageView(),
               const SettingsView()

@@ -18,6 +18,7 @@ class ManageSubscriptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? Id;
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
       onViewModelReady: (model) => model.init(),
       builder: (context, model, child) => CustomScaffold(
@@ -35,173 +36,178 @@ class ManageSubscriptionView extends StatelessWidget {
             SizedBox(
               height: 9,
             ),
-            FutureBuilder(
-                future: model.user,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.myPlan == null &&
-                        snapshot.data!.myPlan!.status != 1) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgIconInCircle(
-                              svgAssetPath:
-                                  'assets/images/svg/manage_debit_credit.svg',
-                              circleSize: 60,
-                              circleColor: shadeOfYellow,
-                              height: 26.h,
-                              width: 26.w,
-                            ),
-                            SizedBox(height: 15.h),
-                            BaseText(
-                              'No Active Plan',
-                              fontSize: 16.sp,
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Column(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14.w, vertical: 16.h),
-                              decoration: BoxDecoration(
-                                color: white,
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SvgIconInCircle(
-                                    svgAssetPath:
-                                        'assets/images/svg/ci_bulb.svg',
-                                    circleSize: 55.sp,
-                                    circleColor: dividerGrey,
-                                  ),
-                                  SizedBox(width: 15.w),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          BaseText(
-                                            'Active Plan',
-                                            fontSize: 16.sp,
-                                            color: grey,
-                                          ),
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          CustomIconButton(
-                                            color: primaryColor,
-                                            click: () {},
-                                            horizontalPadding: 4.w,
-                                            verticalPadding: 1.5.h,
-                                            radius: 7.sp,
-                                            widget: Icon(
-                                              Icons.flip_camera_ios_rounded,
-                                              size: 14.sp,
-                                              color: black,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 5.0.w),
-                                            child: SvgPicture.asset(
-                                              './assets/images/svg/home_page_plan_icon.svg',
-                                              width: 18.w,
-                                            ),
-                                          ),
-                                          FutureBuilder(
-                                              future: model.user,
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return Text(
-                                                    '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
-                                                    style: TextStyle(
-                                                        fontSize: 18.sp,
-                                                        color: black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  );
-                                                } else {
-                                                  return Text(
-                                                    '_____',
-                                                    style: TextStyle(
-                                                        fontSize: 18.sp,
-                                                        color: black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  );
-                                                }
-                                              }),
-                                        ],
-                                      ),
-                                      FutureBuilder(
-                                          future: model
-                                              .subscriptionProgessWidget(200),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return snapshot.data!;
-                                            } else {
-                                              return SizedBox();
-                                            }
-                                          }),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SmallButton(
-                                horizontalPadding: 16.w,
-                                verticalPadding: 10.h,
-                                text: 'Cancel Plan',
-                                fontSize: 12,
-                                click: () {
-                                  showCupertinoDialog(
-                                      context: context, builder: createDialog);
-                                },
-                                color: red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SmallButton(
-                                horizontalPadding: 16.w,
-                                verticalPadding: 10.h,
-                                text: 'Change Plan',
-                                fontSize: 12,
-                                click: () {
-                                  model.navigateToSubsciptionPlanPage();
-                                },
-                                color: black,
-                                fontWeight: FontWeight.w500,
-                              )
-                            ],
-                          ),
-                        ],
-                      );
-                    }
-                  } else {
-                    return Container();
-                  }
-                }),
+            // FutureBuilder(
+            //     future: model.user,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         if (snapshot.data!.myPlan == null &&
+            //             snapshot.data!.myPlan!.status != 1) {
+            //               Id =snapshot.data!.myPlan!.id.toString();
+            //           return Container(
+            //             width: MediaQuery.of(context).size.width,
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.center,
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 SvgIconInCircle(
+            //                   svgAssetPath:
+            //                       'assets/images/svg/manage_debit_credit.svg',
+            //                   circleSize: 60,
+            //                   circleColor: shadeOfYellow,
+            //                   height: 26.h,
+            //                   width: 26.w,
+            //                 ),
+            //                 SizedBox(height: 15.h),
+            //                 BaseText(
+            //                   'No Active Plan',
+            //                   fontSize: 16.sp,
+            //                 ),
+            //               ],
+            //             ),
+            //           );
+            //         } else {
+            //           return Column(
+            //             children: [
+            //               Container(
+            //                   padding: EdgeInsets.symmetric(
+            //                       horizontal: 14.w, vertical: 16.h),
+            //                   decoration: BoxDecoration(
+            //                     color: white,
+            //                     borderRadius: BorderRadius.circular(20.0),
+            //                   ),
+            //                   child: Row(
+            //                     crossAxisAlignment: CrossAxisAlignment.start,
+            //                     children: [
+            //                       SvgIconInCircle(
+            //                         svgAssetPath:
+            //                             'assets/images/svg/ci_bulb.svg',
+            //                         circleSize: 55.sp,
+            //                         circleColor: dividerGrey,
+            //                       ),
+            //                       SizedBox(width: 15.w),
+            //                       Column(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Row(
+            //                             children: [
+            //                               BaseText(
+            //                                 'Active Plan',
+            //                                 fontSize: 16.sp,
+            //                                 color: grey,
+            //                               ),
+            //                               SizedBox(
+            //                                 width: 5.w,
+            //                               ),
+            //                               CustomIconButton(
+            //                                 color: primaryColor,
+            //                                 click: () {},
+            //                                 horizontalPadding: 4.w,
+            //                                 verticalPadding: 1.5.h,
+            //                                 radius: 7.sp,
+            //                                 widget: Icon(
+            //                                   Icons.flip_camera_ios_rounded,
+            //                                   size: 14.sp,
+            //                                   color: black,
+            //                                 ),
+            //                               )
+            //                             ],
+            //                           ),
+            //                           SizedBox(height: 10.h),
+            //                           Row(
+            //                             children: [
+            //                               Padding(
+            //                                 padding:
+            //                                     EdgeInsets.only(right: 5.0.w),
+            //                                 child: SvgPicture.asset(
+            //                                   './assets/images/svg/home_page_plan_icon.svg',
+            //                                   width: 18.w,
+            //                                 ),
+            //                               ),
+            //                               FutureBuilder(
+            //                                   future: model.user,
+            //                                   builder: (context, snapshot) {
+            //                                     if (snapshot.hasData) {
+            //                                       return Text(
+            //                                         '${snapshot.data!.myPlan != null ? snapshot.data!.plans!.where((plan) => plan.id == snapshot.data!.myPlan!.planId).toList()[0].title : "No Active Plan"}',
+            //                                         style: TextStyle(
+            //                                             fontSize: 18.sp,
+            //                                             color: black,
+            //                                             fontWeight:
+            //                                                 FontWeight.bold),
+            //                                       );
+            //                                     } else {
+            //                                       return Text(
+            //                                         '_____',
+            //                                         style: TextStyle(
+            //                                             fontSize: 18.sp,
+            //                                             color: black,
+            //                                             fontWeight:
+            //                                                 FontWeight.bold),
+            //                                       );
+            //                                     }
+            //                                   }),
+            //                             ],
+            //                           ),
+            //                           FutureBuilder(
+            //                               future: model
+            //                                   .subscriptionProgessWidget(200),
+            //                               builder: (context, snapshot) {
+            //                                 if (snapshot.hasData) {
+            //                                   return snapshot.data!;
+            //                                 } else {
+            //                                   return SizedBox();
+            //                                 }
+            //                               }),
+            //                         ],
+            //                       ),
+            //                     ],
+            //                   )),
+            //               SizedBox(
+            //                 height: 20.h,
+            //               ),
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   SmallButton(
+            //                     horizontalPadding: 16.w,
+            //                     verticalPadding: 10.h,
+            //                     text: 'Cancel Plan',
+            //                     fontSize: 12,
+            //                     click: () {
+            //                       // Id = snapshot.data!.id;
+            //                       showCupertinoDialog(
+            //                           context: context,
+            //                           builder: (BuildContext context) =>
+            //                               model.createDialog(context, snapshot.data!.myPlan!.id!),
+            //                           barrierLabel:snapshot.data!.myPlan!.id.toString());
+            //                     },
+            //                     color: red,
+            //                     fontWeight: FontWeight.w500,
+            //                   ),
+            //                   SizedBox(
+            //                     width: 10,
+            //                   ),
+            //                   SmallButton(
+            //                     horizontalPadding: 16.w,
+            //                     verticalPadding: 10.h,
+            //                     text: 'Change Plan',
+            //                     fontSize: 12,
+            //                     click: () {
+            //                       model.navigateToSubsciptionPlanPage();
+            //                     },
+            //                     color: black,
+            //                     fontWeight: FontWeight.w500,
+            //                   )
+            //                 ],
+            //               ),
+            //             ],
+            //           );
+            //         }
+            //       } else {
+            //         return Container();
+            //       }
+            //     }),
             SizedBox(
               height: 170.h,
             ),
@@ -274,7 +280,9 @@ class ManageSubscriptionView extends StatelessWidget {
                     padding: EdgeInsets.all(13.0),
                     child: Column(children: [
                       RoundedIconButton(
-                        click: () {},
+                        click: () {
+                          model.SubscribeAgain(Id);
+                        },
                         icon: Icon(
                           Icons.refresh_rounded,
                           color: white,
@@ -291,6 +299,9 @@ class ManageSubscriptionView extends StatelessWidget {
                           'Subscribe again',
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
+                          onPressed: () {
+                           // model.SubscribeAgain(Id);
+                          },
                         ),
                       ),
                     ]),
@@ -399,32 +410,6 @@ class ManageSubscriptionView extends StatelessWidget {
         ),
       ),
       viewModelBuilder: () => ManageSubscriptionViewModel(),
-    );
-  }
-
-  Widget createDialog(BuildContext context) {
-    return CupertinoAlertDialog(
-      title: BaseText(
-        'Are you sure you want to\n cancel this plan',
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
-      ),
-      actions: [
-        CupertinoDialogAction(
-          child: BaseText(
-            'Yes',
-            color: blue,
-          ),
-          onPressed: () {},
-        ),
-        CupertinoDialogAction(
-          child: BaseText(
-            'No',
-            color: blue,
-          ),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }
