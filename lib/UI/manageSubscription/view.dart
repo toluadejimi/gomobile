@@ -21,6 +21,7 @@ class ManageSubscriptionView extends StatelessWidget {
     String? Id;
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
       onViewModelReady: (model) => model.init(),
+      viewModelBuilder: () => ManageSubscriptionViewModel(),
       builder: (context, model, child) => CustomScaffold(
         title: 'My Subscription',
         canPop: true,
@@ -419,7 +420,6 @@ class ManageSubscriptionView extends StatelessWidget {
           ],
         ),
       ),
-      viewModelBuilder: () => ManageSubscriptionViewModel(),
     );
   }
 }
