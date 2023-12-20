@@ -50,6 +50,7 @@ class WalletViewModel extends DashBoardViewModel {
     try {
       http.Response response = await _userService.getSavedCards();
       var raw = jsonDecode(response.body);
+      print(raw);
 
       if (raw['status'] == true) {
         print(raw);

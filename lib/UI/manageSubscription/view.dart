@@ -423,3 +423,28 @@ class ManageSubscriptionView extends StatelessWidget {
     );
   }
 }
+Widget createDialog(BuildContext context) {
+  return CupertinoAlertDialog(
+    title: BaseText(
+      'Are you sure you want to\n cancel this plan',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.bold,
+    ),
+    actions: [
+      CupertinoDialogAction(
+        child: BaseText(
+          'Yes',
+          color: blue,
+        ),
+        onPressed: () {},
+      ),
+      CupertinoDialogAction(
+        child: BaseText(
+          'No',
+          color: blue,
+        ),
+        onPressed: () {},
+      ),
+    ],
+  );
+}
