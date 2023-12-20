@@ -22,7 +22,6 @@ import '../../helpers/responsive_layout.dart';
 class HomeView extends StatelessWidget {
   final PageController pageController;
   const HomeView({Key? key, required this.pageController}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -783,3 +782,4 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+

@@ -18,6 +18,7 @@ class ManageSubscriptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? Id;
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
       onViewModelReady: (model) => model.init(),
       builder: (context, model, child) => CustomScaffold(
@@ -289,7 +290,9 @@ class ManageSubscriptionView extends StatelessWidget {
                     padding: EdgeInsets.all(13.0),
                     child: Column(children: [
                       RoundedIconButton(
-                        click: () {},
+                        click: () {
+                          model.SubscribeAgain(Id);
+                        },
                         icon: Icon(
                           Icons.refresh_rounded,
                           color: white,
@@ -306,6 +309,9 @@ class ManageSubscriptionView extends StatelessWidget {
                           'Subscribe again',
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
+                          onPressed: () {
+                           // model.SubscribeAgain(Id);
+                          },
                         ),
                       ),
                     ]),
@@ -414,32 +420,6 @@ class ManageSubscriptionView extends StatelessWidget {
         ),
       ),
       viewModelBuilder: () => ManageSubscriptionViewModel(),
-    );
-  }
-
-  Widget createDialog(BuildContext context) {
-    return CupertinoAlertDialog(
-      title: BaseText(
-        'Are you sure you want to\n cancel this plan',
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
-      ),
-      actions: [
-        CupertinoDialogAction(
-          child: BaseText(
-            'Yes',
-            color: blue,
-          ),
-          onPressed: () {},
-        ),
-        CupertinoDialogAction(
-          child: BaseText(
-            'No',
-            color: blue,
-          ),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }

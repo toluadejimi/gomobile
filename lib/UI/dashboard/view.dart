@@ -94,7 +94,6 @@ class DashBoardView extends StatelessWidget {
             CustomButtomNavigation(model: model)
           ],
         ),
-      ),
     );
   }
 }
