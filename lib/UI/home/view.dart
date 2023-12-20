@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   BaseText(
-                                    'SMS Credit: ${snapshot.data!.myPlan!.smsCredit} ',
+                                    'SMS Credit: ${snapshot.data!.myPlan != null ? snapshot.data!.myPlan!.smsCredit : 0} ',
                                     color: white,
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w400,
@@ -77,11 +77,14 @@ class HomeView extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                   ),
                                   SizedBox(height: 2.h),
-                                  BaseText(
-                                    'Expires ${snapshot.data!.myPlan!.expiresAt} ',
-                                    color: white,
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.w400,
+                                  Visibility(
+                                    visible: snapshot.data!.myPlan != null,
+                                    child: BaseText(
+                                      'Expires ${snapshot.data!.myPlan != null ? snapshot.data!.myPlan!.expiresAt : 'null'} ',
+                                      color: white,
+                                      fontSize: 8.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -431,8 +434,9 @@ class HomeView extends StatelessWidget {
                         future: model.user,
                         builder: (context, snapshot) => snapshot.hasData
                             ? Visibility(
-                                visible: snapshot.data!.myPlan == null &&
-                                    snapshot.data!.myPlan!.status != 1,
+                                visible: snapshot.data!.myPlan == null ||
+                                    (snapshot.data!.myPlan != null &&
+                                        snapshot.data!.myPlan!.status != 1),
                                 child: Padding(
                                   padding:
                                       EdgeInsets.only(top: 17.h, bottom: 10.h),
@@ -465,8 +469,9 @@ class HomeView extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Visibility(
-                                visible: snapshot.data!.myPlan == null &&
-                                    snapshot.data!.myPlan!.status != 1,
+                                visible: snapshot.data!.myPlan == null ||
+                                    (snapshot.data!.myPlan != null &&
+                                        snapshot.data!.myPlan!.status != 1),
                                 child: SizedBox(
                                   height: 90.h,
                                   child: ListView.separated(
@@ -585,9 +590,9 @@ class HomeView extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Visibility(
-                                visible:
-                                    snapshot.data!.myPlan!.smsCredit == null ||
-                                        snapshot.data!.myPlan!.smsCredit == 0,
+                                visible: snapshot.data!.myPlan != null &&
+                                    (snapshot.data!.myPlan!.smsCredit == null ||
+                                        snapshot.data!.myPlan!.smsCredit == 0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -620,12 +625,14 @@ class HomeView extends StatelessWidget {
                                     builder: (context, sn) {
                                       if (sn.hasData) {
                                         return Visibility(
-                                          visible: snapshot.data!.myPlan!
-                                                      .smsCredit ==
-                                                  null ||
-                                              snapshot.data!.myPlan!
-                                                      .smsCredit ==
-                                                  0,
+                                          visible:
+                                              snapshot.data!.myPlan != null &&
+                                                  (snapshot.data!.myPlan!
+                                                              .smsCredit ==
+                                                          null ||
+                                                      snapshot.data!.myPlan!
+                                                              .smsCredit ==
+                                                          0),
                                           child: ListView.separated(
                                               scrollDirection: Axis.horizontal,
                                               itemCount:

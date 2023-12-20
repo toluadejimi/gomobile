@@ -39,8 +39,9 @@ class ManageSubscriptionView extends StatelessWidget {
                 future: model.user,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.myPlan == null &&
-                        snapshot.data!.myPlan!.status != 1) {
+                    if (snapshot.data!.myPlan == null ||
+                        (snapshot.data!.myPlan != null &&
+                            snapshot.data!.myPlan!.status != 1)) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
@@ -60,6 +61,20 @@ class ManageSubscriptionView extends StatelessWidget {
                               'No Active Plan',
                               fontSize: 16.sp,
                             ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            SmallButton(
+                              horizontalPadding: 16.w,
+                              verticalPadding: 10.h,
+                              text: 'View All Plan',
+                              fontSize: 12,
+                              click: () {
+                                model.navigateToSubsciptionPlanPage();
+                              },
+                              color: black,
+                              fontWeight: FontWeight.w500,
+                            )
                           ],
                         ),
                       );
@@ -180,13 +195,13 @@ class ManageSubscriptionView extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 10.w,
                               ),
                               SmallButton(
                                 horizontalPadding: 16.w,
                                 verticalPadding: 10.h,
                                 text: 'Change Plan',
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 click: () {
                                   model.navigateToSubsciptionPlanPage();
                                 },
@@ -207,7 +222,7 @@ class ManageSubscriptionView extends StatelessWidget {
             ),
             BaseText(
               'Plan List',
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
             SizedBox(

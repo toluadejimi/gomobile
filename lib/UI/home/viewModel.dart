@@ -10,6 +10,7 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/home_widget.dart';
 import 'package:gomobilez/models/plans.dart';
+import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/settingsService.dart';
 import 'package:http/http.dart'as http;
 
