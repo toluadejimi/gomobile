@@ -14,6 +14,7 @@ class UpdateProfileView extends StatelessWidget {
       builder: (context, model, child) => CustomScaffold(
           title: 'My Profile Settings',
           canPop: true,
+          onBackPress: ()=>model.navigationService.back() ,
           body: Column(
             children: [
               Form(
