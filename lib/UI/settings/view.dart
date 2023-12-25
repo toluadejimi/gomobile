@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/settings/viewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/widgets/base_text.dart';
@@ -109,8 +110,7 @@ class SettingsView extends StatelessWidget {
                     height: 15.h,
                     width: 15.w,
                     pressed: () {
-                      model.navigationService
-                          .navigateTo('/update-profile-view');
+                      model.navigationService.navigateToUpdateProfileView();
                     },
                   ),
                   SizedBox(

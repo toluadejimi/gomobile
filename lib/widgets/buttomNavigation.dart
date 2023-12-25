@@ -75,7 +75,7 @@ class CustomButtomNavigation extends StatelessWidget {
                             if (snapshot.hasData) {
                               return Visibility(
                                 visible: page.index == 3 &&
-                                    snapshot.data!.pendingMessages != null,
+                                    (snapshot.data!.pendingMessages != null && snapshot.data!.pendingMessages! > 0 ),
                                 child: RoundedIconButton(
                                   color: red,
                                   padding: 5,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 
-class UpdateProfileViewModel extends BaseViewModel {
+class UpdateProfileViewModel extends AppBaseViewModel {
   final GlobalKey<FormState> updateProfileViewFormKey = GlobalKey<FormState>();
 
   //final PageController pageController = PageController(initialPage: 0);
