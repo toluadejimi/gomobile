@@ -74,7 +74,7 @@ class User {
       country: json["country"],
       state: json["state"],
       phone: json["phone"],
-      wallet: json["wallet"],
+      wallet: double.parse(json["wallet"].toString()),
       deviceId: json["device_id"],
       isEmailVerified: json["is_email_verified"],
       code: json["code"],

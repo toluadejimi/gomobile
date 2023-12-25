@@ -88,12 +88,14 @@ class HomeView extends StatelessWidget {
                                 ],
                               ),
                               const Spacer(),
-                              BaseText(
-                                snapshot.data!.myNumber!.phoneNo!,
-                                color: white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              snapshot.data!.myNumber != null
+                                  ? BaseText(
+                                      snapshot.data!.myNumber!.phoneNo!,
+                                      color: white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 width: 3,
                               ),
@@ -782,4 +784,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-

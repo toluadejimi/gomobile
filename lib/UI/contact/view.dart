@@ -26,6 +26,7 @@ class ContactView extends StatelessWidget {
       viewModelBuilder: () => ContactViewModel(),
       builder: (context, model, child) => Scaffold(
         floatingActionButton: Visibility(
+          visible: model.showFab,
           child: Padding(
             padding: EdgeInsets.only(bottom: 100.h),
             child: RoundedIconButton(
@@ -89,6 +90,7 @@ class ContactView extends StatelessWidget {
                       } else if (snapshot.hasData) {
                         if (snapshot.data != null) {
                           if (snapshot.data!.length > 0) {
+                            model.setShowFab(true);
                             List<RecentCalls> data = snapshot.data!;
                             return Expanded(
                               child: ListView.separated(

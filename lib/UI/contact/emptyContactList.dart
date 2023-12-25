@@ -14,7 +14,7 @@ class ContactEmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.9,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: Stack(
         children: [
           Center(
@@ -26,13 +26,16 @@ class ContactEmptyList extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 120.h),
+              padding: EdgeInsets.only(bottom: 60.h),
               child: RoundedIconButton(
                 click: () => model.showButtomModalSheet(
                     context: context,
                     child: CallKeyPad(
                       call: model.makeCall,
-                      click: ()=>model.navigationService.navigateToDeviceContactView(title: "Select Contact", click: model.navigateBackFromContactScreen),
+                      click: () => model.navigationService
+                          .navigateToDeviceContactView(
+                              title: "Select Contact",
+                              click: model.navigateBackFromContactScreen),
                     ),
                     curve: 0),
                 icon: SvgPicture.asset(

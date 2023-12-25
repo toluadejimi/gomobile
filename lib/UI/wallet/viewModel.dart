@@ -58,7 +58,7 @@ class WalletViewModel extends DashBoardViewModel {
             savedCardsFromJson(jsonEncode(raw['data']));
         setSavedCards(Future.value(savedCardsResponse.info));
       } else {
-        throw {'Error'};
+        setSavedCards(Future.value([]));
       }
     } catch (error) {
       errorHandler(error);
@@ -93,8 +93,6 @@ class WalletViewModel extends DashBoardViewModel {
             transactions.add(recentTransactionFromJson(
                 jsonEncode(raw['data']['transactions'][i])));
           }
-        } else {
-          throw ({'message': 'An error occured'});
         }
         setRecentTransaction(Future.value(transactions));
       }
