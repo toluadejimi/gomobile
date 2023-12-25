@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
@@ -39,8 +41,34 @@ class ManageDebitAndCreditViewmodel extends AppBaseViewModel {
     }
   }
 
-  void removeSavedCard(int cardIndex) {
-    // connect to endpoint
-    notifyListeners();
+  onDeleteCardPressed(BuildContext context, int id) {
+    return createCriticalDialog(
+        context,
+        'Are you sure you want to delete this card ?',
+        'You will not be able restore this data.', () async {
+      await removeSavedCard(id);
+      navigationService.back();
+    }, () => navigationService.back());
   }
+
+  removeSavedCard(id) async {
+    try {
+      http.Response response = await _userService.removeSavedCards({"id": id});
+      var raw = jsonDecode(response.body);
+
+      if (raw['status'] == true) {
+        print(raw);
+        await fetchSavedCards();
+      } else {
+        throw {'Error'};
+      }
+    } catch (error) {
+      errorHandler(error);
+    }
+  }
+
+  // void removeSavedCard(int cardIndex) {
+  //   // connect to endpoint
+  //   notifyListeners();
+  // }
 }

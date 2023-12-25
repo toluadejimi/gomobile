@@ -36,7 +36,7 @@ class LoginViewModel extends AppBaseViewModel {
 
   bool _loading = false;
   bool get loading => _loading;
-  setLoadingState() {
+  setLoadingState(bool val) {
     _loading = !_loading;
     notifyListeners();
   }
@@ -51,7 +51,7 @@ class LoginViewModel extends AppBaseViewModel {
 
   login() async {
     if (formKey.currentState!.validate()) {
-      setLoadingState();
+      setLoadingState(true);
       try {
         var data = {
           "email": emailTextController.value.text.trim(),
@@ -70,8 +70,9 @@ class LoginViewModel extends AppBaseViewModel {
             if (!success) {
               throw ('Something went wrong');
             }
-            
-            success = await _localStorageService.addAuthCredentialsToStorage(data);
+
+            success =
+                await _localStorageService.addAuthCredentialsToStorage(data);
             success = await _localStorageService.addUserToStorage(
                 LocalStorageValues.user, user);
             if (!success) {
@@ -80,13 +81,13 @@ class LoginViewModel extends AppBaseViewModel {
             goToApp();
           }
         } else {
-          throw ({'message': 'An error occured'});
+          setLoadingState(false);
         }
       } catch (e) {
+        print(e);
         errorHandler(e);
+        setLoadingState(false);
       }
-
-      setLoadingState();
     }
   }
 

@@ -94,7 +94,8 @@ class ManageDebitAndCreditView extends StatelessWidget {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            model.removeSavedCard(index);
+                            model.onDeleteCardPressed(
+                                context, savedCards[index].id);
                           },
                           child: Icon(
                             Icons.delete_sharp,

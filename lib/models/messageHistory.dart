@@ -17,7 +17,7 @@ class MessageHistory {
   String text;
 
   MessageHistory({
-    required this.name,
+     this.name,
     required this.fromNo,
     required this.toNo,
     required this.status,

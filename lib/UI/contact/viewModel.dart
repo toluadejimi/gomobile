@@ -27,6 +27,13 @@ class ContactViewModel extends DashBoardViewModel {
     notifyListeners();
   }
 
+  bool _showFab = false;
+  bool get showFab => _showFab;
+  setShowFab(bool val) {
+    _showFab = val;
+    notifyListeners();
+  }
+
   getContactHistory() async {
     try {
       http.Response response = await _contactService.getRecentCall();
@@ -41,10 +48,8 @@ class ContactViewModel extends DashBoardViewModel {
             transactions
                 .add(recentCallsFromJson(jsonEncode(raw['data']['calls'][i])));
           }
-          setContactHistory(Future.value(transactions));
-        } else {
-          throw ({'message': 'An error occured'});
         }
+        setContactHistory(Future.value(transactions));
       } else {
         return null;
       }

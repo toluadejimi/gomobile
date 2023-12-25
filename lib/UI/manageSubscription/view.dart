@@ -18,8 +18,10 @@ class ManageSubscriptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? Id;
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
       onViewModelReady: (model) => model.init(),
+      viewModelBuilder: () => ManageSubscriptionViewModel(),
       builder: (context, model, child) => CustomScaffold(
         title: 'My Subscription',
         canPop: true,
@@ -39,8 +41,9 @@ class ManageSubscriptionView extends StatelessWidget {
                 future: model.user,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.myPlan == null &&
-                        snapshot.data!.myPlan!.status != 1) {
+                    if (snapshot.data!.myPlan == null ||
+                        (snapshot.data!.myPlan != null &&
+                            snapshot.data!.myPlan!.status != 1)) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         child: Column(
@@ -60,6 +63,20 @@ class ManageSubscriptionView extends StatelessWidget {
                               'No Active Plan',
                               fontSize: 16.sp,
                             ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            SmallButton(
+                              horizontalPadding: 16.w,
+                              verticalPadding: 10.h,
+                              text: 'View All Plan',
+                              fontSize: 12,
+                              click: () {
+                                model.navigateToSubsciptionPlanPage();
+                              },
+                              color: black,
+                              fontWeight: FontWeight.w500,
+                            )
                           ],
                         ),
                       );
@@ -180,13 +197,13 @@ class ManageSubscriptionView extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 10.w,
                               ),
                               SmallButton(
                                 horizontalPadding: 16.w,
                                 verticalPadding: 10.h,
                                 text: 'Change Plan',
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 click: () {
                                   model.navigateToSubsciptionPlanPage();
                                 },
@@ -207,7 +224,7 @@ class ManageSubscriptionView extends StatelessWidget {
             ),
             BaseText(
               'Plan List',
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
@@ -274,7 +291,9 @@ class ManageSubscriptionView extends StatelessWidget {
                     padding: EdgeInsets.all(13.0),
                     child: Column(children: [
                       RoundedIconButton(
-                        click: () {},
+                        click: () {
+                          model.SubscribeAgain(Id);
+                        },
                         icon: Icon(
                           Icons.refresh_rounded,
                           color: white,
@@ -291,6 +310,9 @@ class ManageSubscriptionView extends StatelessWidget {
                           'Subscribe again',
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
+                          onPressed: () {
+                           // model.SubscribeAgain(Id);
+                          },
                         ),
                       ),
                     ]),
@@ -398,33 +420,31 @@ class ManageSubscriptionView extends StatelessWidget {
           ],
         ),
       ),
-      viewModelBuilder: () => ManageSubscriptionViewModel(),
     );
   }
-
-  Widget createDialog(BuildContext context) {
-    return CupertinoAlertDialog(
-      title: BaseText(
-        'Are you sure you want to\n cancel this plan',
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
+}
+Widget createDialog(BuildContext context) {
+  return CupertinoAlertDialog(
+    title: BaseText(
+      'Are you sure you want to\n cancel this plan',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.bold,
+    ),
+    actions: [
+      CupertinoDialogAction(
+        child: BaseText(
+          'Yes',
+          color: blue,
+        ),
+        onPressed: () {},
       ),
-      actions: [
-        CupertinoDialogAction(
-          child: BaseText(
-            'Yes',
-            color: blue,
-          ),
-          onPressed: () {},
+      CupertinoDialogAction(
+        child: BaseText(
+          'No',
+          color: blue,
         ),
-        CupertinoDialogAction(
-          child: BaseText(
-            'No',
-            color: blue,
-          ),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
+        onPressed: () {},
+      ),
+    ],
+  );
 }

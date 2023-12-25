@@ -59,10 +59,10 @@ class MessageViewModel extends DashBoardViewModel {
           _user.myNumber!.phoneNo == null ||
           _user.myNumber!.phoneNo!.isEmpty) {
         showButtomModalSheet(context: context, child: GetNumber(model: model));
-      } else {}
+      } else {
+        await getRecentMessages();
+      }
     }
-
-    await getRecentMessages();
   }
 
   Future<Number?> getNumbers() async {
@@ -200,6 +200,4 @@ class MessageViewModel extends DashBoardViewModel {
     navigationService.navigateToConversationView(
         phoneNumber: phoneNumber, name: name, newConversation: false);
   }
-
-  
 }

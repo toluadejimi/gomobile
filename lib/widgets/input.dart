@@ -9,6 +9,8 @@ class InputField extends StatelessWidget {
   final String hint;
   final String? errorText;
   final TextEditingController? controller;
+  final Color? fillColor;
+  final bool? autofocus;
   final TextInputType? keyboardType;
   final Function(String?)? onChanged;
   final Function(String?)? onSaved;
@@ -26,10 +28,12 @@ class InputField extends StatelessWidget {
       this.keyboardType,
       this.suffixIcon,
       this.controller,
+      this.fillColor = transparentWhite,
       this.onChanged,
       this.onSaved,
       this.focusNode,
       this.padding = 8,
+      this.autofocus = false,
       required this.hint,
       this.obscureText = false,
       this.enableSuggestions = true,
@@ -59,12 +63,13 @@ class InputField extends StatelessWidget {
           ),
           TextFormField(
             style: TextStyle(fontSize: 12.sp, height: 1.5.sp),
+            autofocus: autofocus!,
             decoration: InputDecoration(
               hintText: !hintOut ? hint : '',
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
               errorText: errorText,
-              fillColor: transparentWhite,
+              fillColor: fillColor,
               filled: true,
               hoverColor: white,
               focusedBorder: OutlineInputBorder(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,9 @@ import 'package:gomobilez/helpers/enums/localStorageValues.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
+import 'package:gomobilez/widgets/base_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_date_utils/in_date_utils.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../app/app.router.dart';
@@ -272,7 +275,8 @@ class AppBaseViewModel extends BaseViewModel {
   Future<Widget> subscriptionProgessWidget(double maxWith) async {
     User? user = await getUser();
     int expiryDate = user!.myPlan!.daysRemaining!;
-    int length = (((30 - expiryDate) / 30) * maxWith).floor();
+    var lastDay = DTU.lastDayOfMonth(DateTime.parse(user.myPlan!.expiresAt!)).day;  
+    int length = (((lastDay - expiryDate) / lastDay) * maxWith).floor();
 
     return Stack(children: [
       Container(
@@ -284,9 +288,45 @@ class AppBaseViewModel extends BaseViewModel {
       Container(
         margin: EdgeInsets.only(top: 10.h),
         height: 2.h,
-        width: length.w,
+        width: length > 0 ? length.w : maxWith.w,
         color: primaryColor,
       ),
     ]);
+  }
+
+  createCriticalDialog(BuildContext context, String title, String body,
+      VoidCallback yesAction, VoidCallback noAction) {
+    return showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: BaseText(
+              title,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            content: BaseText(
+              body,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+            ),
+            actions: [
+              CupertinoDialogAction(
+                child: BaseText(
+                  'Yes',
+                  color: blue,
+                ),
+                onPressed: yesAction,
+              ),
+              CupertinoDialogAction(
+                child: BaseText(
+                  'No',
+                  color: blue,
+                ),
+                onPressed: noAction,
+              ),
+            ],
+          );
+        });
   }
 }

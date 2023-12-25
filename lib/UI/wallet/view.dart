@@ -120,8 +120,9 @@ class WalletView extends StatelessWidget {
                 future: model.user,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.myPlan == null &&
-                        snapshot.data!.myPlan!.status != 1) {
+                    if (snapshot.data!.myPlan == null ||
+                        (snapshot.data!.myPlan != null &&
+                        snapshot.data!.myPlan!.status != 1)) {
                       return Container(
                         decoration: BoxDecoration(
                           color: white36,

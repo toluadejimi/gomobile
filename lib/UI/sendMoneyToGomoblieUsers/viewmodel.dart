@@ -2,23 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/bottomSheet.dart';
+import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/createPinBottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
-import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/user.dart';
-import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/paymentService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
-import 'package:local_auth/local_auth.dart';
 
 class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
   PaymentService _paymentService = locator<PaymentService>();
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-  final LocalAuthentication _bioMetricsAuth = LocalAuthentication();
-  final _localStorageService = locator<LocalStorageService>();
+  final TextEditingController pinController = TextEditingController();
+  final TextEditingController createPinController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool _emailVerified = false;
   Timer? _debounce;
@@ -29,8 +29,22 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
 
   bool _sendButtonLoading = false;
   bool get sendButtonLoading => _sendButtonLoading;
-  setSendButtonLoading(bool val){
+  setSendButtonLoading(bool val) {
     _sendButtonLoading = val;
+    notifyListeners();
+  }
+
+  bool _createPInLoadining = false;
+  bool get createPInLoadining => _createPInLoadining;
+  setCreatePInLoadining(bool val) {
+    _createPInLoadining = val;
+    notifyListeners();
+  }
+
+  bool pinFocus = true;
+  setPinFocus(bool val) {
+    print(val);
+    pinFocus = val;
     notifyListeners();
   }
 
@@ -80,91 +94,88 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
     if (_debounce?.isActive ?? false) {
       _debounce!.cancel();
       setRecipientName('');
-    };
+    }
+    ;
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       verifyEmail();
     });
   }
 
-  onSendMoneyToGomobileUserClicked(BuildContext context) async {
+  onSendMoneyToGomobileUserClicked(
+      BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
     setSendButtonLoading(true);
-    if(amountController.text.isNotEmpty && emailTextController.text.isNotEmpty){
-
-    bool verified = await verifyTransaction(context);
-    }
+    if (formKey.currentState!.validate()) {
+      await verifyTransaction(context, model);
+    } else {}
   }
 
+  verifyTransaction(
+      BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
+    User? user = await getUser();
 
-    verifyTransaction(BuildContext context ) async {
-    try {
-      // final bool canAuthenticateWithBiometrics =
-      //     await _bioMetricsAuth.canCheckBiometrics;
-
-      // if (canAuthenticateWithBiometrics) {
-        bool isAuthenticated = await _bioMetricsAuth.authenticate(
-            localizedReason:
-                'Authenticate to send money', // Displayed to the user
-            options: const AuthenticationOptions(
-                biometricOnly: false, sensitiveTransaction: true, useErrorDialogs: true, stickyAuth: true));
-
-        if (isAuthenticated) {
-          Map<String, dynamic>? authCredentials =
-              await _localStorageService.getAuthCredentialsFromStorage();
-          if (authCredentials != null) {
-            // verifyAccountEmailTextController.text = authCredentials['email'];
-            // verifyAccountPasswordController.text = authCredentials['password'];
-            return true;
-          } else {
-            showButtomModalSheet(context: context, child: Container());
-          }
-        } else {
-          Alertify(title: "Failed", message: 'Verification Failed').error();
-          return false;
-        }
-      // } else {
-      // }
-    } catch (e) {
-      Alertify(title: "Fialed", message: "Error authenticating").error();
-      return false;
-    }
+    showButtomModalSheet(
+        context: context,
+        child: user!.pin != null
+            ? SendMoneyToGomobileUserBottomSheet(model: model)
+            : CreatePin(model: model));
   }
-
 
   verifyAccount() async {
     try {
-    User? user = await getUser();
-     http.Response response = await _paymentService.verifyAccount({"email": user!.email});
-     String? dataAfterResponseHandler = response.body;
-     print(dataAfterResponseHandler);
-    }catch(e){
-       errorHandler(e);
+      User? user = await getUser();
+      http.Response response =
+          await _paymentService.verifyAccount({"email": user!.email});
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+    } catch (e) {
+      errorHandler(e);
     }
-
   }
 
-  _proceedToTransferMoneyToGomobileUser() async {
-    if (amounController.value.text.trim().isNotEmpty &&
-        vendor.name.isNotEmpty) {
-      setLoadingState();
-      try {
-        var data = {
-          "amount": int.parse(amounController.value.text.trim()),
-          "vendor": vendor.name
-        };
-        http.Response response = await _paymentService.sendMoneyToGomobileUser(data);
-        String? dataAfterResponseHandler = response.body;
+  proceedToTransferMoneyToGomobileUser() async {
+    if (formKey.currentState!.validate() &&
+        pinController.text.trim().isNotEmpty) {
+      navigationService.back();
+      var data = {
+        "amount": amountController.text.trim(),
+        "email": emailTextController.text.trim(),
+        "password": pinController.text.trim()
+      };
 
-        var raw = jsonDecode(dataAfterResponseHandler);
+      http.Response response =
+          await _paymentService.sendMoneyToGomobileUser(data);
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+      var rawData = jsonDecode(dataAfterResponseHandler);
 
-        if (raw['status'] == true) {
-          navigationService.navigateTo(Routes.webPageView,
-              arguments: WebPageViewArguments(url: raw['data']['href']));
-        }
-      } catch (e) {
-        errorHandler(e);
+      if (rawData['status']) {
+        Alertify(title: 'Success', message: 'Transaction succesful').success();
+      } else {
+        Alertify(title: 'Failed', message: rawData['data']['message']).error();
       }
-
-      setLoadingState();
     }
+    setSendButtonLoading(false);
+  }
+
+  createPin(context, model) async {
+    setCreatePInLoadining(true);
+
+    if (createPinController.text.trim().isNotEmpty) {
+      var data = {"pin": createPinController.text.trim()};
+
+      http.Response response = await _paymentService.createPin(data);
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+      var rawData = jsonDecode(dataAfterResponseHandler);
+
+      if (rawData['status']) {
+        navigationService.back();
+        verifyTransaction(context, model);
+        await refreshUser();
+      } else {
+        Alertify(title: 'Failed', message: rawData['data']['message']).error();
+      }
+    }
+    setCreatePInLoadining(false);
   }
 }

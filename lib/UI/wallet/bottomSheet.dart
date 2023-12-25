@@ -4,7 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/enums/payment_options.dart';
+import 'package:gomobilez/models/saved_cards.dart';
 import 'package:gomobilez/widgets/base_text.dart';
+import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 
@@ -16,7 +18,6 @@ class WalletBottomSheet extends StatefulWidget {
   State<WalletBottomSheet> createState() => _WalletBottomSheetState();
 }
 
-PaymentOptions _vendor = PaymentOptions.none;
 bool _loading = false;
 
 class _WalletBottomSheetState extends State<WalletBottomSheet> {
@@ -43,18 +44,130 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
             fontSize: 48.sp,
             fontWeight: FontWeight.w900,
           ),
-          SizedBox(height: 40.h),
+          SizedBox(height: 10.h),
+          FutureBuilder(
+              future: widget.model.savedCards,
+              builder: (ctx, snapshot) {
+                if (snapshot.hasData) {
+                  return Visibility(
+                    visible: snapshot.data!.length > 0,
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: BaseText('Saved Cards:'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              }),
+          FutureBuilder(
+              future: widget.model.savedCards,
+              builder: (ctx, snapshot) {
+                if (snapshot.hasData) {
+                  return GestureDetector(
+                    child: Visibility(
+                      visible: snapshot.data!.length > 0,
+                      child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(top: 10.h, bottom: 30.h),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Info savedCards = snapshot.data![index];
+
+                          String maskedCustomerId =
+                              '**** **** ***${savedCards.customerId.substring(savedCards.customerId.length - 4)}';
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                widget.model
+                                    .setSelectedCard(savedCards.customerId);
+                              });
+                            },
+                            child: Container(
+                              height: 79.h,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.w,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  border: Border.all(
+                                      width: 2,
+                                      color: widget.model.selectedCardId ==
+                                              savedCards.customerId
+                                          ? Colors.black
+                                          : primaryColor),
+                                  borderRadius: BorderRadius.circular(10.sp)),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgIconInCircle(
+                                    svgAssetPath:
+                                        'assets/images/svg/manage_debit_credit.svg',
+                                    circleSize: 47,
+                                    circleColor: white,
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      BaseText(
+                                        savedCards.name,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      SizedBox(height: 3.h),
+                                      BaseText(
+                                        maskedCustomerId,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: textGrey,
+                                      ),
+                                      SizedBox(height: 1.h),
+                                      BaseText(
+                                        'Exp - ${savedCards.expMonth}/${savedCards.expYear}',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: black,
+                                      ),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 10.h,
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  return SizedBox();
+                }
+              }),
           GestureDetector(
             onTap: () {
-              widget.model.setVendor(PaymentOptions.pay_pal);
               setState(() {
-                _vendor = PaymentOptions.pay_pal;
+                widget.model.setVendor(PaymentOptions.pay_pal);
               });
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               decoration: BoxDecoration(
-                  color: _vendor == PaymentOptions.pay_pal
+                  color: widget.model.vendor == PaymentOptions.pay_pal
                       ? primaryColor
                       : transaparentGrey,
                   borderRadius: BorderRadius.circular(10.w)),
@@ -90,15 +203,14 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
           SizedBox(height: 15.h),
           GestureDetector(
             onTap: () {
-              widget.model.setVendor(PaymentOptions.stripe);
               setState(() {
-                _vendor = PaymentOptions.stripe;
+                widget.model.setVendor(PaymentOptions.stripe);
               });
             },
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                 decoration: BoxDecoration(
-                  color: _vendor == PaymentOptions.stripe
+                  color: widget.model.vendor == PaymentOptions.stripe
                       ? primaryColor
                       : transaparentGrey,
                   borderRadius: BorderRadius.circular(10.w),
