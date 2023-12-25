@@ -117,6 +117,7 @@ class SettingsView extends StatelessWidget {
                     width: 5,
                   ),
                   SvgIconInCircle(
+                    pressed: () => model.logout(context),
                     svgAssetPath: 'assets/images/svg/logoutIcon.svg',
                     circleSize: 34,
                     circleColor: shadeOfYellow,
@@ -143,12 +144,9 @@ class SettingsView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        model.navigationService
-                            .navigateTo
-                            (
-                              //'/subsciption-plan-view'
-                              '/manage-subscription-view'
-                              );
+                        model.navigationService.navigateTo(
+                            //'/subsciption-plan-view'
+                            '/manage-subscription-view');
                       },
                       child: Container(
                         color: primaryColor,

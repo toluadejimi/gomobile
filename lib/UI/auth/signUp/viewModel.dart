@@ -13,7 +13,7 @@ import '../../../services/authService.dart';
 
 class SignUpViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
-  final _storageService =locator<LocalStorageService>();
+  final _storageService = locator<LocalStorageService>();
 
   final GlobalKey<FormState> emailViewFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> registerViewFormKey = GlobalKey<FormState>();
@@ -29,7 +29,7 @@ class SignUpViewModel extends AppBaseViewModel {
   final TextEditingController registrationPassword2Controller =
       TextEditingController();
 
-       String? _genderController = null;
+  String? _genderController = null;
   String? get genderController => _genderController;
   setGenderController(Object? val) {
     // _genderController = val;
@@ -151,7 +151,8 @@ class SignUpViewModel extends AppBaseViewModel {
   }
 
   register() async {
-    if (registerViewFormKey.currentState!.validate() && _genderController != null) {
+    if (registerViewFormKey.currentState!.validate() &&
+        _genderController != null) {
       setLoadingState();
       try {
         String? deviceId = await getId();
@@ -167,10 +168,9 @@ class SignUpViewModel extends AppBaseViewModel {
         String? dataAfterResponseHandler = responseHandler(response);
 
         if (dataAfterResponseHandler != null) {
-          _storageService.removeFromStorage(LocalStorageValues.credentialsToken);
+          _storageService
+              .removeFromStorage(LocalStorageValues.credentialsToken);
           goToLoginPage();
-        } else {
-          throw (response.body);
         }
       } catch (e) {
         errorHandler(e);

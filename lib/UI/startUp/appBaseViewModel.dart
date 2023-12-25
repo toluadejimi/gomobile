@@ -113,15 +113,21 @@ class AppBaseViewModel extends BaseViewModel {
     return null;
   }
 
-  logout() async {
+  logout(BuildContext context) async {
     bool response = true;
-    // await _authenticationService.signOut();
-    // remove only token.
-    if (response) {
+
+    await createCriticalDialog(
+        context, 'Logout', 'Are you sure you want to log out?', () {
       setAppState(AppStates.unAuthenticated);
+      _localStorageService.removeFromStorage(LocalStorageValues.token);
       notifyListeners();
       navigationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
-    }
+    }, () {
+      navigationService.back();
+    });
+    // await _authenticationService.signOut();
+    // remove only token.
+    if (response) {}
   }
 
   showButtomModalSheet(
@@ -275,7 +281,8 @@ class AppBaseViewModel extends BaseViewModel {
   Future<Widget> subscriptionProgessWidget(double maxWith) async {
     User? user = await getUser();
     int expiryDate = user!.myPlan!.daysRemaining!;
-    var lastDay = DTU.lastDayOfMonth(DateTime.parse(user.myPlan!.expiresAt!)).day;  
+    var lastDay =
+        DTU.lastDayOfMonth(DateTime.parse(user.myPlan!.expiresAt!)).day;
     int length = (((lastDay - expiryDate) / lastDay) * maxWith).floor();
 
     return Stack(children: [
