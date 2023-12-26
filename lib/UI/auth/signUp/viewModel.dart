@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
@@ -32,7 +34,8 @@ class SignUpViewModel extends AppBaseViewModel {
   String? _genderController = null;
   String? get genderController => _genderController;
   setGenderController(Object? val) {
-    // _genderController = val;
+    _genderController = val.toString();
+    print(val.toString());
     notifyListeners();
   }
 
@@ -45,7 +48,7 @@ class SignUpViewModel extends AppBaseViewModel {
 
   bool _loading = false;
   bool get loading => _loading;
-  setLoadingState() {
+  setLoadingState(bool val) {
     _loading = !_loading;
     notifyListeners();
   }
@@ -93,7 +96,7 @@ class SignUpViewModel extends AppBaseViewModel {
 
   verifyEmail() async {
     if (emailViewFormKey.currentState!.validate()) {
-      setLoadingState();
+      setLoadingState(true);
       String email = emailTextController.text.trim();
       try {
         var data = {"email": email};
@@ -108,7 +111,7 @@ class SignUpViewModel extends AppBaseViewModel {
       } catch (e) {
         errorHandler(e);
       }
-      setLoadingState();
+      setLoadingState(false);
     }
   }
 
@@ -125,7 +128,7 @@ class SignUpViewModel extends AppBaseViewModel {
 
   verifyEmailOTP() async {
     if (signupOtpController.value.text.trim().length >= 4) {
-      setLoadingState();
+      setLoadingState(true);
       try {
         if (emailTextController.value.text.trim() != '' &&
             signupOtpController.value.text.trim() != '') {
@@ -146,14 +149,14 @@ class SignUpViewModel extends AppBaseViewModel {
       } catch (e) {
         errorHandler(e);
       }
-      setLoadingState();
+      setLoadingState(false);
     }
   }
 
   register() async {
     if (registerViewFormKey.currentState!.validate() &&
         _genderController != null) {
-      setLoadingState();
+      setLoadingState(true);
       try {
         String? deviceId = await getId();
         var data = {
@@ -175,7 +178,7 @@ class SignUpViewModel extends AppBaseViewModel {
       } catch (e) {
         errorHandler(e);
       }
-      setLoadingState();
+      setLoadingState(false);
     }
   }
 }
