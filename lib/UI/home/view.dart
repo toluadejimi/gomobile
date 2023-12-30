@@ -63,7 +63,7 @@ class HomeView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   BaseText(
-                                    'SMS Credit: ${snapshot.data!.myPlan != null ? snapshot.data!.myPlan!.smsCredit : 0} ',
+                                    'SMS Credit: ${snapshot.data!.smsCredit} ',
                                     color: white,
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w400,
@@ -591,9 +591,7 @@ class HomeView extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Visibility(
-                                visible: snapshot.data!.myPlan != null &&
-                                    (snapshot.data!.myPlan!.smsCredit == null ||
-                                        snapshot.data!.myPlan!.smsCredit == 0),
+                                visible: snapshot.data!.myPlan != null,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -627,13 +625,7 @@ class HomeView extends StatelessWidget {
                                       if (sn.hasData) {
                                         return Visibility(
                                           visible:
-                                              snapshot.data!.myPlan != null &&
-                                                  (snapshot.data!.myPlan!
-                                                              .smsCredit ==
-                                                          null ||
-                                                      snapshot.data!.myPlan!
-                                                              .smsCredit ==
-                                                          0),
+                                              snapshot.data!.myPlan != null,
                                           child: ListView.separated(
                                               scrollDirection: Axis.horizontal,
                                               itemCount:

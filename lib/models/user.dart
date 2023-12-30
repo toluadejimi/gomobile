@@ -20,11 +20,12 @@ class User {
   String? country;
   String? state;
   String? phone;
+  int smsCredit;
   double wallet;
   dynamic deviceId;
-  int isEmailVerified;
-  int code;
-  int status;
+  int isEmailVerified;  //1 or 0
+  double code;
+  int status; //1 or 0
   DateTime createdAt;
   DateTime updatedAt;
   MyPlan? myPlan;
@@ -47,6 +48,7 @@ class User {
       this.country,
       this.state,
       this.phone,
+      required this.smsCredit,
       required this.wallet,
       required this.deviceId,
       required this.isEmailVerified,
@@ -69,6 +71,7 @@ class User {
       firstName: json["first_name"],
       lastName: json["last_name"],
       city: json["city"],
+      smsCredit: json["sms_credit"],
       street: json["street"],
       zipcode: json["zipcode"],
       country: json["country"],
@@ -113,6 +116,7 @@ class User {
         "is_email_verified": isEmailVerified,
         "code": code,
         "status": status,
+        "sms_credit": smsCredit,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "my_plan": myPlan?.toJson(),
@@ -197,8 +201,7 @@ class MyNumber {
 class MyPlan {
   int? id;
   int? planId;
-  int? smsCredit;
-  int? daysRemaining;
+  int? daysRemaining; // cannot be null
   String? expiresAt;
   int? amount;
   int? status;
@@ -206,7 +209,6 @@ class MyPlan {
   MyPlan({
     this.id,
     this.planId,
-    this.smsCredit,
     this.daysRemaining,
     this.expiresAt,
     this.amount,
@@ -216,7 +218,6 @@ class MyPlan {
   factory MyPlan.fromJson(Map<String, dynamic> json) => MyPlan(
         id: json["id"],
         planId: json["plan_id"],
-        smsCredit: json["sms_credit"],
         amount: json["amount"],
         status: json["status"],
         daysRemaining: json["days_remaining"],
@@ -226,7 +227,6 @@ class MyPlan {
   Map<String, dynamic> toJson() => {
         "id": id,
         "plan_id": planId,
-        "sms_credit": smsCredit,
         "amount": amount,
         "status": status,
         "days_remaining": daysRemaining,

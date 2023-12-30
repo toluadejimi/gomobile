@@ -103,7 +103,7 @@ class SignUpViewModel extends AppBaseViewModel {
         http.Response response = await _authenticationService.verifyEmail(data);
 
         if(response.statusCode == 421){
-          goToNextPage();
+          goToPageDirectly(2);
         }else{
         String? dataAfterResponseHandler = responseHandler(response);
 
