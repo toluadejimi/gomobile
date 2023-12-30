@@ -20,9 +20,9 @@ class WebPageViewModel extends AppBaseViewModel {
   }
 
   pop() async {
+     navigationService.back();
     navigationService.back();
-    await refreshUser();
-    navigationService.back();
+    refreshUser();
   }
 
 }

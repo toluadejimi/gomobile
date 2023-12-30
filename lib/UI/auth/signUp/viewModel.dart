@@ -101,12 +101,17 @@ class SignUpViewModel extends AppBaseViewModel {
       try {
         var data = {"email": email};
         http.Response response = await _authenticationService.verifyEmail(data);
+
+        if(response.statusCode == 421){
+          goToNextPage();
+        }else{
         String? dataAfterResponseHandler = responseHandler(response);
 
         if (dataAfterResponseHandler != null) {
           goToNextPage();
         } else {
           throw (response.body);
+        }
         }
       } catch (e) {
         errorHandler(e);
