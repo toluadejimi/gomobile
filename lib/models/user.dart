@@ -20,11 +20,11 @@ class User {
   String? country;
   String? state;
   String? phone;
-  int smsCredit;
+  double smsCredit;
   double wallet;
   dynamic deviceId;
   int isEmailVerified;  //1 or 0
-  double code;
+  int code;
   int status; //1 or 0
   DateTime createdAt;
   DateTime updatedAt;
@@ -32,7 +32,6 @@ class User {
   List<BillingInformation>? billingInformation;
   MyNumber? myNumber;
   int? pendingMessages;
-  int? messageCredit;
   List<Plan>? plans;
   String? pin;
 
@@ -59,7 +58,6 @@ class User {
       this.myPlan,
       this.billingInformation,
       this.myNumber,
-      this.messageCredit,
       this.pendingMessages,
       this.plans,
       this.pin});
@@ -71,7 +69,7 @@ class User {
       firstName: json["first_name"],
       lastName: json["last_name"],
       city: json["city"],
-      smsCredit: json["sms_credit"],
+      smsCredit: double.parse(json["sms_credit"].toString()),
       street: json["street"],
       zipcode: json["zipcode"],
       country: json["country"],
@@ -93,7 +91,6 @@ class User {
           ? MyNumber.fromJson(json["my_number"])
           : null,
       pendingMessages: json["pending_messages"],
-      messageCredit: json['message_credit'],
       plans: json["plans"] != null
           ? List<Plan>.from(json["plans"].map((x) => Plan.fromJson(x)))
           : null,
@@ -125,7 +122,6 @@ class User {
             : null,
         "my_number": myNumber?.toJson(),
         "pending_messages": pendingMessages,
-        "message_credit": messageCredit,
         "plans": plans != null
             ? List<dynamic>.from(plans!.map((x) => x.toJson()))
             : null,
