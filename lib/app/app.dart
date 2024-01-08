@@ -8,6 +8,8 @@ import 'package:gomobilez/UI/manageDebitAndCredit/view.dart';
 import 'package:gomobilez/UI/manageSubscription/subsciptionPlanView.dart';
 import 'package:gomobilez/UI/manageSubscription/view.dart';
 import 'package:gomobilez/UI/sendAndReceiveMoney/view.dart';
+import 'package:gomobilez/UI/sendAtopUp/send_credit_topup_view.dart';
+import 'package:gomobilez/UI/sendAtopUp/send_money_topup_view.dart';
 import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/view.dart';
 import 'package:gomobilez/UI/settings/view.dart';
 import 'package:gomobilez/UI/updatePassword/view.dart';
@@ -46,9 +48,9 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: LoginView),
     MaterialRoute(page: ForgotPasswordView),
     MaterialRoute(page: DashBoardView),
-   // MaterialRoute(page: HomeView),
+   MaterialRoute(page: HomeView),
     MaterialRoute(page: MessageView),
-   // MaterialRoute(page: WalletView),
+   MaterialRoute(page: WalletView),
     MaterialRoute(page: ContactView),
     MaterialRoute(page: SettingsView),
     MaterialRoute(page: WebPageView),
@@ -63,6 +65,8 @@ import 'package:stacked/stacked_annotations.dart';
     MaterialRoute(page: SendAndReceiveMoneyView),
     MaterialRoute(page: SendMoneyToGomoblieUsersView),
     MaterialRoute(page: subsciptionPlanView),
+    MaterialRoute(page: SendCreditTopUp),
+    MaterialRoute(page: SendMoneyTopUp)
   ],
   dependencies: [
     LazySingleton(classType: Services),

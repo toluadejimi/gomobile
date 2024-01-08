@@ -6,8 +6,6 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/widgets/base_text.dart';
-import 'package:gomobilez/widgets/iconButtonPlusText.dart';
-import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 

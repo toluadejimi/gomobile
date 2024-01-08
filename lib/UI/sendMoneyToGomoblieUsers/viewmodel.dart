@@ -103,7 +103,6 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
 
   onSendMoneyToGomobileUserClicked(
       BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
-    setSendButtonLoading(true);
     if (formKey.currentState!.validate()) {
       await verifyTransaction(context, model);
     } else {}
@@ -136,6 +135,8 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
     if (formKey.currentState!.validate() &&
         pinController.text.trim().isNotEmpty) {
       navigationService.back();
+
+      setSendButtonLoading(true);
       var data = {
         "amount": amountController.text.trim(),
         "email": emailTextController.text.trim(),

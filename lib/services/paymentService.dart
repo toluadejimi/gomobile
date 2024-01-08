@@ -41,4 +41,26 @@ class PaymentService extends Services {
         await post('verify-account', isAuth: true, body: data);
     return response;
   }
+
+   Future<http.Response> getCountries() async {
+    http.Response response =
+        await get('countries', isAuth: true);
+    return response;
+  }
+
+   Future<http.Response> getServiceProvider(data) async {
+    http.Response response = await post('services', isAuth: true, body: data);
+    return response;
+  }
+
+  Future<http.Response> getServiceProduct(data) async {
+    http.Response response = await post('service-cost', isAuth: true, body:data);
+    return response;
+  }
+
+  Future<http.Response> buyAirtime(data) async {
+    http.Response response =
+        await post('service-cost', isAuth: true, body: data);
+    return response;
+  }
 }
