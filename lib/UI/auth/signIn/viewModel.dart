@@ -58,9 +58,8 @@ class LoginViewModel extends AppBaseViewModel {
           "password": passwordController.value.text.trim()
         };
         http.Response response = await _authenticationService.login(data);
-        String? dataAfterResponseHandler = responseHandler(response);
+        String? dataAfterResponseHandler = response.body;
 
-        if (dataAfterResponseHandler != null) {
           var raw = jsonDecode(dataAfterResponseHandler);
           print(raw);
 
@@ -80,13 +79,11 @@ class LoginViewModel extends AppBaseViewModel {
             }
             goToApp();
           }
-        } else {
-          setLoadingState(false);
-        }
       } catch (e) {
+        
+        setLoadingState(false);
         print(e);
         errorHandler(e);
-        setLoadingState(false);
       }
     }
   }

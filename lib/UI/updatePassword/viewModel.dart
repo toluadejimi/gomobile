@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:stacked/stacked.dart';
 
-class UpdatePasswordViewModel extends BaseViewModel {
+class UpdatePasswordViewModel extends AppBaseViewModel {
  // final _authenticationService = locator<AuthService>();
   final GlobalKey<FormState> updatePasswordformKey = GlobalKey<FormState>();
 

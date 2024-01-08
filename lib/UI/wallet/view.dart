@@ -35,7 +35,7 @@ class WalletView extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
             BaseText(
               'Main Wallet',
               fontSize: 15.sp,
@@ -123,43 +123,46 @@ class WalletView extends StatelessWidget {
                     if (snapshot.data!.myPlan == null ||
                         (snapshot.data!.myPlan != null &&
                         snapshot.data!.myPlan!.status != 1)) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: white36,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 14.w, vertical: 16.h),
-                        child: Row(children: [
-                          RoundedIconButton(
-                            click: () {},
-                            color: primaryColor,
-                            padding: 12,
-                            icon: SvgPicture.asset(
-                              './assets/images/svg/home_page_plan_icon.svg',
-                              width: 22.w,
-                            ),
+                      return GestureDetector(
+                        onTap: ()=>model.navigateToSubscriptionPage(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: white36,
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BaseText(
-                                'Subscription',
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 14.w, vertical: 16.h),
+                          child: Row(children: [
+                            RoundedIconButton(
+                              click: () {},
+                              color: primaryColor,
+                              padding: 12,
+                              icon: SvgPicture.asset(
+                                './assets/images/svg/home_page_plan_icon.svg',
+                                width: 22.w,
                               ),
-                              SizedBox(height: 3.h),
-                              BaseText(
-                                'Choose a plan to call family and friends',
-                                fontSize: 12.sp,
-                                color: textGrey,
-                              )
-                            ],
-                          )
-                        ]),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BaseText(
+                                  'Subscription',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(height: 3.h),
+                                BaseText(
+                                  'Choose a plan to call family and friends',
+                                  fontSize: 12.sp,
+                                  color: textGrey,
+                                )
+                              ],
+                            )
+                          ]),
+                        ),
                       );
                     } else {
                       return Container(
@@ -260,7 +263,7 @@ class WalletView extends StatelessWidget {
                   }
                 }),
             SizedBox(
-              height: 70.h,
+              height: 55.h,
             ),
             BaseText(
               'Recent Transaction',

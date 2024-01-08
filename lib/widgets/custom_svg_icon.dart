@@ -11,29 +11,31 @@ class SvgIconInCircle extends StatelessWidget {
   final double? height;
   final double? width;
 
-   SvgIconInCircle({
+  SvgIconInCircle({
     super.key,
     required this.svgAssetPath,
     this.circleSize = 48.0,
     this.circleColor = primaryColor,
     this.pressed,
-    this.svgColor = black,  this.height,  this.width,
+    this.svgColor = black,
+    this.height,
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: circleSize,
-      height: circleSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: circleColor,
-      ),
-      child: Center(
-        child: GestureDetector(
-          onTap: pressed,
+    return GestureDetector(
+      onTap: pressed,
+      child: Container(
+        width: circleSize,
+        height: circleSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: circleColor,
+        ),
+        child: Center(
           child: SvgPicture.asset(svgAssetPath,
-              height:height , // You can adjust the size of the SVG icon
+              height: height, // You can adjust the size of the SVG icon
               width: width,
               colorFilter: ColorFilter.mode(
                   svgColor!, BlendMode.srcIn) // Set the color of the SVG icon

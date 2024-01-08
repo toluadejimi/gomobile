@@ -337,8 +337,7 @@ class SettingsView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showCupertinoDialog(
-                            context: context, builder: createDialog);
+                        model.onDeletePressed(context);
                       },
                       child: Container(
                         color: primaryColor,

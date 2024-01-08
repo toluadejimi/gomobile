@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +29,7 @@ class SendCreditTopUp extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 10.h),
               Row(
                 children: [
                   CustomIconButton(
@@ -39,11 +38,11 @@ class SendCreditTopUp extends StatelessWidget {
                       ),
                       click: () {}),
                   SizedBox(width: 15.w),
-                  CustomIconButton(
-                      widget: Column(
-                        children: [Icon(Icons.credit_card), Text('Data')],
-                      ),
-                      click: () {})
+                  // CustomIconButton(
+                  //     widget: Column(
+                  //       children: [Icon(Icons.credit_card), Text('Data')],
+                  //     ),
+                  //     click: () {})
                 ],
               ),
               SizedBox(height: 10.h),

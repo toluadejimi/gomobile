@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
+import 'package:gomobilez/UI/manageSubscription/bottomSheet.dart';
+import 'package:gomobilez/UI/manageSubscription/viewModel.dart';
 import 'package:gomobilez/UI/message/getNumber/index.dart';
 import 'package:gomobilez/UI/message/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
@@ -10,6 +12,7 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/home_widget.dart';
 import 'package:gomobilez/models/plans.dart';
+import 'package:gomobilez/models/user.dart' as user;
 import 'package:gomobilez/services/settingsService.dart';
 import 'package:http/http.dart' as http;
 
@@ -76,6 +79,41 @@ class HomeViewModel extends ContactViewModel {
   void navigateToCallPage(Contact contact) {
     // navigationService.navigateToConversationView(contact: contact);
     makeCall(contact.phones[0].normalizedNumber, name: contact.displayName);
+  }
+
+  onSubscriptionPressed(BuildContext context, user.Plan plan) async {
+    Plan? selectedPlan = await getSelectedPlan(plan);
+    return showButtomModalSheet(
+        context: context,
+        child: SubscriptionBottomSheet(
+            model: ManageSubscriptionViewModel(),
+            title: 'Subscribe',
+            plan: selectedPlan!));
+  }
+
+  Future<Plan?> getSelectedPlan(user.Plan userPlan) async {
+    Plans? listOfPlans = await plans;
+    if (listOfPlans != null) {
+      if (listOfPlans.callPlan.where((plan) => plan.id == userPlan.id).length !=
+          0) {
+        return listOfPlans.callPlan
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      } else if (listOfPlans.comboPlans
+              .where((plan) => plan.id == userPlan.id)
+              .length !=
+          0) {
+        return listOfPlans.comboPlans
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      } else {
+        return listOfPlans.smsPlan
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      }
+    } else {
+      return null;
+    }
   }
 
   navigate(String to) {

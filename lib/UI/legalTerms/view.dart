@@ -14,6 +14,9 @@ class LegalTermsView extends StatelessWidget {
       builder: (context, model, child) => CustomScaffold(
           title: 'Legal Terms',
           canPop: true,
+          onBackPress: () {
+            model.navigationService.back();
+          },
           body: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

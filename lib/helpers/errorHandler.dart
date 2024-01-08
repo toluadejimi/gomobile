@@ -6,7 +6,7 @@ import 'package:gomobilez/widgets/alertify.dart';
 
 errorHandler(e) {
   var error = jsonDecode(e.toString());
-  switch (error['message']) {
+  switch (error['message'] ) {
     case null:
       {
         Alertify(

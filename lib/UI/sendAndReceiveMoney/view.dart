@@ -18,7 +18,7 @@ class SendAndReceiveMoneyView extends StatelessWidget {
           onBackPress: () => model.navigationService.back(),
           body: Column(children: [
             SizedBox(
-              height: 40.h,
+              height: 10.h,
             ),
             GestureDetector(
               onTap: () {
@@ -50,17 +50,17 @@ class SendAndReceiveMoneyView extends StatelessWidget {
             SizedBox(
               height: 15.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BaseText(
-                  'Send money to Bank',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     BaseText(
+            //       'Send money to Bank',
+            //       fontSize: 16.sp,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //     IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))
+            //   ],
+            // ),
           ])),
       viewModelBuilder: () => SendAndReceiveMoneyViewmodel(),
     );

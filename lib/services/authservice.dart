@@ -45,4 +45,9 @@ class AuthService extends Services {
     return response;
   }
 
+  Future<http.Response> deleteAccount() async {
+    Future<http.Response> response = get('delete-account', isAuth: true);
+    return response;
+  }
+
 }
