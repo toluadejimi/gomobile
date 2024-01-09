@@ -30,6 +30,12 @@ class PaymentService extends Services {
     return response;
   }
 
+  Future<http.Response> sendMoneyToBank(data) async {
+    http.Response response =
+        await post('send-to-bank', isAuth: true, body: data);
+    return response;
+  }
+
   Future<http.Response> createPin(data) async {
     http.Response response =
         await post('create-transfer-pin', isAuth: true, body: data);

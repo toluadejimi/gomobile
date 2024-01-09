@@ -5,9 +5,9 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i27;
+import 'package:flutter/material.dart' as _i28;
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart' as _i28;
+import 'package:flutter_contacts/contact.dart' as _i29;
 import 'package:gomobilez/UI/auth/forgotPassword/index.dart' as _i6;
 import 'package:gomobilez/UI/auth/getStarted/view.dart' as _i3;
 import 'package:gomobilez/UI/auth/signIn/index.dart' as _i5;
@@ -28,6 +28,7 @@ import 'package:gomobilez/UI/message/view.dart' as _i9;
 import 'package:gomobilez/UI/sendAndReceiveMoney/view.dart' as _i22;
 import 'package:gomobilez/UI/sendAtopUp/send_credit_topup_view.dart' as _i25;
 import 'package:gomobilez/UI/sendAtopUp/send_money_topup_view.dart' as _i26;
+import 'package:gomobilez/UI/sendMoneyToBank/view.dart' as _i27;
 import 'package:gomobilez/UI/sendMoneyToGomoblieUsers/view.dart' as _i23;
 import 'package:gomobilez/UI/settings/view.dart' as _i12;
 import 'package:gomobilez/UI/startUp/appBaseScreen.dart' as _i2;
@@ -36,7 +37,7 @@ import 'package:gomobilez/UI/updateProfile/view.dart' as _i14;
 import 'package:gomobilez/UI/wallet/view.dart' as _i10;
 import 'package:gomobilez/UI/WebPage/view.dart' as _i13;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i29;
+import 'package:stacked_services/stacked_services.dart' as _i30;
 
 class Routes {
   static const appBaseScreen = '/app-base-screen';
@@ -90,6 +91,8 @@ class Routes {
 
   static const sendMoneyTopUp = '/send-money-top-up';
 
+  static const sendMoneyToBankView = '/send-money-to-bank-view';
+
   static const all = <String>{
     appBaseScreen,
     getStartedView,
@@ -116,6 +119,7 @@ class Routes {
     subsciptionPlanView,
     sendCreditTopUp,
     sendMoneyTopUp,
+    sendMoneyToBankView,
   };
 }
 
@@ -221,55 +225,59 @@ class StackedRouter extends _i1.RouterBase {
       Routes.sendMoneyTopUp,
       page: _i26.SendMoneyTopUp,
     ),
+    _i1.RouteDef(
+      Routes.sendMoneyToBankView,
+      page: _i27.SendMoneyToBankView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.AppBaseScreen: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.AppBaseScreen(),
         settings: data,
       );
     },
     _i3.GetStartedView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.GetStartedView(),
         settings: data,
       );
     },
     _i4.SignUpView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.SignUpView(),
         settings: data,
       );
     },
     _i5.LoginView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.LoginView(),
         settings: data,
       );
     },
     _i6.ForgotPasswordView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ForgotPasswordView(),
         settings: data,
       );
     },
     _i7.DashBoardView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.DashBoardView(),
         settings: data,
       );
     },
     _i8.HomeView: (data) {
       final args = data.getArgs<HomeViewArguments>(nullOk: false);
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i8.HomeView(key: args.key, pageController: args.pageController),
         settings: data,
       );
     },
     _i9.MessageView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.MessageView(),
         settings: data,
       );
@@ -278,7 +286,7 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<WalletViewArguments>(
         orElse: () => const WalletViewArguments(),
       );
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i10.WalletView(key: args.key, canPop: args.canPop),
         settings: data,
@@ -288,58 +296,58 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ContactViewArguments>(
         orElse: () => const ContactViewArguments(),
       );
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i11.ContactView(key: args.key, canPop: args.canPop),
         settings: data,
       );
     },
     _i12.SettingsView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i12.SettingsView(),
         settings: data,
       );
     },
     _i13.WebPageView: (data) {
       final args = data.getArgs<WebPageViewArguments>(nullOk: false);
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.WebPageView(key: args.key, url: args.url),
         settings: data,
       );
     },
     _i14.UpdateProfileView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i14.UpdateProfileView(),
         settings: data,
       );
     },
     _i15.ManageSubscriptionView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i15.ManageSubscriptionView(),
         settings: data,
       );
     },
     _i16.UpdatePasswordView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i16.UpdatePasswordView(),
         settings: data,
       );
     },
     _i17.ContactUsView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i17.ContactUsView(),
         settings: data,
       );
     },
     _i18.LegalTermsView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i18.LegalTermsView(),
         settings: data,
       );
     },
     _i19.DeviceContactView: (data) {
       final args = data.getArgs<DeviceContactViewArguments>(nullOk: false);
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i19.DeviceContactView(
             key: args.key, title: args.title, click: args.click),
         settings: data,
@@ -347,7 +355,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i20.ConversationView: (data) {
       final args = data.getArgs<ConversationViewArguments>(nullOk: false);
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => _i20.ConversationView(
             key: args.key,
             phoneNumber: args.phoneNumber,
@@ -357,38 +365,44 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i21.ManageDebitAndCreditView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i21.ManageDebitAndCreditView(),
         settings: data,
       );
     },
     _i22.SendAndReceiveMoneyView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i22.SendAndReceiveMoneyView(),
         settings: data,
       );
     },
     _i23.SendMoneyToGomoblieUsersView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i23.SendMoneyToGomoblieUsersView(),
         settings: data,
       );
     },
     _i24.subsciptionPlanView: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i24.subsciptionPlanView(),
         settings: data,
       );
     },
     _i25.SendCreditTopUp: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i25.SendCreditTopUp(),
         settings: data,
       );
     },
     _i26.SendMoneyTopUp: (data) {
-      return _i27.MaterialPageRoute<dynamic>(
+      return _i28.MaterialPageRoute<dynamic>(
         builder: (context) => const _i26.SendMoneyTopUp(),
+        settings: data,
+      );
+    },
+    _i27.SendMoneyToBankView: (data) {
+      return _i28.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i27.SendMoneyToBankView(),
         settings: data,
       );
     },
@@ -407,9 +421,9 @@ class HomeViewArguments {
     required this.pageController,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
-  final _i27.PageController pageController;
+  final _i28.PageController pageController;
 
   @override
   String toString() {
@@ -434,7 +448,7 @@ class WalletViewArguments {
     this.canPop = false,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
   final bool canPop;
 
@@ -461,7 +475,7 @@ class ContactViewArguments {
     this.canPop = false,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
   final bool canPop;
 
@@ -488,7 +502,7 @@ class WebPageViewArguments {
     required this.url,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
   final String url;
 
@@ -516,11 +530,11 @@ class DeviceContactViewArguments {
     required this.click,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
   final String title;
 
-  final void Function(_i28.Contact) click;
+  final void Function(_i29.Contact) click;
 
   @override
   String toString() {
@@ -547,7 +561,7 @@ class ConversationViewArguments {
     this.newConversation = true,
   });
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
   final String phoneNumber;
 
@@ -578,7 +592,7 @@ class ConversationViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i29.NavigationService {
+extension NavigatorStateExtension on _i30.NavigationService {
   Future<dynamic> navigateToAppBaseScreen([
     int? routerId,
     bool preventDuplicates = true,
@@ -664,8 +678,8 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToHomeView({
-    _i27.Key? key,
-    required _i27.PageController pageController,
+    _i28.Key? key,
+    required _i28.PageController pageController,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -695,7 +709,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToWalletView({
-    _i27.Key? key,
+    _i28.Key? key,
     bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -712,7 +726,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToContactView({
-    _i27.Key? key,
+    _i28.Key? key,
     bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -743,7 +757,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToWebPageView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String url,
     int? routerId,
     bool preventDuplicates = true,
@@ -830,9 +844,9 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToDeviceContactView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String title,
-    required void Function(_i28.Contact) click,
+    required void Function(_i29.Contact) click,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -849,7 +863,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> navigateToConversationView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String phoneNumber,
     required String name,
     bool newConversation = true,
@@ -955,6 +969,20 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToSendMoneyToBankView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.sendMoneyToBankView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithAppBaseScreen([
     int? routerId,
     bool preventDuplicates = true,
@@ -1040,8 +1068,8 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithHomeView({
-    _i27.Key? key,
-    required _i27.PageController pageController,
+    _i28.Key? key,
+    required _i28.PageController pageController,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1071,7 +1099,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithWalletView({
-    _i27.Key? key,
+    _i28.Key? key,
     bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1088,7 +1116,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithContactView({
-    _i27.Key? key,
+    _i28.Key? key,
     bool canPop = false,
     int? routerId,
     bool preventDuplicates = true,
@@ -1119,7 +1147,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithWebPageView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String url,
     int? routerId,
     bool preventDuplicates = true,
@@ -1206,9 +1234,9 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithDeviceContactView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String title,
-    required void Function(_i28.Contact) click,
+    required void Function(_i29.Contact) click,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1225,7 +1253,7 @@ extension NavigatorStateExtension on _i29.NavigationService {
   }
 
   Future<dynamic> replaceWithConversationView({
-    _i27.Key? key,
+    _i28.Key? key,
     required String phoneNumber,
     required String name,
     bool newConversation = true,
@@ -1325,6 +1353,20 @@ extension NavigatorStateExtension on _i29.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.sendMoneyTopUp,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithSendMoneyToBankView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.sendMoneyToBankView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
