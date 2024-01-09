@@ -35,72 +35,87 @@ class SettingsView extends StatelessWidget {
                     width: 50.w,
                   ),
                   SizedBox(
-                    width: 14,
+                    width: 14.w,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FutureBuilder(
-                          future: model.getUser(),
-                          builder: (ctx, snapshot) {
-                            return snapshot.hasData
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: 'Full Name\n',
-                                                style: TextStyle(
-                                                    color: textGrey,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14)),
-                                            TextSpan(
-                                              text: snapshot.data!.lastName
-                                                      .nameCase() +
-                                                  ' ' +
-                                                  snapshot.data!.firstName
-                                                      .nameCase(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: black,
-                                                  fontSize: 14),
-                                            )
-                                          ],
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.43,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FutureBuilder(
+                            future: model.getUser(),
+                            builder: (ctx, snapshot) {
+                              return snapshot.hasData
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          physics: BouncingScrollPhysics(),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: 'Full Name\n',
+                                                    style: TextStyle(
+                                                        color: textGrey,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.sp)),
+                                                TextSpan(
+                                                  text: snapshot.data!.lastName
+                                                          .nameCase() +
+                                                      ' ' +
+                                                      snapshot.data!.firstName
+                                                          .nameCase(),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: black,
+                                                      fontSize: 14.sp),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: 'Email\n',
-                                                style: TextStyle(
-                                                    color: textGrey,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14)),
-                                            TextSpan(
-                                                text: snapshot.data!.email,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: black,
-                                                    fontSize: 14))
-                                          ],
+                                        SizedBox(
+                                          height: 8.h,
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                : const BaseText(
-                                    '...',
-                                    fontSize: 18,
-                                    color: black,
-                                  );
-                          }),
-                    ],
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          physics: BouncingScrollPhysics(),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: 'Email\n',
+                                                    style: TextStyle(
+                                                        color: textGrey,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.sp)),
+                                                TextSpan(
+                                                    text: snapshot.data!.email,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: black,
+                                                        fontSize: 14.sp))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : const BaseText(
+                                      '...',
+                                      fontSize: 18,
+                                      color: black,
+                                    );
+                            }),
+                      ],
+                    ),
                   ),
                   Spacer(),
                   SvgIconInCircle(
@@ -144,9 +159,8 @@ class SettingsView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        model.navigationService.navigateTo(
-                            //'/subsciption-plan-view'
-                            '/manage-subscription-view');
+                        model.navigationService
+                            .navigateTo('/manage-subscription-view');
                       },
                       child: Container(
                         color: primaryColor,

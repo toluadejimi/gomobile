@@ -82,9 +82,10 @@ class Alertify {
       backButtonBehavior: BackButtonBehavior.none,
       crossPage: true,
       contentPadding: EdgeInsets.symmetric(
-        horizontal: 10.w,
+        horizontal: 12.w,
         vertical: 7.h,
       ),
+      borderRadius: 5.sp,
       onlyOne: false,
       animationDuration: const Duration(milliseconds: 200),
       animationReverseDuration: const Duration(milliseconds: 200),

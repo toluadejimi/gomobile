@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/sendMoneyToBank/bottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/country_currency_code.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/countries.dart';
+import 'package:gomobilez/models/send_money_to_bank.dart';
 import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/paymentService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
@@ -140,30 +142,39 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
   }
 
   proceedToTransferMoneyToBank() async {
-    if (formKey.currentState!.validate() &&
-        pinController.text.trim().isNotEmpty &&
-        selectedCountry != null) {
-      navigationService.back();
+    try {
+      if (formKey.currentState!.validate() &&
+          pinController.text.trim().isNotEmpty &&
+          selectedCountry != null) {
+        navigationService.back();
 
-      setSendButtonLoading(true);
-      var data = {
-        "amount": amountController.text.trim(),
-        "currency": selectedCountry!.code,
-        "pin": pinController.text.trim()
-      };
+        setSendButtonLoading(true);
+        var data = {
+          "amount": amountController.text.trim(),
+          "currency": selectedCountry!.code,
+          "pin": pinController.text.trim()
+        };
 
-      http.Response response =
-          await _paymentService.sendMoneyToBank(data);
-      String? dataAfterResponseHandler = response.body;
-      print(dataAfterResponseHandler);
-      var rawData = jsonDecode(dataAfterResponseHandler);
+        http.Response response = await _paymentService.sendMoneyToBank(data);
+        String? dataAfterResponseHandler = response.body;
+        print(dataAfterResponseHandler);
+        var rawData = jsonDecode(dataAfterResponseHandler);
 
-      if (rawData['status']) {
-        Alertify(title: 'Success', message: 'Transaction succesful').success();
-        refreshUser();
-      } else {
-        Alertify(title: 'Failed', message: rawData['data']['message']).error();
+        if (rawData['status']) {
+          SendMoneyToBank response =
+              sendMoneyToBankFromJson(jsonEncode(rawData['data']));
+          setSendButtonLoading(false);
+          navigationService.navigateToWebPageView(url: response.url);
+        } else {
+          Alertify(title: 'Failed', message: rawData['data']['message'])
+              .error();
+          setSendButtonLoading(false);
+        }
+        setSendButtonLoading(false);
       }
+    } catch (e) {
+      setSendButtonLoading(false);
+      errorHandler(e);
     }
     setSendButtonLoading(false);
   }
