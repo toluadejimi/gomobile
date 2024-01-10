@@ -101,6 +101,11 @@ class HomeViewModel extends ContactViewModel {
             plan: selectedPlan));
   }
 
+  Future<void> refreshPage(){
+    refreshUser();
+    return Future.value(null);
+  }
+
 
   Future<Plan?> getSelectedPlan(user.Plan userPlan) async {
     Plans? listOfPlans = await plans;

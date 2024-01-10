@@ -107,6 +107,7 @@ class ManageSubscriptionViewModel extends WalletViewModel {
       var raw = jsonDecode(response.body);
 
       if (raw['status'] == true) {
+        Alertify(title: 'Success', message: 'Subscription sucessfully canceled').success();
         print(raw);
         navigationService.back();
         await refreshUser();
@@ -158,7 +159,7 @@ class ManageSubscriptionViewModel extends WalletViewModel {
       var raw = jsonDecode(response.body);
       if (raw['status'] == true) {
         print(raw);
-        Alertify(title: 'Successfully subscribed').success();
+        Alertify(title: 'Success', message: 'Successfully subscribed').success();
         setSubLoadingState(false);
         refreshUser();
       } else {
