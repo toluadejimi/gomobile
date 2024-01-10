@@ -8,6 +8,7 @@ import 'package:gomobilez/helpers/greetings.dart';
 import 'package:gomobilez/helpers/size_config.dart';
 import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/models/home_widget.dart';
+import 'package:gomobilez/models/plans.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
@@ -501,7 +502,10 @@ class HomeView extends StatelessWidget {
                                               RoundedIconButton(
                                                 padding: 10.sp,
                                                 color: primaryColor,
-                                                click: () {},
+                                                click: () {
+                                                  model.onSubscriptionPressed(
+                                                      context, plan);
+                                                },
                                                 icon: SvgPicture.asset(
                                                     'assets/images/svg/ci_bulb.svg'),
                                               ),
@@ -634,13 +638,16 @@ class HomeView extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                var plan =
+                                                Plan plan =
                                                     sn.data!.smsPlan[index];
                                                 return GestureDetector(
-                                                  onTap: () =>
-                                                      {'model.navigateToWeb()'},
+                                                  onTap: () {
+                                                    model
+                                                        .onSubscriptionSmsPressed(
+                                                            context, plan);
+                                                  },
                                                   child: Container(
-                                                    width: 285.w,
+                                                    width: 300.w,
                                                     padding:
                                                         EdgeInsets.symmetric(
                                                       horizontal: 18.w,
@@ -675,7 +682,7 @@ class HomeView extends StatelessWidget {
                                                                 .center,
                                                         children: [
                                                           SizedBox(
-                                                            width: 200,
+                                                            width: 200.w,
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment

@@ -91,6 +91,17 @@ class HomeViewModel extends ContactViewModel {
             plan: selectedPlan!));
   }
 
+  onSubscriptionSmsPressed(BuildContext context, Plan plan) async {
+    Plan? selectedPlan = plan;
+    return showButtomModalSheet(
+        context: context,
+        child: SubscriptionBottomSheet(
+            model: ManageSubscriptionViewModel(),
+            title: 'Subscribe',
+            plan: selectedPlan));
+  }
+
+
   Future<Plan?> getSelectedPlan(user.Plan userPlan) async {
     Plans? listOfPlans = await plans;
     if (listOfPlans != null) {
