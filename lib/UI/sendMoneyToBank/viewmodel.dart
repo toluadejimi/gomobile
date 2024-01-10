@@ -214,6 +214,13 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
     notifyListeners();
   }
 
+  ConversionRate? _SelectedCurrencyRate = null;
+  ConversionRate? get _SelectedCurrencyRate => _SelectedCurrencyRate;
+  setSelectedCurrencyRate(Country val) {
+    _selectedCurrencyRate = val;
+    notifyListeners();
+  }
+
   bool _countriesLoadingState = false;
   bool get countriesLoadingState => _countriesLoadingState;
   setCountriesLoadingState(bool val) {
@@ -254,5 +261,14 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
   setCountryMenuItems(List<Country> data) {
     _countryMenuItems = data;
     notifyListeners();
+  }
+
+  Future getConversionRate() async {
+    try {
+      var data = {"currency": selectedCountry!.code};
+      http.Response response = await _paymentService.getConversionRate(data);
+    } catch (e) {
+      Exception(e);
+    }
   }
 }
