@@ -68,6 +68,7 @@ class LoginViewModel extends AppBaseViewModel {
             User user = userFromJson(jsonEncode(raw['data']));
             bool success = await _tokenService.setToken(raw['data']['token']);
             if (!success) {
+              setLoadingState(false);
               throw ('Something went wrong');
             }
 
@@ -76,17 +77,21 @@ class LoginViewModel extends AppBaseViewModel {
             success = await _localStorageService.addUserToStorage(
                 LocalStorageValues.user, user);
             if (!success) {
+              setLoadingState(false);
               throw ('Something went wrong');
             }
             goToApp();
           }
+          setLoadingState(false);
         } else {
           setLoadingState(false);
+          Alertify(title: 'Some went wrong', message: 'Try again later')
+              .error();
         }
       } catch (e) {
+        setLoadingState(false);
         print(e);
         errorHandler(e);
-        setLoadingState(false);
       }
     }
   }

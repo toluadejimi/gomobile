@@ -64,6 +64,7 @@ class CustomScaffold extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
+                SizedBox(height: 10.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
                   child: body,

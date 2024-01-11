@@ -20,18 +20,18 @@ class User {
   String? country;
   String? state;
   String? phone;
+  double smsCredit;
   double wallet;
   dynamic deviceId;
-  int isEmailVerified;
+  int isEmailVerified;  //1 or 0
   int code;
-  int status;
+  int status; //1 or 0
   DateTime createdAt;
   DateTime updatedAt;
   MyPlan? myPlan;
   List<BillingInformation>? billingInformation;
   MyNumber? myNumber;
   int? pendingMessages;
-  int? messageCredit;
   List<Plan>? plans;
   String? pin;
 
@@ -47,6 +47,7 @@ class User {
       this.country,
       this.state,
       this.phone,
+      required this.smsCredit,
       required this.wallet,
       required this.deviceId,
       required this.isEmailVerified,
@@ -57,7 +58,6 @@ class User {
       this.myPlan,
       this.billingInformation,
       this.myNumber,
-      this.messageCredit,
       this.pendingMessages,
       this.plans,
       this.pin});
@@ -69,6 +69,7 @@ class User {
       firstName: json["first_name"],
       lastName: json["last_name"],
       city: json["city"],
+      smsCredit: double.parse(json["sms_credit"].toString()),
       street: json["street"],
       zipcode: json["zipcode"],
       country: json["country"],
@@ -90,7 +91,6 @@ class User {
           ? MyNumber.fromJson(json["my_number"])
           : null,
       pendingMessages: json["pending_messages"],
-      messageCredit: json['message_credit'],
       plans: json["plans"] != null
           ? List<Plan>.from(json["plans"].map((x) => Plan.fromJson(x)))
           : null,
@@ -113,6 +113,7 @@ class User {
         "is_email_verified": isEmailVerified,
         "code": code,
         "status": status,
+        "sms_credit": smsCredit,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "my_plan": myPlan?.toJson(),
@@ -121,7 +122,6 @@ class User {
             : null,
         "my_number": myNumber?.toJson(),
         "pending_messages": pendingMessages,
-        "message_credit": messageCredit,
         "plans": plans != null
             ? List<dynamic>.from(plans!.map((x) => x.toJson()))
             : null,
@@ -197,8 +197,7 @@ class MyNumber {
 class MyPlan {
   int? id;
   int? planId;
-  int? smsCredit;
-  int? daysRemaining;
+  int? daysRemaining; // cannot be null
   String? expiresAt;
   int? amount;
   int? status;
@@ -206,7 +205,6 @@ class MyPlan {
   MyPlan({
     this.id,
     this.planId,
-    this.smsCredit,
     this.daysRemaining,
     this.expiresAt,
     this.amount,
@@ -216,7 +214,6 @@ class MyPlan {
   factory MyPlan.fromJson(Map<String, dynamic> json) => MyPlan(
         id: json["id"],
         planId: json["plan_id"],
-        smsCredit: json["sms_credit"],
         amount: json["amount"],
         status: json["status"],
         daysRemaining: json["days_remaining"],
@@ -226,7 +223,6 @@ class MyPlan {
   Map<String, dynamic> toJson() => {
         "id": id,
         "plan_id": planId,
-        "sms_credit": smsCredit,
         "amount": amount,
         "status": status,
         "days_remaining": daysRemaining,

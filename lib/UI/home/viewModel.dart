@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
+import 'package:gomobilez/UI/manageSubscription/bottomSheet.dart';
+import 'package:gomobilez/UI/manageSubscription/viewModel.dart';
 import 'package:gomobilez/UI/message/getNumber/index.dart';
 import 'package:gomobilez/UI/message/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
@@ -10,9 +12,9 @@ import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/home_widget.dart';
 import 'package:gomobilez/models/plans.dart';
-import 'package:gomobilez/models/user.dart';
+import 'package:gomobilez/models/user.dart' as user;
 import 'package:gomobilez/services/settingsService.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 class HomeViewModel extends ContactViewModel {
   ScrollController listViewController = ScrollController();
@@ -79,6 +81,57 @@ class HomeViewModel extends ContactViewModel {
     makeCall(contact.phones[0].normalizedNumber, name: contact.displayName);
   }
 
+  onSubscriptionPressed(BuildContext context, user.Plan plan) async {
+    Plan? selectedPlan = await getSelectedPlan(plan);
+    return showButtomModalSheet(
+        context: context,
+        child: SubscriptionBottomSheet(
+            model: ManageSubscriptionViewModel(),
+            title: 'Subscribe',
+            plan: selectedPlan!));
+  }
+
+  onSubscriptionSmsPressed(BuildContext context, Plan plan) async {
+    Plan? selectedPlan = plan;
+    return showButtomModalSheet(
+        context: context,
+        child: SubscriptionBottomSheet(
+            model: ManageSubscriptionViewModel(),
+            title: 'Subscribe',
+            plan: selectedPlan));
+  }
+
+  Future<void> refreshPage(){
+    refreshUser();
+    return Future.value(null);
+  }
+
+
+  Future<Plan?> getSelectedPlan(user.Plan userPlan) async {
+    Plans? listOfPlans = await plans;
+    if (listOfPlans != null) {
+      if (listOfPlans.callPlan.where((plan) => plan.id == userPlan.id).length !=
+          0) {
+        return listOfPlans.callPlan
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      } else if (listOfPlans.comboPlans
+              .where((plan) => plan.id == userPlan.id)
+              .length !=
+          0) {
+        return listOfPlans.comboPlans
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      } else {
+        return listOfPlans.smsPlan
+            .where((plan) => plan.id == userPlan.id)
+            .toList()[0];
+      }
+    } else {
+      return null;
+    }
+  }
+
   navigate(String to) {
     switch (to) {
       case 'contactPage':
@@ -93,12 +146,16 @@ class HomeViewModel extends ContactViewModel {
         return navigationService.navigateToContactView(canPop: true);
         // ignore: dead_code
         break;
+      case 'topUp':
+        return navigationService.navigateToSendCreditTopUp();
+        // ignore: dead_code
+        break;
       default:
         return () {};
     }
   }
 
-   getPlans() async {
+  getPlans() async {
     try {
       http.Response response = await _settingsService.getPlans();
       String? dataAfterResponseHandler = response.body;

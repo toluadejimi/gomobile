@@ -24,9 +24,21 @@ class PaymentService extends Services {
     return response;
   }
 
+   Future<http.Response> getConversionRate(data) async {
+    http.Response response =
+        await post('conversion-rate', isAuth: true, body: data);
+    return response;
+  }
+
   Future<http.Response> sendMoneyToGomobileUser(data) async {
     http.Response response =
         await post('send-to-inapp', isAuth: true, body: data);
+    return response;
+  }
+
+  Future<http.Response> sendMoneyToBank(data) async {
+    http.Response response =
+        await post('send-to-bank', isAuth: true, body: data);
     return response;
   }
 
@@ -39,6 +51,28 @@ class PaymentService extends Services {
   Future<http.Response> verifyEmail(data) async {
     http.Response response =
         await post('verify-account', isAuth: true, body: data);
+    return response;
+  }
+
+   Future<http.Response> getCountries() async {
+    http.Response response =
+        await get('countries', isAuth: true);
+    return response;
+  }
+
+   Future<http.Response> getServiceProvider(data) async {
+    http.Response response = await post('services', isAuth: true, body: data);
+    return response;
+  }
+
+  Future<http.Response> getServiceProduct(data) async {
+    http.Response response = await post('service-cost', isAuth: true, body:data);
+    return response;
+  }
+
+  Future<http.Response> buyAirtime(data) async {
+    http.Response response =
+        await post('service-cost', isAuth: true, body: data);
     return response;
   }
 }

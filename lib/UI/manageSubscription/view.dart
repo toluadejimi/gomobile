@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +17,6 @@ class ManageSubscriptionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? Id;
     return ViewModelBuilder<ManageSubscriptionViewModel>.reactive(
       onViewModelReady: (model) => model.init(),
       viewModelBuilder: () => ManageSubscriptionViewModel(),
@@ -50,6 +48,9 @@ class ManageSubscriptionView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            SizedBox(
+                              height: 30.h,
+                            ),
                             SvgIconInCircle(
                               svgAssetPath:
                                   'assets/images/svg/manage_debit_credit.svg',
@@ -190,8 +191,7 @@ class ManageSubscriptionView extends StatelessWidget {
                                 text: 'Cancel Plan',
                                 fontSize: 12,
                                 click: () {
-                                  showCupertinoDialog(
-                                      context: context, builder: createDialog);
+                                  model.onCancleSubClick(context);
                                 },
                                 color: red,
                                 fontWeight: FontWeight.w500,
@@ -230,96 +230,119 @@ class ManageSubscriptionView extends StatelessWidget {
             SizedBox(
               height: 18.h,
             ),
-            Row(
-              children: [
-                Container(
-                  width: 183.w,
-                  height: 80.h,
-                  decoration: ShapeDecoration(
-                    color: white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Row(children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(19, 17, 8, 14),
-                      child: RoundedIconButton(
-                        click: () {},
-                        icon: Icon(
-                          Icons.arrow_upward_outlined,
-                          color: white,
+            FutureBuilder(
+                future: model.user,
+                builder: (context, snapshot) => snapshot.hasData
+                    ? Visibility(
+                        visible: snapshot.data!.myPlan != null &&
+                            snapshot.data!.myPlan!.daysRemaining != null &&
+                            snapshot.data!.myPlan!.daysRemaining! > 0,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 183.w,
+                              height: 80.h,
+                              decoration: ShapeDecoration(
+                                color: white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Row(children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(19, 17, 8, 14),
+                                  child: RoundedIconButton(
+                                    click: () {},
+                                    icon: Icon(
+                                      Icons.arrow_upward_outlined,
+                                      color: white,
+                                    ),
+                                    color: red,
+                                    padding: 8,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 24, 0, 20),
+                                  child: FutureBuilder(
+                                      future: model.getCurrentPlan(),
+                                      builder: (context, snapshot) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            BaseText(
+                                              snapshot.hasData
+                                                  ? snapshot.data!.title
+                                                  : 'Loading....',
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            SizedBox(height: 8.h),
+                                            BaseText(
+                                              'Expired',
+                                              fontSize: 10.sp,
+                                              color: textGrey,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                )
+                              ]),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                model.onResubscriptionPressed(context, model);
+                              },
+                              child: Container(
+                                height: 80.h,
+                                decoration: ShapeDecoration(
+                                  color: white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(13.0),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RoundedIconButton(
+                                          click: () {
+                                            model.onResubscriptionPressed(
+                                                context, model);
+                                          },
+                                          icon: Icon(
+                                            Icons.refresh_rounded,
+                                            color: white,
+                                          ),
+                                          color: black,
+                                          padding: 3,
+                                        ),
+                                        SizedBox(
+                                          height: 7.h,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 13.w),
+                                          child: BaseText(
+                                            'Subscribe again',
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        color: red,
-                        padding: 8,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 24, 0, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BaseText(
-                            'Basic Plan',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(height: 8),
-                          BaseText(
-                            'Expired',
-                            fontSize: 10.sp,
-                            color: textGrey,
-                            fontWeight: FontWeight.w400,
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Container(
-                  height: 80.h,
-                  decoration: ShapeDecoration(
-                    color: white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(13.0),
-                    child: Column(children: [
-                      RoundedIconButton(
-                        click: () {
-                          model.SubscribeAgain(Id);
-                        },
-                        icon: Icon(
-                          Icons.refresh_rounded,
-                          color: white,
-                        ),
-                        color: black,
-                        padding: 3,
-                      ),
-                      SizedBox(
-                        height: 7.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 13.w),
-                        child: BaseText(
-                          'Subscribe again',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          onPressed: () {
-                           // model.SubscribeAgain(Id);
-                          },
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-              ],
-            ),
+                      )
+                    : SizedBox()),
             SizedBox(
               height: 11.h,
             ),
@@ -335,77 +358,85 @@ class ManageSubscriptionView extends StatelessWidget {
                           itemCount: snapshot.data!.comboPlans.length,
                           itemBuilder: (context, index) {
                             Plan plan = snapshot.data!.comboPlans[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.h),
-                              child: Container(
-                                height: 79.h,
-                                decoration: ShapeDecoration(
-                                  color: white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Row(children: [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        19.w, 17.h, 8.w, 14.h),
-                                    child: RoundedIconButton(
-                                      click: () {},
-                                      icon: Icon(
-                                        Icons.arrow_upward_outlined,
-                                        color: white,
-                                      ),
-                                      color: red,
-                                      padding: 8,
+                            return GestureDetector(
+                              onTap: () {
+                                model.onSubscriptionPressed(
+                                    context, plan, model);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.h),
+                                child: Container(
+                                  height: 79.h,
+                                  decoration: ShapeDecoration(
+                                    color: white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 8.w,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
+                                  child: Row(children: [
+                                    Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          0, 22.h, 19.h, 20.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              BaseText(
-                                                plan.title,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              BaseText(
-                                                '\$${plan.amount}',
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 7.h,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              BaseText(
-                                                '${model.dateTimeToDay(DateTime.now())} - ${model.dateTimeToDay(DateTime.now().add(Duration(days: plan.period)))}',
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w400,
-                                                color: textGrey,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                          19.w, 17.h, 8.w, 14.h),
+                                      child: RoundedIconButton(
+                                        click: () {},
+                                        icon: Icon(
+                                          Icons.arrow_upward_outlined,
+                                          color: white,
+                                        ),
+                                        color: red,
+                                        padding: 8,
                                       ),
                                     ),
-                                  ),
-                                ]),
+                                    SizedBox(
+                                      width: 8.w,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0, 22.h, 19.h, 20.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                BaseText(
+                                                  plan.title,
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                BaseText(
+                                                  '\$${plan.amount}',
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 7.h,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                BaseText(
+                                                  '${model.dateTimeToDay(DateTime.now())} - ${model.dateTimeToDay(DateTime.now().add(Duration(days: plan.period)))}',
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: textGrey,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                ),
                               ),
                             );
                           });
@@ -422,29 +453,4 @@ class ManageSubscriptionView extends StatelessWidget {
       ),
     );
   }
-}
-Widget createDialog(BuildContext context) {
-  return CupertinoAlertDialog(
-    title: BaseText(
-      'Are you sure you want to\n cancel this plan',
-      fontSize: 14.sp,
-      fontWeight: FontWeight.bold,
-    ),
-    actions: [
-      CupertinoDialogAction(
-        child: BaseText(
-          'Yes',
-          color: blue,
-        ),
-        onPressed: () {},
-      ),
-      CupertinoDialogAction(
-        child: BaseText(
-          'No',
-          color: blue,
-        ),
-        onPressed: () {},
-      ),
-    ],
-  );
 }

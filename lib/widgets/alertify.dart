@@ -23,7 +23,7 @@ class Alertify {
 
   void success() {
     icon ??= Icons.check;
-    botToast(Colors.green);
+    botToast(black);
   }
 
   void notification() {
@@ -47,22 +47,31 @@ class Alertify {
       leading: (cancel) => SizedBox.fromSize(
         size: Size(30.w, 30.h),
         child: IconButton(
-          icon: Icon(icon, color: Colors.white),
+          icon: Icon(
+            icon,
+            color: Colors.white,
+            size: 18.sp,
+          ),
           onPressed: cancel,
         ),
       ),
       title: (_) => Text(
         title,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+            color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w500),
       ),
       subtitle: (_) => Text(
         message,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14.sp,
+        ),
       ),
       trailing: (cancel) => IconButton(
         icon: Icon(
           showTrailingIcon ? Icons.cancel : Icons.open_in_new,
           color: Colors.white,
+          size: 18.sp,
         ),
         onPressed: showTrailingIcon ? cancel : click,
       ),
@@ -72,10 +81,11 @@ class Alertify {
       align: alignment,
       backButtonBehavior: BackButtonBehavior.none,
       crossPage: true,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 7,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 12.w,
+        vertical: 7.h,
       ),
+      borderRadius: 5.sp,
       onlyOne: false,
       animationDuration: const Duration(milliseconds: 200),
       animationReverseDuration: const Duration(milliseconds: 200),

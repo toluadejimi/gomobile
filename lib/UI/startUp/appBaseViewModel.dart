@@ -10,6 +10,9 @@ import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/enums/app_states.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
+import 'package:gomobilez/helpers/errorHandler.dart';
+import 'package:gomobilez/helpers/responseHandlers.dart';
+import 'package:gomobilez/services/authService.dart';
 import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
@@ -24,6 +27,7 @@ import '../../models/user.dart';
 class AppBaseViewModel extends BaseViewModel {
   final navigationService = NavigationService();
   final _localStorageService = LocalStorageService();
+  final _authenticationService = AuthService();
   UserService _userService = locator<UserService>();
 
   void initState() {
@@ -130,6 +134,37 @@ class AppBaseViewModel extends BaseViewModel {
     if (response) {}
   }
 
+  deleteAccount() async {
+    try {
+      http.Response response =
+          await await _authenticationService.deleteAccount();
+      ;
+      String? dataAfterResponseHandler = responseHandler(response);
+
+      if (dataAfterResponseHandler != null) {
+        var raw = jsonDecode(dataAfterResponseHandler);
+
+        if (raw['status'] == true) {
+          setAppState(AppStates.noState);
+          _localStorageService.removeFromStorage(LocalStorageValues.token);
+          _localStorageService.removeFromStorage(LocalStorageValues.user);
+        }
+        notifyListeners();
+        navigationService.pushNamedAndRemoveUntil(Routes.appBaseScreen);
+      } else {
+        Alertify(title: 'Account not deleted', message: 'Try again later')
+            .error();
+        // setLoadingState(false);
+      }
+    } catch (e) {
+      print(e);
+      Alertify(title: 'Account not deleted', message: 'Try again later')
+          .error();
+      errorHandler(e);
+      // setLoadingState(false);
+    }
+  }
+
   showButtomModalSheet(
       {required BuildContext context,
       required Widget child,
@@ -213,6 +248,7 @@ class AppBaseViewModel extends BaseViewModel {
 
       if (raw['status'] == true) {
         User user = userFromJson(jsonEncode(raw['data']));
+        print(raw);
 
         var success = await _localStorageService.addUserToStorage(
             LocalStorageValues.user, user);
@@ -223,6 +259,7 @@ class AppBaseViewModel extends BaseViewModel {
     } catch (e) {
       print(e);
     }
+    notifyListeners();
   }
 
   void copyTextToClipboard(String text) {

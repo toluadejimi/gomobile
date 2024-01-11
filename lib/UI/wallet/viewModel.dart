@@ -124,10 +124,7 @@ class WalletViewModel extends DashBoardViewModel {
         http.Response response = selectedCardId != null
             ? await _paymentService.fundAccountWithCard(data)
             : await _paymentService.fundAccount(data);
-        String? dataAfterResponseHandler = responseHandler(response);
-
-        if (dataAfterResponseHandler != null) {
-          var raw = jsonDecode(dataAfterResponseHandler);
+          var raw = jsonDecode(response.body);
 
           if (raw['status'] == true) {
             if (selectedCardId != null) {
@@ -139,9 +136,6 @@ class WalletViewModel extends DashBoardViewModel {
                   arguments: WebPageViewArguments(url: data.href));
             }
           }
-        } else {
-          throw ({'message': 'An error occured'});
-        }
       } catch (e) {
         errorHandler(e);
       }

@@ -1,17 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gomobilez/UI/manageSubscription/bottomSheet.dart';
 import 'package:gomobilez/UI/wallet/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
-import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/models/plans.dart';
+import 'package:gomobilez/models/user.dart' as page;
 import 'package:gomobilez/services/settingsService.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
-import 'package:gomobilez/widgets/base_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 
@@ -54,109 +52,136 @@ class ManageSubscriptionViewModel extends WalletViewModel {
     }
   }
 
-  createDialog(BuildContext context, int Id) {
-    return CupertinoAlertDialog(
-      title: BaseText(
-        'Are you sure you want to\n cancel this plan',
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
-      ),
-      actions: [
-        CupertinoDialogAction(
-          child: BaseText(
-            'Yes',
-            color: blue,
-          ),
-          onPressed: () {
-            CancelSubscription(Id);
-            navigationService.back();
-          },
-        ),
-        CupertinoDialogAction(
-          child: BaseText(
-            'No',
-            color: blue,
-          ),
-          onPressed: () {
-            navigationService.back();
-          },
-        ),
-      ],
-    );
+  onSubscriptionPressed(
+      BuildContext context, Plan plan, ManageSubscriptionViewModel model) {
+    return showButtomModalSheet(
+        context: context,
+        child: SubscriptionBottomSheet(
+            model: model, title: 'Subscribe', plan: plan));
   }
 
-  CancelSubscription(id) async {
+  Future<Plan?> getCurrentPlan() async {
+    page.User? userDetails = await user;
+    Plans? listOfPlans = await plans;
+    if (userDetails!.myPlan != null && listOfPlans != null) {
+      if (listOfPlans.callPlan
+              .where((plan) => plan.id == userDetails.myPlan!.planId)
+              .length !=
+          0) {
+        return listOfPlans.callPlan
+            .where((plan) => plan.id == userDetails.myPlan!.planId)
+            .toList()[0];
+      } else if (listOfPlans.comboPlans
+              .where((plan) => plan.id == userDetails.myPlan!.planId)
+              .length !=
+          0) {
+        return listOfPlans.comboPlans
+            .where((plan) => plan.id == userDetails.myPlan!.planId)
+            .toList()[0];
+      } else {
+        return listOfPlans.smsPlan
+            .where((plan) => plan.id == userDetails.myPlan!.planId)
+            .toList()[0];
+      }
+    } else {
+      return null;
+    }
+  }
+
+  onResubscriptionPressed(
+      BuildContext context, ManageSubscriptionViewModel model) async {
+    Plan? currentPlan = await getCurrentPlan();
+    if (currentPlan != null) {
+      return showButtomModalSheet(
+          context: context,
+          child: SubscriptionBottomSheet(
+              model: model, title: 'Resubscribe', plan: currentPlan));
+    }
+  }
+
+  CancelSubscription() async {
     try {
-      http.Response response =
-          await _userService.cancelSubscription({"id": id});
+      page.User? userDetails = await user;
+      http.Response response = await _userService
+          .cancelSubscription({"id": userDetails!.myPlan!.planId});
       var raw = jsonDecode(response.body);
 
       if (raw['status'] == true) {
+        Alertify(title: 'Success', message: 'Subscription sucessfully canceled').success();
         print(raw);
-        await getPlans();
+        navigationService.back();
+        await refreshUser();
       } else {
-        throw {'Error'};
+        Alertify(title: 'Process Failed', message: 'Try again later').error();
       }
     } catch (e) {
       errorHandler(error);
     }
+
+    navigationService.back();
   }
 
-  SubscribeAgain(id) async {
+  subscribeAgain(id) async {
     try {
+      setSubLoadingState(true);
       http.Response response = await _userService.subscribeAgain({"id": id});
       var raw = jsonDecode(response.body);
       if (raw['status'] == true) {
         print(raw);
-        Alertify(title: 'Successfully resubscribed');
+        Alertify(title: 'Successfully resubscribed').success();
+        setSubLoadingState(false);
+        refreshUser();
       } else {
         print(response.statusCode);
-        throw {'Error'};
+        setSubLoadingState(false);
+        Alertify(title: 'Resubscription Failed', message: 'Try again later')
+            .error();
       }
     } catch (e) {
+      setSubLoadingState(false);
       errorHandler(error);
     }
+    navigationService.back();
   }
 
-  SubscribeDialog(context, Id) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Subscribe'),
-          content: Text('Do you want to subscribe?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                Subscribe(Id);
-                Navigator.of(context).pop();
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
+  bool _subLoading = false;
+  bool get subLoading => _subLoading;
+  setSubLoadingState(bool val) {
+    _subLoading = val;
+    notifyListeners();
   }
 
-  Subscribe(id) async {
+  subscribe(id) async {
     try {
-      http.Response response = await _userService.subscribe({"id": id});
+      setSubLoadingState(true);
+      http.Response response =
+          await _userService.subscribe({"id": id.toString()});
       var raw = jsonDecode(response.body);
       if (raw['status'] == true) {
         print(raw);
-        Alertify(title: 'Successfully subscribed');
+        Alertify(title: 'Success', message: 'Successfully subscribed').success();
+        setSubLoadingState(false);
+        refreshUser();
       } else {
-        throw {'Error'};
+        setSubLoadingState(false);
+        Alertify(title: 'Subscription Failed', message: 'Try again later')
+            .error();
       }
     } catch (e) {
+      setSubLoadingState(false);
       errorHandler(error);
     }
+    navigationService.back();
+  }
+
+  onCancleSubClick(context) async {
+    await createCriticalDialog(
+        context, 'Cancel Plan', 'Are you sure you want to\n cancel this plan',
+        () async {
+      await CancelSubscription();
+      notifyListeners();
+    }, () {
+      navigationService.back();
+    });
   }
 }

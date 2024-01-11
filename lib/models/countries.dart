@@ -1,33 +1,29 @@
 // To parse this JSON data, do
 //
-//     final countries = countriesFromJson(jsonString);
+//     final country = countryFromJson(jsonString);
 
 import 'dart:convert';
 
-Countries countriesFromJson(String str) => Countries.fromJson(json.decode(str));
+Country countryFromJson(String str) => Country.fromJson(json.decode(str));
 
-String countriesToJson(Countries data) => json.encode(data.toJson());
+String countryToJson(Country data) => json.encode(data.toJson());
 
-class Countries {
-  String? code;
-  String? name;
-  String? flag;
+class Country {
+  String name;
+  String code;
 
-  Countries({
-    required this.code,
+  Country({
     required this.name,
-    required this.flag,
+    required this.code,
   });
 
-  factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-        code: json["code"],
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
         name: json["name"],
-        flag: json["flag"],
+        code: json["code"],
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
         "name": name,
-        "flag": flag,
+        "code": code,
       };
 }

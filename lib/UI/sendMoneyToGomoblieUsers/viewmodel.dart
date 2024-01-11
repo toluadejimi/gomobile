@@ -103,7 +103,6 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
 
   onSendMoneyToGomobileUserClicked(
       BuildContext context, SendMoneyToGomoblieUsersViewmodel model) async {
-    setSendButtonLoading(true);
     if (formKey.currentState!.validate()) {
       await verifyTransaction(context, model);
     } else {}
@@ -136,10 +135,12 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
     if (formKey.currentState!.validate() &&
         pinController.text.trim().isNotEmpty) {
       navigationService.back();
+
+      setSendButtonLoading(true);
       var data = {
         "amount": amountController.text.trim(),
         "email": emailTextController.text.trim(),
-        "password": pinController.text.trim()
+        "pin": pinController.text.trim()
       };
 
       http.Response response =
@@ -150,6 +151,7 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
 
       if (rawData['status']) {
         Alertify(title: 'Success', message: 'Transaction succesful').success();
+        refreshUser();
       } else {
         Alertify(title: 'Failed', message: rawData['data']['message']).error();
       }

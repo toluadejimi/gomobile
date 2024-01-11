@@ -1,0 +1,1 @@
+enum ServiceProductValue { No, Yes }

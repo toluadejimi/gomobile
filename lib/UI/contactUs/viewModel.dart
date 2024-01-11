@@ -1,21 +1,32 @@
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/models/contact_Us.dart';
 import 'package:gomobilez/services/userService.dart';
 import 'package:http/http.dart' as http;
-import 'package:stacked/stacked.dart';
 
-class ContactUsViewModel extends BaseViewModel {
+class ContactUsViewModel extends AppBaseViewModel {
   UserService _userService = locator<UserService>();
 
-  Future<ContactUs?> getContactUs() async {
+  init(){
+    getContactUs();
+  }
+
+  Future<ContactUs>? _contactUs = null;
+  Future<ContactUs>? get contactUs => _contactUs;
+  setContactUs(Future<ContactUs>? val) {
+    _contactUs = val;
+    notifyListeners();
+  }
+
+  getContactUs() async {
     try {
       http.Response response = await _userService.getContactUs();
 
       if (response.statusCode == 200) {
-        ContactUs contactUs = contactUsFromJson(response.body);
+        ContactUs rawContactUs = contactUsFromJson(response.body);
         print(response.body);
         notifyListeners();
-        return contactUs;
+        setContactUs(Future.value(rawContactUs));
       } else {
         print('Request failed with status: ${response.statusCode}');
         print('Response body: ${response.body}');
@@ -25,5 +36,18 @@ class ContactUsViewModel extends BaseViewModel {
       throw Exception('Failed to load contact information');
     }
     return null;
+  }
+  onClickCall() async {
+    ContactUs? rawContact = await contactUs;
+    if (rawContact != null) {
+    copyTextToClipboard(rawContact.data.phoneNo);
+    }
+  }
+
+  onClickMail() async {
+    ContactUs? rawContact = await contactUs;
+    if (rawContact != null) {
+      copyTextToClipboard(rawContact.data.email);
+    }
   }
 }

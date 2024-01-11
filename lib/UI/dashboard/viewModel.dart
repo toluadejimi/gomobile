@@ -31,7 +31,7 @@ class DashBoardViewModel extends AppBaseViewModel {
   initShowNotification() async {
     User? data = await user;
 
-    if (data!.myPlan != null && data.myPlan!.daysRemaining! < 5) {
+    if (data!.myPlan != null && data.myPlan!.status !=0 && data.myPlan!.daysRemaining! < 5) {
       setShowNotification(true);
     } else {
       setShowNotification(false);

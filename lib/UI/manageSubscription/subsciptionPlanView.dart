@@ -23,7 +23,7 @@ class subsciptionPlanView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 30.h,
+              height: 10.h,
             ),
             BaseText(
               'Combos',
@@ -46,34 +46,8 @@ class subsciptionPlanView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           Plan plan = snapshot.data!.comboPlans[index];
                           return GestureDetector(
-                            onHorizontalDragEnd: (details) {
-                              if (details.primaryVelocity! > 0) {
-                                //model.Subscribe(plan.id);
-                                showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Subscribe'),
-          content: Text('Do you want to subscribe?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                model.Subscribe(plan.id.toString());
-                Navigator.of(context).pop();
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-                              }
+                            onTap: (){
+                              model.onSubscriptionPressed(context, plan, model);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -178,62 +152,67 @@ class subsciptionPlanView extends StatelessWidget {
                             ...snapshot.data!.callPlan
                           ];
                           Plan plan = plans[index];
-                          return Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12.w, vertical: 15.h),
-                            decoration: ShapeDecoration(
-                              color: white36,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          return GestureDetector(
+                            onTap: (){
+                              model.onSubscriptionPressed(context, plan, model);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w, vertical: 15.h),
+                              decoration: ShapeDecoration(
+                                color: white36,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SvgIconInCircle(
-                                    svgAssetPath:
-                                        'assets/images/svg/ci_bulb.svg',
-                                    circleSize: 50.sp,
-                                    circleColor: shadeOfYellow,
-                                  ),
-                                  SizedBox(
-                                    width: 8.w,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            BaseText(
-                                              plan.title,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            BaseText(
-                                              '\$${plan.amount}/month',
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 7.h,
-                                        ),
-                                        Text('${plan.note}',
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w400,
-                                              height: 1.5.h,
-                                              color: textGrey,
-                                            )),
-                                      ],
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SvgIconInCircle(
+                                      svgAssetPath:
+                                          'assets/images/svg/ci_bulb.svg',
+                                      circleSize: 50.sp,
+                                      circleColor: shadeOfYellow,
                                     ),
-                                  ),
-                                ]),
+                                    SizedBox(
+                                      width: 8.w,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              BaseText(
+                                                plan.title,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              BaseText(
+                                                '\$${plan.amount}/month',
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 7.h,
+                                          ),
+                                          Text('${plan.note}',
+                                              style: TextStyle(
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.5.h,
+                                                color: textGrey,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                            ),
                           );
                         },
                         separatorBuilder: (_, __) => SizedBox(height: 10.h),

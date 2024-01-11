@@ -1,3 +1,3 @@
-import 'package:stacked/stacked.dart';
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 
-class LegalTermsViewModel extends BaseViewModel {}
+class LegalTermsViewModel extends AppBaseViewModel {}
