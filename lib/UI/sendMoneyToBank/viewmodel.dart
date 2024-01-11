@@ -8,6 +8,7 @@ import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/country_currency_code.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
+import 'package:gomobilez/models/conversion_rate.dart';
 import 'package:gomobilez/models/countries.dart';
 import 'package:gomobilez/models/send_money_to_bank.dart';
 import 'package:gomobilez/models/user.dart';
@@ -35,6 +36,7 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
 
   init() {
     setCountryMenuItems(getCountryCurrencyCode());
+    getRecentTransactions();
   }
 
   bool _sendButtonLoading = false;
@@ -205,6 +207,8 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
   setCountryController(Object val) async {
     setSelectedCounty(val as Country);
     notifyListeners();
+    setSelectedCurrencyRate(null);
+    getConversionRate();
   }
 
   Country? _selectedCountry = null;
@@ -214,9 +218,9 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
     notifyListeners();
   }
 
-  ConversionRate? _SelectedCurrencyRate = null;
-  ConversionRate? get _SelectedCurrencyRate => _SelectedCurrencyRate;
-  setSelectedCurrencyRate(Country val) {
+  ConversionRate? _selectedCurrencyRate = null;
+  ConversionRate? get selectedCurrencyRate => _selectedCurrencyRate;
+  setSelectedCurrencyRate(ConversionRate? val) {
     _selectedCurrencyRate = val;
     notifyListeners();
   }
@@ -225,6 +229,13 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
   bool get countriesLoadingState => _countriesLoadingState;
   setCountriesLoadingState(bool val) {
     _countriesLoadingState = val;
+    notifyListeners();
+  }
+
+  bool _conversionRateLoading = false;
+  bool get conversionRateLoading => _conversionRateLoading;
+  setConversionRateLoading(bool val) {
+    _conversionRateLoading = val;
     notifyListeners();
   }
 
@@ -263,12 +274,38 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
     notifyListeners();
   }
 
-  Future getConversionRate() async {
+  getConversionRate() async {
     try {
+      setConversionRateLoading(true);
       var data = {"currency": selectedCountry!.code};
       http.Response response = await _paymentService.getConversionRate(data);
+
+      String? dataAfterResponseHandler = response.body;
+      print(dataAfterResponseHandler);
+
+      var raw = jsonDecode(dataAfterResponseHandler);
+
+      if (raw['status'] == true && raw['data']['conversion_rate'].length>0) {
+        ConversionRate rates = conversionRateFromJson(
+            jsonEncode(raw['data']['conversion_rate'][0]));
+
+        setSelectedCurrencyRate(rates);
+        setConversionRateLoading(false);
+      } else {
+        setConversionRateLoading(false);
+      }
     } catch (e) {
-      Exception(e);
+      setConversionRateLoading(false);
+      errorHandler(e);
     }
+
+    setCountriesLoadingState(false);
   }
+
+  // List<Country> _countryMenuItems = [];
+  // List<Country> get countryMenuItems => _countryMenuItems;
+  // setCountryMenuItems(List<Country> data) {
+  //   _countryMenuItems = data;
+  //   notifyListeners();
+  // }
 }

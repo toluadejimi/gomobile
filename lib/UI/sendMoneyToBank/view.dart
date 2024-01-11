@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/sendMoneyToBank/viewmodel.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/models/countries.dart';
 import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/widgets/base_text.dart';
@@ -52,13 +53,59 @@ class SendMoneyToBankView extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 20.h,
+                height: 10.h,
+              ),
+              Visibility(
+                visible: model.selectedCurrencyRate != null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BaseText(
+                      'Conversion rate:',
+                      fontSize: 14.sp,
+                    ),
+                    BaseText(
+                      '${model.selectedCurrencyRate != null ? "\$1 = ${model.selectedCountry!.code} ${model.selectedCurrencyRate!.rate.toString().currencyFormart()}" : 'Getting conversion rate'}',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
               ),
               InputField(
                 hint: 'Amount',
                 controller: model.amountController,
                 keyboardType: TextInputType.number,
                 validator: (val) => model.validateInput(val),
+                onChanged: (val) {
+                  model.notifyListeners();
+                },
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Visibility(
+                visible: model.selectedCurrencyRate != null,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BaseText(
+                      'Amount in dollars:',
+                      fontSize: 14.sp,
+                    ),
+                    BaseText(
+                      '${model.selectedCurrencyRate != null && model.amountController.text.isNotEmpty ? '${model.selectedCountry!.code} ${(int.parse(model.amountController.text) * model.selectedCurrencyRate!.rate).toString().currencyFormart()}' : 'Processing conversion rate...'}',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
               ),
               SizedBox(
                 height: 37.h,
@@ -176,6 +223,7 @@ class SendMoneyToBankView extends StatelessWidget {
                       }
                     }),
               ),
+            
             ],
           ),
         ),

@@ -47,7 +47,6 @@ class _SendMoneyToBankBottomSheet extends State<SendMoneyToBankBottomSheet> {
             child: InputField(
               hint: 'Transaction Pin',
               fillColor: grey15,
-              keyboardType: TextInputType.number,
               hintOut: false,
               autofocus: true,
               controller: widget.model.pinController,
