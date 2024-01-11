@@ -43,6 +43,7 @@ class ContactViewModel extends DashBoardViewModel {
 
       if (raw['status'] == true) {
         List<RecentCalls> transactions = [];
+        setShowFab(true);
         if (raw['data']['calls'].length > 0) {
           for (var i = 0; i < raw['data']['calls'].length; i++) {
             transactions

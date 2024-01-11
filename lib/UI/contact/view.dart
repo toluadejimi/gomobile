@@ -21,7 +21,6 @@ class ContactView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ContactViewModel>.reactive(
-      disposeViewModel: false,
       onViewModelReady: (model) => model.init(),
       viewModelBuilder: () => ContactViewModel(),
       builder: (context, model, child) => Scaffold(

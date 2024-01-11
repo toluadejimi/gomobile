@@ -63,7 +63,6 @@ class ConversationViewModel extends MessageViewModel {
 
   sendMessage(String phoneNumber, {name = ''}) async {
     if (messageController.text.isNotEmpty) {
-      print(await selectedImage!.length());
       try {
         var data = FormData.fromMap({
           "receiver": phoneNumber.standardPhoneNumberFormart(),

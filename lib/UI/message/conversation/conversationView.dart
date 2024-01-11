@@ -205,11 +205,11 @@ class ConversationView extends StatelessWidget {
                               focusNode: model.focusNode,
                               hint: 'Text message',
                               hintOut: false,
-                              prefixIcon: GestureDetector(
-                                  onTap: () {
-                                    model.pickImage();
-                                  },
-                                  child: Icon(Icons.photo_album)),
+                              // prefixIcon: GestureDetector(
+                              //     onTap: () {
+                              //       model.pickImage();
+                              //     },
+                              //     child: Icon(Icons.photo_album)),
                               suffixIcon: SizedBox(
                                 width: 50.w,
                                 child: GestureDetector(
