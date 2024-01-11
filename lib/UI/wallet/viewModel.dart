@@ -12,6 +12,7 @@ import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/models/saved_cards.dart';
 import 'package:gomobilez/services/paymentService.dart';
 import 'package:gomobilez/services/userService.dart';
+import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
 
 class WalletViewModel extends DashBoardViewModel {
@@ -124,18 +125,25 @@ class WalletViewModel extends DashBoardViewModel {
         http.Response response = selectedCardId != null
             ? await _paymentService.fundAccountWithCard(data)
             : await _paymentService.fundAccount(data);
-          var raw = jsonDecode(response.body);
+        var raw = jsonDecode(response.body);
 
-          if (raw['status'] == true) {
-            if (selectedCardId != null) {
-              navigationService.back();
-            } else {
-              FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));
+        if (raw['status'] == true) {
+          if (selectedCardId != null) {
+            await refreshUser();
+            navigationService.back();
+            
+          } else {
+            FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));
 
-              navigationService.navigateTo(Routes.webPageView,
-                  arguments: WebPageViewArguments(url: data.href));
-            }
+            navigationService.navigateTo(Routes.webPageView,
+                arguments: WebPageViewArguments(url: data.href));
           }
+          Alertify(title: 'Success', message: 'wallet successfully funded')
+                .success();
+          refreshUser();
+        } else {
+          Alertify(title: 'Failed',message: 'Wallet funding failed').error();
+        }
       } catch (e) {
         errorHandler(e);
       }
