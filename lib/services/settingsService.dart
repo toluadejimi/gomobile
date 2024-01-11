@@ -6,4 +6,9 @@ class SettingsService extends Services {
     http.Response response = await get('get-plans', isAuth: true);
     return response;
   }
+
+  Future<http.Response> getLegalTerms() async {
+    http.Response response = await get('legal-terms', isAuth: true);
+    return response;
+  }
 }

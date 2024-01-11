@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/legalTerms/viewModel.dart';
+import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/customScaffold.dart';
@@ -26,7 +27,9 @@ class LegalTermsView extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))
+                IconButton(onPressed: () {
+                    model.navigationService.navigateToWebPageView(url: 'https://agreementservice.svs.nike.com/rest/agreement?agreementType=termsOfUse&country=NG&language=en&requestType=redirect&uxId=4fd2d5e7db76e0f85a6bb56721bd51df');
+                }, icon: Icon(Icons.arrow_forward))
               ],
             ),
             SizedBox(
@@ -47,7 +50,9 @@ class LegalTermsView extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))
+                IconButton(onPressed: () {
+                    model.navigationService.navigateToWebPageView(url: 'https://agreementservice.svs.nike.com/rest/agreement?agreementType=termsOfUse&country=NG&language=en&requestType=redirect&uxId=4fd2d5e7db76e0f85a6bb56721bd51df');
+                }, icon: Icon(Icons.arrow_forward))
               ],
             ),
             SizedBox(
@@ -68,7 +73,9 @@ class LegalTermsView extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward))
+                IconButton(onPressed: () {
+                  model.navigationService.navigateToWebPageView(url: 'https://agreementservice.svs.nike.com/rest/agreement?agreementType=termsOfUse&country=NG&language=en&requestType=redirect&uxId=4fd2d5e7db76e0f85a6bb56721bd51df');
+                }, icon: Icon(Icons.arrow_forward))
               ],
             ),
             SizedBox(
