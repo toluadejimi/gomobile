@@ -108,8 +108,8 @@ class HomeView extends StatelessWidget {
                                               fontWeight: FontWeight.w600,
                                             )
                                           : SizedBox(),
-                                      const SizedBox(
-                                        width: 3,
+                                       SizedBox(
+                                        width: 3.w,
                                       ),
                                       GestureDetector(
                                         onTap: () => model.copyTextToClipboard(
