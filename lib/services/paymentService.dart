@@ -24,6 +24,12 @@ class PaymentService extends Services {
     return response;
   }
 
+   Future<http.Response> getConversionRate(data) async {
+    http.Response response =
+        await post('conversion-rate', isAuth: true, body: data);
+    return response;
+  }
+
   Future<http.Response> sendMoneyToGomobileUser(data) async {
     http.Response response =
         await post('send-to-inapp', isAuth: true, body: data);
