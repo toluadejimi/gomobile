@@ -40,6 +40,8 @@ class HomeView extends StatelessWidget {
         mobile: CustomScaffold(
           backgroundColor: primaryColor,
           body: RefreshIndicator(
+            backgroundColor: black,
+            color: primaryColor,
             onRefresh: () {
               return model.refreshPage();
             },
@@ -354,7 +356,7 @@ class HomeView extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.6,
                         child: ListView(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: BouncingScrollPhysics(),
                             children: [
                               Padding(
                                 padding:
