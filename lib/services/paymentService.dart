@@ -72,7 +72,7 @@ class PaymentService extends Services {
 
   Future<http.Response> buyAirtime(data) async {
     http.Response response =
-        await post('service-cost', isAuth: true, body: data);
+        await post('buy-airtime', isAuth: true, body: data);
     return response;
   }
 }

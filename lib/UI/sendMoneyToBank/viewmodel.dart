@@ -15,7 +15,6 @@ import 'package:gomobilez/models/user.dart';
 import 'package:gomobilez/services/paymentService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 import 'createPinBottomSheet.dart';
 
@@ -37,6 +36,13 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
   init() {
     setCountryMenuItems(getCountryCurrencyCode());
     getRecentTransactions();
+  }
+
+  bool _passwordState = true;
+  bool get passworState => _passwordState;
+  setPasswordState() {
+    _passwordState = !_passwordState;
+    notifyListeners();
   }
 
   bool _sendButtonLoading = false;

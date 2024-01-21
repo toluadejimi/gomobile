@@ -47,6 +47,18 @@ class _CreatePin extends State<CreatePin> {
               fillColor: grey15,
               hintOut: false,
               autofocus: true,
+              suffixIcon: GestureDetector(
+                  onTap: () {
+                    widget.model.setPasswordState();
+                    setState(() {});
+                  },
+                  child: Icon(
+                    widget.model.passworState
+                        ? Icons.remove_red_eye
+                        : Icons.remove_red_eye_outlined,
+                    color: black,
+                  )),
+              obscureText: widget.model.passworState,
               controller: widget.model.createPinController,
               validator: (val) => widget.model.validateInput(val),
             ),

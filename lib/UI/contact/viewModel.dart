@@ -95,8 +95,14 @@ class ContactViewModel extends DashBoardViewModel {
           await Permission.microphone.request();
           await Permission.camera.request();
 
-          navigationService.navigateTo(Routes.webPageView,
-              arguments: WebPageViewArguments(url: raw['data']['call_url']));
+          navigationService.navigateTo(
+            Routes.webPageView,
+            arguments: WebPageViewArguments(
+              url: raw['data']['id'] == 2
+                  ? raw['data']['call_url']
+                  : 'https://gomobilez-web-app.vercel.app/${number.standardPhoneNumberFormart()}/${raw['data']['time']}',
+            ),
+          ); //number must always come before time
         }
       } catch (e) {
         errorHandler(e);

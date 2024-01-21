@@ -50,6 +50,17 @@ class _SendMoneyToBankBottomSheet extends State<SendMoneyToBankBottomSheet> {
               hintOut: false,
               autofocus: true,
               controller: widget.model.pinController,
+              suffixIcon: GestureDetector(
+                  onTap: () {widget.model.setPasswordState(); 
+                  setState(() {});
+                  },
+                  child: Icon(
+                    widget.model.passworState
+                        ? Icons.remove_red_eye
+                        : Icons.remove_red_eye_outlined,
+                    color: black,
+                  )),
+              obscureText: widget. model.passworState,
               validator: (val) => widget.model.validateInput(val),
             ),
           ),

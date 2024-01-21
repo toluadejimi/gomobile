@@ -13,6 +13,7 @@ class UpdateProfileViewModel extends AppBaseViewModel {
   String? validateInput(String? text) {
     if (text == null) {
       return 'Can\'t be empty';
+      
     }
     if (text.trim().isEmpty) {
       return 'Can\'t be empty';
