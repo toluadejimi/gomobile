@@ -244,13 +244,16 @@ class SendAtopUpViewmodel extends AppBaseViewModel {
   }
 
   buyCredit() async {
+    
     if (selectedCountry != null &&
         selectedProducts != null &&
         selectedProvider != null &&
         (selectedProducts!.fixedPrice.toLowerCase() == 'yes' ||
             amountController.text.isNotEmpty)) {
       setButtonLoadingState(true);
+      print('hi1');
       try {
+        print('hi2');
         var data = {
           "country_code": selectedCountry!.code,
           "service_amount": selectedProducts!.fixedPrice.toLowerCase() == 'no'
@@ -259,23 +262,37 @@ class SendAtopUpViewmodel extends AppBaseViewModel {
           "phone": phoneNumberController.text,
           "product_id": selectedProducts!.productId,
           "rate": selectedProducts!.rate,
-          "operator_id": selectedProvider!.operatorId
+          "operator_id": selectedProvider!.operatorId,
+        
         };
+        print('hi3');
         http.Response response = await paymentService.buyAirtime(data);
+        print('hi4');
+        print(response.statusCode);
         String? dataAfterResponseHandler = responseHandler(response);
-
+          print('hi5');
         if (dataAfterResponseHandler != null) {
+          print('hi6');
           var raw = jsonDecode(dataAfterResponseHandler);
-
+print('hi7');
           if (raw['status'] == true) {
+            print('hi8');
             setButtonLoadingState(false);
+            print('hi9');
           }
+          print('hi10');
         } else {
+          print('hi11');
           setButtonLoadingState(false);
+          print('hi12');
         }
+        print('hi13');
       } catch (e) {
+        print('hi14');
         setButtonLoadingState(false);
+        print('hi15');
         errorHandler(e);
+        print('hi6');
       }
     }
     setButtonLoadingState(false);
