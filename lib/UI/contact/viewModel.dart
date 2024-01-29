@@ -114,3 +114,5 @@ class ContactViewModel extends DashBoardViewModel {
     navigationService.back();
   }
 }
+
+<div style="width: 100%, height:80px" > <div style=" font-size: 20px;">STEP 1</div>  <div style="font-size: 15px; width: 150px; padding-top:10px; padding-top:7.5px ">How to Decide on a  Science Fair Project </div>    </div>
