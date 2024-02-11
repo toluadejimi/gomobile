@@ -13,15 +13,12 @@ import 'app/app.router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
     await setupLocator();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    await FirebaseService().initNotifcations();
+    // await Firebase.initializeApp(
+    //     options: DefaultFirebaseOptions.currentPlatform);
+    // await FirebaseService().initNotifcations();
     runApp(const MyApp());
-  } catch (e) {
-    print(e);
-  }
+
 }
 
 class MyApp extends StatelessWidget {
