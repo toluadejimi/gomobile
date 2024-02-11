@@ -94,13 +94,17 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
                                 horizontal: 15.w,
                               ),
                               decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  border: Border.all(
-                                      width: 2,
-                                      color: widget.model.selectedCardId ==
+                                  color: widget.model.selectedCardId ==
                                               savedCards.customerId
-                                          ? Colors.black
-                                          : primaryColor),
+                                          ? primaryColor
+                                          : transaparentGrey,
+                                  // border: Border.all(
+                                  //     width: 2,
+                                  //     color: widget.model.selectedCardId ==
+                                  //             savedCards.customerId
+                                  //         ? Colors.black
+                                  //          : primaryColor
+                                  //         ),
                                   borderRadius: BorderRadius.circular(10.sp)),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,19 +230,21 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
                     SizedBox(
                       width: 10,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BaseText(
-                          'Pay with Debit / Credit Card',
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        BaseText('Fund your wallet using Debit or Credit card')
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BaseText(
+                            'Pay with Debit / Credit Card',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          BaseText('Fund your wallet using Debit or Credit card')
+                        ],
+                      ),
                     )
                   ],
                 )),

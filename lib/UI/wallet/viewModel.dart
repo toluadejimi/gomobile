@@ -129,6 +129,8 @@ class WalletViewModel extends DashBoardViewModel {
 
         if (raw['status'] == true) {
           if (selectedCardId != null) {
+            Alertify(title: 'Success', message: 'wallet successfully funded')
+                .success();
             await refreshUser();
             navigationService.back();
             
@@ -137,9 +139,11 @@ class WalletViewModel extends DashBoardViewModel {
 
             navigationService.navigateTo(Routes.webPageView,
                 arguments: WebPageViewArguments(url: data.href));
+                // Alertify(title: 'Success', message: 'wallet successfully funded')
+                // .success();
           }
-          Alertify(title: 'Success', message: 'wallet successfully funded')
-                .success();
+          // Alertify(title: 'Success', message: 'wallet successfully funded')
+          //       .success();
           refreshUser();
         } else {
           Alertify(title: 'Failed',message: 'Wallet funding failed').error();

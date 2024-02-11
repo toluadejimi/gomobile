@@ -88,7 +88,7 @@ class _SendMoneyToBankBottomSheet extends State<SendMoneyToBankBottomSheet> {
                       width: 4.w,
                     ),
                     BaseText(
-                      'Rest Pin',
+                      'Reset Pin',
                       color: white,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,

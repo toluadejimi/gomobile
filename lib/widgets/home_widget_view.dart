@@ -49,11 +49,13 @@ class HomeWidgetView extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              BaseText(
-                description,
-                fontSize: 13.sp,
-                color: textGrey,
-                textAlign: TextAlign.center,
+              Expanded(
+                child: BaseText(
+                  description,
+                  fontSize: 13.sp,
+                  color: textGrey,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

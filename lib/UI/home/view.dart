@@ -300,52 +300,54 @@ class HomeView extends StatelessWidget {
                                 fontSize: 14.sp,
                                 color: grey,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        './assets/images/svg/solar_wallet-bold.svg',
-                                        width: 25.w,
-                                      ),
-                                      SizedBox(
-                                        width: 3.w,
-                                      ),
-                                      FutureBuilder(
-                                          future: model.getUser(),
-                                          builder: (ctx, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return BaseText(
-                                                "\$${snapshot.data!.wallet.toString().currencyFormart()}",
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25.w,
-                                              );
-                                            } else {
-                                              return BaseText(
-                                                "\$0.00",
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25.sp,
-                                              );
-                                            }
-                                          }),
-                                    ],
-                                  ),
-                                  IconButtonPlusText(
-                                    curve: 10.sp,
-                                    paddingY: 8,
-                                    paddingX: 5,
-                                    color: primaryColor,
-                                    click: () => model.navigateToFundWallet(),
-                                    prefixIcon: SvgPicture.asset(
-                                      './assets/images/svg/home_page_fund_wallet_icon.svg',
-                                      width: 16.sp,
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          './assets/images/svg/solar_wallet-bold.svg',
+                                          width: 25.w,
+                                        ),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        FutureBuilder(
+                                            future: model.getUser(),
+                                            builder: (ctx, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return BaseText(
+                                                  "\$${snapshot.data!.wallet.toString().currencyFormart()}",
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25.w,
+                                                );
+                                              } else {
+                                                return BaseText(
+                                                  "\$0.00",
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25.sp,
+                                                );
+                                              }
+                                            }),
+                                      ],
                                     ),
-                                    width: 95,
-                                    text: 'Fund Wallet',
-                                  )
-                                ],
+                                    IconButtonPlusText(
+                                      curve: 10.sp,
+                                      paddingY: 8,
+                                      paddingX: 5,
+                                      color: primaryColor,
+                                      click: () => model.navigateToFundWallet(),
+                                      prefixIcon: SvgPicture.asset(
+                                        './assets/images/svg/home_page_fund_wallet_icon.svg',
+                                        width: 16.sp,
+                                      ),
+                                      width: 95,
+                                      text: 'Fund Wallet',
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
