@@ -174,7 +174,7 @@ class SendMoneyToBankViewmodel extends WalletViewModel {
           setSendButtonLoading(false);
           navigationService.navigateToWebPageView(url: response.url);
         } else {
-          Alertify(title: 'Failed', message: rawData['data']['message'])
+          Alertify(title: 'Failed', message: rawData['message'])
               .error();
           setSendButtonLoading(false);
         }

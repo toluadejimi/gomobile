@@ -1,4 +1,5 @@
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io' show Platform;
 
@@ -14,8 +15,12 @@ class WebPageViewModel extends AppBaseViewModel {
     }
   }
 
-  init({required String url}) {
+  init({required String url}) async {
     setController(url);
+     if (Platform.isIOS) {
+    await Permission.camera.request();
+  await Permission.microphone.request();
+     }
   }
 
   pop() async {
