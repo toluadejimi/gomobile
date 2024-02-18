@@ -7,12 +7,13 @@ class WebPageViewModel extends AppBaseViewModel {
   WebViewController _controller = WebViewController();
   WebViewController get controller => _controller;
 
-  var link;
+  String? link;
 
   setController(String url) async {
     if (Platform.isAndroid) {
       link = url;
     }
+
   }
 
   init({required String url}) {
