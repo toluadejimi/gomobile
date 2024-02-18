@@ -23,7 +23,7 @@ class WebPageView extends StatelessWidget {
               child: Stack(
             children: [
               InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri(model.link)),
+                initialUrlRequest: URLRequest(url: WebUri(model.link.toString())),
                 initialOptions: InAppWebViewGroupOptions(
                     crossPlatform: InAppWebViewOptions(
                       transparentBackground: true,
