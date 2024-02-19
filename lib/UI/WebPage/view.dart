@@ -15,7 +15,7 @@ class WebPageView extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments as WebPageViewArguments;
     return ViewModelBuilder<WebPageViewModel>.reactive(
-      onViewModelReady: (model) => model.init(url: args.url),
+      onViewModelReady: (model) async => await model.init(url: args.url),
       viewModelBuilder: () => WebPageViewModel(),
       builder: (context, model, child) => Scaffold(
           backgroundColor: primaryColor,
