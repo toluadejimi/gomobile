@@ -24,19 +24,24 @@ class WebPageView extends StatelessWidget {
             children: [
               InAppWebView(
                 initialUrlRequest: URLRequest(url: WebUri(model.link.toString())),
-                initialOptions: InAppWebViewGroupOptions(
-                    crossPlatform: InAppWebViewOptions(
-                      transparentBackground: true,
-                      mediaPlaybackRequiresUserGesture: false,
+                initialSettings: InAppWebViewSettings(
+                  allowContentAccess: true,
+                  allowsBackForwardNavigationGestures: true,
+                  mediaPlaybackRequiresUserGesture: false,
+                  allowsInlineMediaPlayback: true
+                    // crossPlatform: InAppWebViewSettings(
+                    //   transparentBackground: true,
+                    //   mediaPlaybackRequiresUserGesture: false,
+                    // ),
+                    // ios: InAppWebViewSettings(
+                    //   allowsInlineMediaPlayback: true,
+                    // )
+
                     ),
-                    ios: IOSInAppWebViewOptions(
-                      allowsInlineMediaPlayback: true,
-                    )),
-                androidOnPermissionRequest: (InAppWebViewController controller,
-                    String origin, List<String> resources) async {
-                  return PermissionRequestResponse(
-                      resources: resources,
-                      action: PermissionRequestResponseAction.GRANT);
+                onPermissionRequest: (controller, request) async {
+                  return PermissionResponse(
+                      resources: request.resources,
+                      action: PermissionResponseAction.GRANT);
                 },
                 onLoadStart: (InAppWebViewController controller, Uri? url) {
                   if (url != null) {
