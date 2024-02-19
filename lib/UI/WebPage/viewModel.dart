@@ -17,10 +17,12 @@ class WebPageViewModel extends AppBaseViewModel {
 
   init({required String url}) async {
     setController(url);
-     if (Platform.isIOS) {
+    if (Platform.isIOS) {
+
     await Permission.camera.request();
-  await Permission.microphone.request();
-     }
+    await Permission.microphone.request();
+
+    }
   }
 
   pop() async {
