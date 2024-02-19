@@ -153,7 +153,7 @@ class SendMoneyToGomoblieUsersViewmodel extends WalletViewModel {
         Alertify(title: 'Success', message: 'Transaction succesful').success();
         refreshUser();
       } else {
-        Alertify(title: 'Failed', message: rawData['data']['message']).error();
+        Alertify(title: 'Failed', message: rawData['message']['message']).error();
       }
     }
     setSendButtonLoading(false);
