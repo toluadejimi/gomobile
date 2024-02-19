@@ -6,6 +6,7 @@ import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/services/firebaseService.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/app.locator.dart';
@@ -14,6 +15,8 @@ import 'app/app.router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
     await setupLocator();
+    await Permission.camera.request();
+  await Permission.microphone.request();
     // await Firebase.initializeApp(
     //     options: DefaultFirebaseOptions.currentPlatform);
     // await FirebaseService().initNotifcations();

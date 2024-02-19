@@ -15,7 +15,7 @@ class WebPageView extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments as WebPageViewArguments;
     return ViewModelBuilder<WebPageViewModel>.reactive(
-      onViewModelReady: (model) async => await model.init(url: args.url),
+      onViewModelReady: (model) => model.init(url: args.url),
       viewModelBuilder: () => WebPageViewModel(),
       builder: (context, model, child) => Scaffold(
           backgroundColor: primaryColor,
@@ -23,25 +23,20 @@ class WebPageView extends StatelessWidget {
               child: Stack(
             children: [
               InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri(model.link.toString())),
-                initialSettings: InAppWebViewSettings(
-                  allowContentAccess: true,
-                  allowsBackForwardNavigationGestures: true,
-                  mediaPlaybackRequiresUserGesture: false,
-                  allowsInlineMediaPlayback: true
-                    // crossPlatform: InAppWebViewSettings(
-                    //   transparentBackground: true,
-                    //   mediaPlaybackRequiresUserGesture: false,
-                    // ),
-                    // ios: InAppWebViewSettings(
-                    //   allowsInlineMediaPlayback: true,
-                    // )
-
+                initialUrlRequest: URLRequest(url: Uri.parse(model.link)),
+                initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      transparentBackground: true,
+                      mediaPlaybackRequiresUserGesture: false,
                     ),
-                onPermissionRequest: (controller, request) async {
-                  return PermissionResponse(
-                      resources: request.resources,
-                      action: PermissionResponseAction.GRANT);
+                    ios: IOSInAppWebViewOptions(
+                      allowsInlineMediaPlayback: true,
+                    )),
+                androidOnPermissionRequest: (InAppWebViewController controller,
+                    String origin, List<String> resources) async {
+                  return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT);
                 },
                 onLoadStart: (InAppWebViewController controller, Uri? url) {
                   if (url != null) {
