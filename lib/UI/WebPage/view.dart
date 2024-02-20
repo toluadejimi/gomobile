@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:gomobilez/UI/WebPage/viewModel.dart';
@@ -23,25 +24,21 @@ class WebPageView extends StatelessWidget {
               child: Stack(
             children: [
               InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri(model.link.toString())),
-                initialSettings: InAppWebViewSettings(
-                  allowContentAccess: true,
-                  allowsBackForwardNavigationGestures: true,
-                  mediaPlaybackRequiresUserGesture: false,
-                  allowsInlineMediaPlayback: true
-                    // crossPlatform: InAppWebViewSettings(
-                    //   transparentBackground: true,
-                    //   mediaPlaybackRequiresUserGesture: false,
-                    // ),
-                    // ios: InAppWebViewSettings(
-                    //   allowsInlineMediaPlayback: true,
-                    // )
-
+                initialUrlRequest:
+                    URLRequest(url: WebUri(model.link.toString())),
+                initialOptions: InAppWebViewGroupOptions(
+                    crossPlatform: InAppWebViewOptions(
+                      transparentBackground: true,
+                      mediaPlaybackRequiresUserGesture: false,
                     ),
-                onPermissionRequest: (controller, request) async {
-                  return PermissionResponse(
-                      resources: request.resources,
-                      action: PermissionResponseAction.GRANT);
+                    ios: IOSInAppWebViewOptions(
+                      allowsInlineMediaPlayback: true,
+                    )),
+                androidOnPermissionRequest: (InAppWebViewController controller,
+                    String origin, List<String> resources) async {
+                  return PermissionRequestResponse(
+                      resources: resources,
+                      action: PermissionRequestResponseAction.GRANT);
                 },
                 onLoadStart: (InAppWebViewController controller, Uri? url) {
                   if (url != null) {
@@ -85,18 +82,6 @@ class WebPageView extends StatelessWidget {
 
 
 
-
-
-
-
-
-
-
-
-
-
-// =============== old codeeeeeeeeeeeeeeeeee 
-
 // import 'package:flutter/material.dart';
 // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 // import 'package:gomobilez/UI/WebPage/viewModel.dart';
@@ -122,21 +107,25 @@ class WebPageView extends StatelessWidget {
 //               child: Stack(
 //             children: [
 //               InAppWebView(
-//                 initialUrlRequest:
-//                     URLRequest(url: WebUri(model.link.toString())),
-//                 initialOptions: InAppWebViewGroupOptions(
-//                     crossPlatform: InAppWebViewOptions(
-//                       transparentBackground: true,
-//                       mediaPlaybackRequiresUserGesture: false,
+//                 initialUrlRequest: URLRequest(url: WebUri(model.link.toString())),
+//                 initialSettings: InAppWebViewSettings(
+//                   allowContentAccess: true,
+//                   allowsBackForwardNavigationGestures: true,
+//                   mediaPlaybackRequiresUserGesture: false,
+//                   allowsInlineMediaPlayback: true
+//                     // crossPlatform: InAppWebViewSettings(
+//                     //   transparentBackground: true,
+//                     //   mediaPlaybackRequiresUserGesture: false,
+//                     // ),
+//                     // ios: InAppWebViewSettings(
+//                     //   allowsInlineMediaPlayback: true,
+//                     // )
+
 //                     ),
-//                     ios: IOSInAppWebViewOptions(
-//                       allowsInlineMediaPlayback: true,
-//                     )),
-//                 androidOnPermissionRequest: (InAppWebViewController controller,
-//                     String origin, List<String> resources) async {
-//                   return PermissionRequestResponse(
-//                       resources: resources,
-//                       action: PermissionRequestResponseAction.GRANT);
+//                 onPermissionRequest: (controller, request) async {
+//                   return PermissionResponse(
+//                       resources: request.resources,
+//                       action: PermissionResponseAction.GRANT);
 //                 },
 //                 onLoadStart: (InAppWebViewController controller, Uri? url) {
 //                   if (url != null) {
@@ -172,3 +161,22 @@ class WebPageView extends StatelessWidget {
 //     );
 //   }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============== old codeeeeeeeeeeeeeeeeee 
