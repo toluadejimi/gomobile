@@ -186,7 +186,8 @@ class ContactView extends StatelessWidget {
                                       RoundedIconButton(
                                         click: () {
                                           data[i].callUrl != null
-                                              ? model.redial(data[i].callUrl!)
+                                              ? model.makeCall(data[i].toPhone,
+                                                  name: data[i].name)
                                               : null;
                                         },
                                         padding: 0,

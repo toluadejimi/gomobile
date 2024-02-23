@@ -11,6 +11,7 @@ import 'package:gomobilez/models/receentCalls.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactViewModel extends DashBoardViewModel {
   ContactService _contactService = locator<ContactService>();
@@ -95,14 +96,17 @@ class ContactViewModel extends DashBoardViewModel {
           await Permission.microphone.request();
           await Permission.camera.request();
 
-          navigationService.navigateTo(
-            Routes.webPageView,
-            arguments: WebPageViewArguments(
-              url: raw['data']['id'] == 2
-                  ? raw['data']['call_url']
-                  : 'https://gomobilez-web-app.vercel.app/${number.standardPhoneNumberFormart()}/${raw['data']['time']}',
-            ),
-          ); //number must always come before time
+          if (!await launchUrl(Uri.parse(raw['data']['call_url']))) {
+            throw Exception('Could not launch url');
+          }
+          // navigationService.navigateTo(
+          //   Routes.webPageView,
+          //   arguments: WebPageViewArguments(
+          //     url: raw['data']['id'] == 2
+          //         ? raw['data']['call_url']
+          //         : 'https://gomobilez-web-app.vercel.app/${number.standardPhoneNumberFormart()}/${raw['data']['time']}',
+          //   ),
+          // ); //number must always come before time
         }
       } catch (e) {
         errorHandler(e);
