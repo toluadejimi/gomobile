@@ -1,0 +1,3 @@
+enum LocalStorageValues{
+  user, token
+}
