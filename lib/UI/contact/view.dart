@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/contact/emptyContactList.dart';
 import 'package:gomobilez/UI/contact/loading.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
-import 'package:flutter/material.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/helpers/dateTime.dart';
@@ -195,16 +195,18 @@ class ContactView extends StatelessWidget {
                                             './assets/images/svg/call_log_call.svg'),
                                       ),
                                       SizedBox(
-                                        width: 8.w,
+                                        width: 2.w,
                                       ),
-                                      RoundedIconButton(
-                                        padding: 0,
-                                        click: () {
-                                          model.message(
-                                              data[i].toPhone, data[i].name);
-                                        },
-                                        icon: SvgPicture.asset(
-                                            './assets/images/svg/call_log_message.svg'),
+                                      Expanded(
+                                        child: RoundedIconButton(
+                                          padding: 0,
+                                          click: () {
+                                            model.message(
+                                                data[i].toPhone, data[i].name);
+                                          },
+                                          icon: SvgPicture.asset(
+                                              './assets/images/svg/call_log_message.svg'),
+                                        ),
                                       ),
                                     ],
                                   ),

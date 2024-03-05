@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
@@ -96,6 +97,13 @@ class ContactViewModel extends DashBoardViewModel {
           await Permission.microphone.request();
           await Permission.camera.request();
 
+          if (Platform.isIOS) {
+            if (!await launchUrl(Uri.parse(raw['data']['call_url']),
+                mode: LaunchMode.inAppBrowserView)) {
+              throw Exception('Could not launch url');
+            }
+            return;
+          }
           if (!await launchUrl(Uri.parse(raw['data']['call_url']))) {
             throw Exception('Could not launch url');
           }
