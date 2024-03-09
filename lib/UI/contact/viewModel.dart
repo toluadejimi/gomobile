@@ -101,7 +101,7 @@ class ContactViewModel extends DashBoardViewModel {
 
           if (Platform.isIOS) {
             if (!await launchUrl(Uri.parse(raw['data']['call_url']),
-                mode: LaunchMode.externalApplication)) {
+                mode: LaunchMode.platformDefault)) {
               throw Exception('Could not launch url');
             }
             return;
