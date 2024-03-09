@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -94,7 +95,12 @@ class ContactViewModel extends DashBoardViewModel {
         print(raw);
 
         if (raw['status'] == true) {
-          await Permission.microphone.request();
+          var mic = await Permission.microphone.request();
+          if (mic.isGranted) {
+            log("Microphone permission granted.");
+          } else {
+            log("Handle the case where the user denies the permission.");
+          }
           await Permission.speech.request();
           await Permission.videos.request();
           await Permission.audio.request();
