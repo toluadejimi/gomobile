@@ -122,9 +122,9 @@ class WalletView extends StatelessWidget {
                   if (snapshot.hasData) {
                     if (snapshot.data!.myPlan == null ||
                         (snapshot.data!.myPlan != null &&
-                        snapshot.data!.myPlan!.status != 1)) {
+                            snapshot.data!.myPlan!.status != 1)) {
                       return GestureDetector(
-                        onTap: ()=>model.navigateToSubscriptionPage(),
+                        onTap: () => model.navigateToSubscriptionPage(),
                         child: Container(
                           decoration: BoxDecoration(
                             color: white36,
@@ -324,13 +324,13 @@ class WalletView extends StatelessWidget {
                                                 transactions[index].type == 2
                                                     ? 'Wallet Withdrawal'
                                                     : 'Wallet Funding',
-                                                fontSize: 16.sp,
+                                                fontSize: 12.sp,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                               SizedBox(height: 2.h),
                                               BaseText(
                                                 'Wallet',
-                                                fontSize: 14.sp,
+                                                fontSize: 12.sp,
                                                 color: textGrey,
                                               ),
                                               Row()
@@ -349,7 +349,7 @@ class WalletView extends StatelessWidget {
                                           ),
                                           BaseText(
                                             '${model.daysBetween(DateTime.parse(transactions[index].createdAt), DateTime.now())} ago',
-                                            fontSize: 14.sp,
+                                            fontSize: 10.sp,
                                             color: textGrey,
                                           )
                                         ],

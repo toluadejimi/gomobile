@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -53,7 +54,8 @@ class Services extends LocalStorageService {
     final String? token = await _tokenService.getToken();
     url = APP_BASE_URL + url;
     Uri uri = Uri.parse(url);
-
+    log("Request===> $url");
+    log("BODY===> $body");
     final jsonBody = encodeBody ? jsonEncode(body) : body;
     final http.Response res = await http.post(
       uri,

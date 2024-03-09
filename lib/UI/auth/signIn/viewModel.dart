@@ -11,10 +11,10 @@ import 'package:gomobilez/services/localStorageService.dart';
 import 'package:gomobilez/services/tokenService.dart';
 import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
+import 'package:local_auth/local_auth.dart';
 
 import '../../../app/app.locator.dart';
 import '../../../services/authService.dart';
-import 'package:local_auth/local_auth.dart';
 
 class LoginViewModel extends AppBaseViewModel {
   final _authenticationService = locator<AuthService>();
@@ -59,7 +59,7 @@ class LoginViewModel extends AppBaseViewModel {
         };
         http.Response response = await _authenticationService.login(data);
         String? dataAfterResponseHandler = responseHandler(response);
-
+        print("Miracle $dataAfterResponseHandler");
         if (dataAfterResponseHandler != null) {
           var raw = jsonDecode(dataAfterResponseHandler);
           print(raw);
@@ -85,8 +85,8 @@ class LoginViewModel extends AppBaseViewModel {
           setLoadingState(false);
         } else {
           setLoadingState(false);
-          Alertify(title: 'Some went wrong', message: 'Try again later')
-              .error();
+          // Alertify(title: 'Some went wrong', message: 'Try again later')
+          //     .error();
         }
       } catch (e) {
         setLoadingState(false);

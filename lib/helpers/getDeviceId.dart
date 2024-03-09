@@ -1,8 +1,4 @@
-
-import 'package:gomobilez/services/firebaseService.dart';
-
-
-
 Future<String?> getId() async {
- return await FirebaseService().getToken();
+  return "";
+  // return await FirebaseService().getToken();
 }

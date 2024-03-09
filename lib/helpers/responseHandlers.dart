@@ -6,6 +6,7 @@ import 'package:gomobilez/widgets/alertify.dart';
 import 'package:http/http.dart' as http;
 
 dynamic responseHandler(http.Response response) {
+  print(response.body);
   switch (response.statusCode) {
     case 200:
       {
@@ -42,6 +43,8 @@ dynamic responseHandler(http.Response response) {
       break;
     case 401:
       {
+        print(response.statusCode);
+
         Map<String, dynamic> data = jsonDecode(response.body);
         Alertify(
                 title: 'Unauthorized',

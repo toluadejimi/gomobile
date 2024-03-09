@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/home/viewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
-import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/greetings.dart';
 import 'package:gomobilez/helpers/size_config.dart';
 import 'package:gomobilez/helpers/string.dart';
@@ -52,6 +52,7 @@ class HomeView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(child: Text("Pull to refresh")),
                       FutureBuilder(
                         future: model.user,
                         builder: ((context, snapshot) {
@@ -108,7 +109,7 @@ class HomeView extends StatelessWidget {
                                               fontWeight: FontWeight.w600,
                                             )
                                           : SizedBox(),
-                                       SizedBox(
+                                      SizedBox(
                                         width: 3.w,
                                       ),
                                       GestureDetector(
@@ -297,7 +298,7 @@ class HomeView extends StatelessWidget {
                               ),
                               BaseText(
                                 'Main Wallet',
-                                fontSize: 14.sp,
+                                fontSize: 10.sp,
                                 color: grey,
                               ),
                               Expanded(
@@ -309,7 +310,7 @@ class HomeView extends StatelessWidget {
                                       children: [
                                         SvgPicture.asset(
                                           './assets/images/svg/solar_wallet-bold.svg',
-                                          width: 25.w,
+                                          width: 22.w,
                                         ),
                                         SizedBox(
                                           width: 3.w,
@@ -321,13 +322,13 @@ class HomeView extends StatelessWidget {
                                                 return BaseText(
                                                   "\$${snapshot.data!.wallet.toString().currencyFormart()}",
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 25.w,
+                                                  fontSize: 20.w,
                                                 );
                                               } else {
                                                 return BaseText(
                                                   "\$0.00",
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 25.sp,
+                                                  fontSize: 20.sp,
                                                 );
                                               }
                                             }),

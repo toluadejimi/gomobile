@@ -10,6 +10,11 @@ import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 
+import '../../helpers/enums/localStorageValues.dart';
+import '../../models/user.dart';
+import '../../services/localStorageService.dart';
+import '../../services/stripe_service.dart';
+
 class WalletBottomSheet extends StatefulWidget {
   final WalletViewModel model;
   const WalletBottomSheet({super.key, required this.model});
@@ -95,9 +100,9 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
                               ),
                               decoration: BoxDecoration(
                                   color: widget.model.selectedCardId ==
-                                              savedCards.customerId
-                                          ? primaryColor
-                                          : transaparentGrey,
+                                          savedCards.customerId
+                                      ? primaryColor
+                                      : transaparentGrey,
                                   // border: Border.all(
                                   //     width: 2,
                                   //     color: widget.model.selectedCardId ==
@@ -242,7 +247,8 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
                           SizedBox(
                             height: 2,
                           ),
-                          BaseText('Fund your wallet using Debit or Credit card')
+                          BaseText(
+                              'Fund your wallet using Debit or Credit card')
                         ],
                       ),
                     )
@@ -255,11 +261,22 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
           LongButton(
             text: 'Proceed',
             color: primaryColor,
-            click: () {
+            click: () async {
               setState(() {
                 _loading = true;
               });
-              widget.model.proceedToFundWallet();
+              if (widget.model.vendor == PaymentOptions.stripe) {
+                User? user = await LocalStorageService()
+                    .getUserFromStorage(LocalStorageValues.user);
+                StripeService().stripeMakePayment((p0) {
+                  Navigator.pop(context);
+                },
+                    email: user!.email,
+                    amount: widget.model.amounController.text);
+              } else {
+                widget.model.proceedToFundWallet();
+              }
+              print(widget.model.vendor);
             },
             loading: widget.model.loading,
           )

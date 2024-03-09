@@ -38,7 +38,7 @@ class IconButtonPlusText extends StatelessWidget {
             ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
                   text,
-                  style: TextStyle(fontSize: 14.sp),
+                  style: TextStyle(fontSize: 10.sp),
                 ),
                 SizedBox(width: 6.w),
                 suffixIcon!
@@ -48,7 +48,7 @@ class IconButtonPlusText extends StatelessWidget {
                 SizedBox(width: 6.w),
                 Text(
                   text,
-                  style: TextStyle(fontSize: 14.sp),
+                  style: TextStyle(fontSize: 10.sp),
                 )
               ]),
       ),

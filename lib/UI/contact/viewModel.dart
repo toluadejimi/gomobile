@@ -95,7 +95,9 @@ class ContactViewModel extends DashBoardViewModel {
 
         if (raw['status'] == true) {
           await Permission.microphone.request();
-          await Permission.camera.request();
+          await Permission.speech.request();
+          await Permission.videos.request();
+          await Permission.audio.request();
 
           if (Platform.isIOS) {
             if (!await launchUrl(Uri.parse(raw['data']['call_url']),

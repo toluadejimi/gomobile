@@ -6,7 +6,6 @@ import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/app/app.router.dart';
 import 'package:gomobilez/helpers/enums/payment_options.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
-import 'package:gomobilez/helpers/responseHandlers.dart';
 import 'package:gomobilez/models/fund_wallet.dart';
 import 'package:gomobilez/models/recentTransaction.dart';
 import 'package:gomobilez/models/saved_cards.dart';
@@ -87,6 +86,7 @@ class WalletViewModel extends DashBoardViewModel {
       String? dataAfterResponseHandler = response.body;
 
       var raw = jsonDecode(dataAfterResponseHandler);
+      print("$raw  TXdata");
       if (raw['status'] == true) {
         List<RecentTransaction> transactions = [];
         if (raw['data']['transactions'].length > 0) {
@@ -98,7 +98,8 @@ class WalletViewModel extends DashBoardViewModel {
         setRecentTransaction(Future.value(transactions));
       }
       return null;
-    } catch (e) {
+    } catch (e, _) {
+      print(_);
       errorHandler(e);
       return null;
     }
@@ -109,6 +110,7 @@ class WalletViewModel extends DashBoardViewModel {
   }
 
   proceedToFundWallet() async {
+    print(vendor.name);
     if (amounController.value.text.trim().isNotEmpty &&
         (vendor.name.isNotEmpty || selectedCardId != null)) {
       setLoadingState();
@@ -133,20 +135,19 @@ class WalletViewModel extends DashBoardViewModel {
                 .success();
             await refreshUser();
             navigationService.back();
-            
           } else {
             FundWallet data = fundWalletFromJson(jsonEncode(raw['data']));
 
             navigationService.navigateTo(Routes.webPageView,
                 arguments: WebPageViewArguments(url: data.href));
-                // Alertify(title: 'Success', message: 'wallet successfully funded')
-                // .success();
+            // Alertify(title: 'Success', message: 'wallet successfully funded')
+            // .success();
           }
           // Alertify(title: 'Success', message: 'wallet successfully funded')
           //       .success();
           refreshUser();
         } else {
-          Alertify(title: 'Failed',message: 'Wallet funding failed').error();
+          Alertify(title: 'Failed', message: 'Wallet funding failed').error();
         }
       } catch (e) {
         errorHandler(e);

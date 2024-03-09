@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/helpers/enums/localStorageValues.dart';
 import 'package:gomobilez/helpers/errorHandler.dart';
 import 'package:gomobilez/helpers/getDeviceId.dart';
@@ -71,6 +69,7 @@ class SignUpViewModel extends AppBaseViewModel {
     List<DropdownMenuItem<String>> menuItems = [
       DropdownMenuItem(child: Text("Male"), value: "Male"),
       DropdownMenuItem(child: Text("Female"), value: "Female"),
+      DropdownMenuItem(child: Text("Other's"), value: "Other's"),
     ];
     return menuItems;
   }
@@ -102,16 +101,16 @@ class SignUpViewModel extends AppBaseViewModel {
         var data = {"email": email};
         http.Response response = await _authenticationService.verifyEmail(data);
 
-        if(response.statusCode == 421){
+        if (response.statusCode == 421) {
           goToPageDirectly(2);
-        }else{
-        String? dataAfterResponseHandler = responseHandler(response);
-
-        if (dataAfterResponseHandler != null) {
-          goToNextPage();
         } else {
-          throw (response.body);
-        }
+          String? dataAfterResponseHandler = responseHandler(response);
+
+          if (dataAfterResponseHandler != null) {
+            goToNextPage();
+          } else {
+            throw (response.body);
+          }
         }
       } catch (e) {
         errorHandler(e);
@@ -181,6 +180,7 @@ class SignUpViewModel extends AppBaseViewModel {
           goToLoginPage();
         }
       } catch (e) {
+        // Alertify(title: 'Error', message: e.toString()).error();
         errorHandler(e);
       }
       setLoadingState(false);
