@@ -59,7 +59,7 @@ class LoginViewModel extends AppBaseViewModel {
         };
         http.Response response = await _authenticationService.login(data);
         String? dataAfterResponseHandler = responseHandler(response);
-        print("Miracle $dataAfterResponseHandler");
+
         if (dataAfterResponseHandler != null) {
           var raw = jsonDecode(dataAfterResponseHandler);
           print(raw);

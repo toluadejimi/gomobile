@@ -14,9 +14,22 @@ import 'package:gomobilez/widgets/pageLoading.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:stacked/stacked.dart';
 
-class ContactView extends StatelessWidget {
+import '../../services/call_service.dart';
+
+class ContactView extends StatefulWidget {
   final bool canPop;
   const ContactView({Key? key, this.canPop = false}) : super(key: key);
+
+  @override
+  State<ContactView> createState() => _ContactViewState();
+}
+
+class _ContactViewState extends State<ContactView> {
+  @override
+  void initState() {
+    super.initState();
+    CallService().callLogin(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +46,13 @@ class ContactView extends StatelessWidget {
               click: () => model.showButtomModalSheet(
                   context: context,
                   child: CallKeyPad(
+                    // call: (String number, {String? name}) {
+                    //   Navigator.of(context).push(MaterialPageRoute(
+                    //       builder: (builder) => APPCallingScreen(
+                    //             phoneNumber: number,
+                    //             name: name ?? "UNKOWN",
+                    //           )));
+                    // },
                     call: model.makeCall,
                     click: () => model.navigationService
                         .navigateToDeviceContactView(
@@ -58,13 +78,13 @@ class ContactView extends StatelessWidget {
                 Row(
                   children: [
                     Visibility(
-                      visible: canPop,
+                      visible: widget.canPop,
                       child: GestureDetector(
                           onTap: () => model.pop(),
                           child: Icon(Icons.arrow_back)),
                     ),
                     Visibility(
-                      visible: canPop,
+                      visible: widget.canPop,
                       child: SizedBox(
                         width: 20.w,
                       ),
@@ -93,12 +113,16 @@ class ContactView extends StatelessWidget {
                             List<RecentCalls> data = snapshot.data!;
                             return Expanded(
                               child: ListView.separated(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: data.length,
                                 itemBuilder: (ctx, i) => Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 12.w, vertical: 15.h),
+                                  decoration: BoxDecoration(
+                                      color: white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.w))),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -119,7 +143,8 @@ class ContactView extends StatelessWidget {
                                             width: 95.w,
                                             child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
-                                              physics: BouncingScrollPhysics(),
+                                              physics:
+                                                  const BouncingScrollPhysics(),
                                               child: Text(
                                                 data[i].name != null
                                                     ? data[i].name!
@@ -134,7 +159,8 @@ class ContactView extends StatelessWidget {
                                             width: 95.w,
                                             child: SingleChildScrollView(
                                               scrollDirection: Axis.horizontal,
-                                              physics: BouncingScrollPhysics(),
+                                              physics:
+                                                  const BouncingScrollPhysics(),
                                               child: Text(
                                                 data[i].toPhone,
                                                 style: TextStyle(
@@ -150,7 +176,7 @@ class ContactView extends StatelessWidget {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 8.w),
                                         child: Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: primaryColor,
                                           ),
                                           height: 40.h,
@@ -210,10 +236,6 @@ class ContactView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.w))),
                                 ),
                                 separatorBuilder: (_, __) =>
                                     SizedBox(height: 10.h),

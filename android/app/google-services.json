@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "811748265633",
-    "project_id": "gomobilez-a5cfe",
-    "storage_bucket": "gomobilez-a5cfe.appspot.com"
+    "project_number": "970198108531",
+    "project_id": "gomobilez-1e02a",
+    "storage_bucket": "gomobilez-1e02a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:811748265633:android:481e50e990ce97f3266ae0",
+        "mobilesdk_app_id": "1:970198108531:android:000c70888c96200c591d06",
         "android_client_info": {
           "package_name": "com.lasahara.gomobilez"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCWV-vrlyPZZIVRXJ4LFdwzO9VXGRt1DGQ"
+          "current_key": "AIzaSyD4viESmrV0xdIoWKrXHEEcnxVv-uw8Uzk"
         }
       ],
       "services": {

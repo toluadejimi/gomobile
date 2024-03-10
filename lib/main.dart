@@ -1,11 +1,14 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
+import 'package:gomobilez/services/telnyx_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pmvvm/pmvvm.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'app/app.locator.dart';
@@ -18,8 +21,7 @@ void main() async {
   await setupLocator();
   await Permission.camera.request();
   await Permission.microphone.request();
-  // await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   // await FirebaseService().initNotifcations();
   runApp(const MyApp());
 }
@@ -30,35 +32,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child) {
-        return MaterialApp(
-            title: 'Gomobilez',
-            debugShowCheckedModeBanner: false,
-            builder: BotToastInit(),
-            theme: ThemeData(
-              fontFamily: 'Roboto',
-            ),
-            navigatorKey: StackedService.navigatorKey,
-            onGenerateRoute: StackedRouter().onGenerateRoute,
-            home: child
-            // onUnknownRoute: (settings) {
-            //   return MaterialPageRoute(builder: (ctx) => const Home());
-            // },
-            );
-      },
-      child: EasySplashScreen(
-        durationInSeconds: 2,
-        navigator: Routes.appBaseScreen,
-        logo: Image.asset(
-          'assets/images/png/logo.png',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<TelnyxService>(create: (_) => TelnyxService()),
+      ],
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, child) {
+          return MaterialApp(
+              title: 'Gomobilez',
+              debugShowCheckedModeBanner: false,
+              builder: BotToastInit(),
+              theme: ThemeData(
+                fontFamily: 'Roboto',
+              ),
+              navigatorKey: StackedService.navigatorKey,
+              onGenerateRoute: StackedRouter().onGenerateRoute,
+              home: child
+              // onUnknownRoute: (settings) {
+              //   return MaterialPageRoute(builder: (ctx) => const Home());
+              // },
+              );
+        },
+        child: EasySplashScreen(
+          durationInSeconds: 2,
+          navigator: Routes.appBaseScreen,
+          logo: Image.asset(
+            'assets/images/png/logo.png',
+          ),
+          backgroundColor: primaryColor,
+          logoWidth: 100,
+          showLoader: false,
         ),
-        backgroundColor: primaryColor,
-        logoWidth: 100,
-        showLoader: false,
       ),
     );
   }

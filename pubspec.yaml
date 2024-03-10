@@ -65,6 +65,7 @@ dependencies:
   flutter_stripe: ^6.0.0
   fluttertoast:
   flutter_dotenv:
+  flutter_callkit_incoming: ^2.0.0+2
 
 
 
@@ -72,12 +73,20 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+#  telnyx_flutter_webrtc:
+#    git:
+#      url: https://github.com/team-telnyx/flutter-voice-sdk.git
+#      ref: main
+
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
   stacked_generator: ^1.5.1
   build_runner:
+  telnyx_webrtc:
+    path: ./packages/telnyx_webrtc
+  flutter_masked_text2: ^0.9.1
 
   
 flutter_launcher_icons:

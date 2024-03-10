@@ -7,7 +7,7 @@ import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:pinput/pinput.dart';
 
 class CallKeyPad extends StatefulWidget {
-  final void Function(String, {String? name}) call;
+  final void Function(String number, {String? name}) call;
   final VoidCallback click;
   const CallKeyPad({super.key, required this.call, required this.click});
 

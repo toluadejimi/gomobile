@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gomobilez/UI/auth/signIn/viewModel.dart';
-import 'package:flutter/material.dart';
 import 'package:gomobilez/helpers/app_colors.dart';
 import 'package:gomobilez/widgets/customIconButton.dart';
 import 'package:gomobilez/widgets/input.dart';
@@ -88,6 +88,12 @@ class LoginView extends StatelessWidget {
                       SmallButton(
                         text: 'Login',
                         click: () {
+                          // Navigator.push(
+                          //     context,
+                          // MaterialPageRoute(
+                          //     builder: (builder) => const CallLoginScreen(
+                          //           title: 'Call',
+                          //         )));
                           model.login();
                         },
                         loading: model.loading,

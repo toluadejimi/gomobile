@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
@@ -12,8 +10,9 @@ import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/models/receentCalls.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+import '../call/used_calling_screen.dart';
 
 class ContactViewModel extends DashBoardViewModel {
   ContactService _contactService = locator<ContactService>();
@@ -34,7 +33,7 @@ class ContactViewModel extends DashBoardViewModel {
   bool get showFab => _showFab;
   setShowFab(bool val) {
     _showFab = val;
-    notifyListeners();
+    // notifyListeners();
   }
 
   getContactHistory() async {
@@ -95,34 +94,15 @@ class ContactViewModel extends DashBoardViewModel {
         print(raw);
 
         if (raw['status'] == true) {
-          var mic = await Permission.microphone.request();
-          if (mic.isGranted) {
-            log("Microphone permission granted.");
-          } else {
-            log("Handle the case where the user denies the permission.");
-          }
-          await Permission.speech.request();
-          await Permission.videos.request();
-          await Permission.audio.request();
-
-          if (Platform.isIOS) {
-            if (!await launchUrl(Uri.parse(raw['data']['call_url']),
-                mode: LaunchMode.platformDefault)) {
-              throw Exception('Could not launch url');
-            }
-            return;
-          }
-          if (!await launchUrl(Uri.parse(raw['data']['call_url']))) {
-            throw Exception('Could not launch url');
-          }
-          // navigationService.navigateTo(
-          //   Routes.webPageView,
-          //   arguments: WebPageViewArguments(
-          //     url: raw['data']['id'] == 2
-          //         ? raw['data']['call_url']
-          //         : 'https://gomobilez-web-app.vercel.app/${number.standardPhoneNumberFormart()}/${raw['data']['time']}',
-          //   ),
-          // ); //number must always come before time
+          Navigator.of(StackedService.navigatorKey!.currentContext!)
+              .push(MaterialPageRoute(
+                  builder: (builder) => APPCallingScreen(
+                        phoneNumber: number.standardPhoneNumberFormart(),
+                        name: name ?? "UNKNOWN",
+                        seconds: raw["data"]['time'].toString(),
+                      )));
+        } else {
+          errorHandler(response.body);
         }
       } catch (e) {
         errorHandler(e);
