@@ -211,10 +211,8 @@ class _ContactViewState extends State<ContactView> {
                                       ),
                                       RoundedIconButton(
                                         click: () {
-                                          data[i].callUrl != null
-                                              ? model.makeCall(data[i].toPhone,
-                                                  name: data[i].name)
-                                              : null;
+                                          model.makeCall(data[i].toPhone,
+                                              name: data[i].name);
                                         },
                                         padding: 0,
                                         icon: SvgPicture.asset(
