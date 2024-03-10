@@ -37,13 +37,15 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     logger.i('Calling!');
   }
 
-  void _handleLog() {
+  void _disConnect() {
     Provider.of<TelnyxService>(context, listen: false).disconnect();
     logger.i('Disconnecting!');
   }
 
   void _handleEnd() {
-    Provider.of<TelnyxService>(context, listen: false).endCall();
+    if (Provider.of<TelnyxService>(context, listen: false).ongoingCall) {
+      Provider.of<TelnyxService>(context, listen: false).endCall();
+    }
     Navigator.pop(context);
     logger.i('End CAll!');
   }
@@ -78,6 +80,7 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    // _disConnect();
     super.dispose();
   }
 
@@ -128,14 +131,14 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
               style: const TextStyle(color: Colors.white70, fontSize: 20),
             ),
             const Spacer(),
-            IgnorePointer(
-              ignoring: Provider.of<TelnyxService>(context, listen: false)
-                      .ongoingCall ==
-                  false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IgnorePointer(
+                  ignoring: Provider.of<TelnyxService>(context, listen: false)
+                          .ongoingCall ==
+                      false,
+                  child: IconButton(
                     onPressed: () {
                       setState(() {
                         _isMicOn = !_isMicOn;
@@ -148,36 +151,41 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
                     color: Colors.white,
                     iconSize: 30,
                   ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _handleEnd();
-                    },
-                    backgroundColor: Colors.red,
-                    child: const Icon(Icons.call_end),
-                  ),
-                  // FloatingActionButton(
-                  //   onPressed: () {
-                  //     // Action for accepting the call
-                  //   },
-                  //   backgroundColor: Colors.green,
-                  //   child: const Icon(Icons.call),
-                  // ),
-                  IconButton(
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    _handleEnd();
+                  },
+                  backgroundColor: Colors.red,
+                  child: const Icon(Icons.call_end),
+                ),
+                // FloatingActionButton(
+                //   onPressed: () {
+                //     // Action for accepting the call
+                //   },
+                //   backgroundColor: Colors.green,
+                //   child: const Icon(Icons.call),
+                // ),
+                IgnorePointer(
+                  ignoring: Provider.of<TelnyxService>(context, listen: false)
+                          .ongoingCall ==
+                      false,
+                  child: IconButton(
                     onPressed: () {
                       setState(() {
                         _isSpeakerOn = !_isSpeakerOn;
                       });
                       print("pause");
                       Provider.of<TelnyxService>(context, listen: false)
-                          .holdUnhold();
+                          .toggleSpeakerPhone();
                     },
                     icon:
                         Icon(_isSpeakerOn ? Icons.volume_up : Icons.volume_off),
                     color: Colors.white,
                     iconSize: 30,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             const SizedBox(height: 50),
           ],
