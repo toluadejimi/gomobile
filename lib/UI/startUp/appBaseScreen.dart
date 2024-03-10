@@ -40,13 +40,13 @@ class _AppBaseScreenState extends State<AppBaseScreen> {
               decoration: BoxDecoration(
                   color: Provider.of<TelnyxService>(context, listen: true)
                           .registered
-                      ? Colors.green
+                      ? Colors.black
                       : Colors.orange),
               child: Center(
                 child: Text(
                   Provider.of<TelnyxService>(context, listen: true).registered
-                      ? "You are welcome, make affordable calls"
-                      : "Getting read for Call",
+                      ? "Service Connected"
+                      : "Connecting Service....",
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
