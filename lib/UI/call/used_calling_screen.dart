@@ -46,6 +46,8 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     if (Provider.of<TelnyxService>(context, listen: false).ongoingCall) {
       Provider.of<TelnyxService>(context, listen: false).endCall();
     }
+    Provider.of<TelnyxService>(context, listen: false).disconnect();
+
     Navigator.pop(context);
     logger.i('End CAll!');
   }
