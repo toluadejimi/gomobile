@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,9 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
       Provider.of<TelnyxService>(context, listen: false).endCall();
     }
     Provider.of<TelnyxService>(context, listen: false).disconnect();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const DashBoardView()),
+        (Route<dynamic> route) => false);
 
     Navigator.pop(context);
     logger.i('End CAll!');
