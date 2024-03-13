@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gomobilez/UI/dashboard/view.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/telnyx_service.dart';
+import '../startUp/appBaseScreen.dart';
 
 class APPCallingScreen extends StatefulWidget {
   final String phoneNumber, name, seconds;
@@ -49,7 +49,7 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     }
     Provider.of<TelnyxService>(context, listen: false).disconnect();
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const DashBoardView()),
+        MaterialPageRoute(builder: (context) => const AppBaseScreen()),
         (Route<dynamic> route) => false);
     logger.i('End CAll!');
   }
