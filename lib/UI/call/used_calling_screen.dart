@@ -51,8 +51,6 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const DashBoardView()),
         (Route<dynamic> route) => false);
-
-    Navigator.pop(context);
     logger.i('End CAll!');
   }
 
