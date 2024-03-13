@@ -47,12 +47,12 @@ class HomeView extends StatelessWidget {
             },
             child: ListView(
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Text("Pull to refresh")),
+                      const Center(child: Text("Pull to refresh")),
                       FutureBuilder(
                         future: model.user,
                         builder: ((context, snapshot) {
@@ -156,7 +156,7 @@ class HomeView extends StatelessWidget {
                                     children: [
                                       BaseText(
                                         getGreeting(),
-                                        fontSize: 14.sp,
+                                        fontSize: 12.sp,
                                         color: grey,
                                       ),
                                       SizedBox(height: 2.h),
@@ -169,12 +169,12 @@ class HomeView extends StatelessWidget {
                                                         .nameCase(),
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
-                                                        fontSize: 16.sp,
+                                                        fontSize: 13.sp,
                                                         fontWeight:
                                                             FontWeight.bold))
                                                 : BaseText(
                                                     '...',
-                                                    fontSize: 16.sp,
+                                                    fontSize: 13.sp,
                                                     color: black,
                                                   );
                                           }),
@@ -191,7 +191,7 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             BaseText(
                                               'Subscription',
-                                              fontSize: 14.sp,
+                                              fontSize: 10.sp,
                                               color: grey,
                                             ),
                                             SizedBox(
@@ -202,7 +202,7 @@ class HomeView extends StatelessWidget {
                                               click: () {},
                                               horizontalPadding: 4.w,
                                               verticalPadding: 1.5.h,
-                                              radius: 7.sp,
+                                              radius: 4.sp,
                                               widget: Icon(
                                                 Icons.flip_camera_ios_rounded,
                                                 size: 12.sp,
@@ -262,10 +262,10 @@ class HomeView extends StatelessWidget {
                                           alignment: Alignment.centerRight,
                                           child: SmallButton(
                                             horizontalPadding: 8.w,
-                                            verticalPadding: 4.h,
+                                            verticalPadding: 2.h,
                                             text: 'Get Subscription',
                                             fontWeight: FontWeight.w400,
-                                            fontSize: 14.sp,
+                                            fontSize: 12.sp,
                                             click: () => model.navigationService
                                                 .navigateToManageSubscriptionView(),
                                             color: primaryColor,
@@ -289,12 +289,12 @@ class HomeView extends StatelessWidget {
                                       }
                                     } else {
                                       return SizedBox(
-                                        height: 20.h,
+                                        height: 10.h,
                                       );
                                     }
                                   }),
                               const SizedBox(
-                                height: 7,
+                                height: 2,
                               ),
                               BaseText(
                                 'Main Wallet',
@@ -310,7 +310,7 @@ class HomeView extends StatelessWidget {
                                       children: [
                                         SvgPicture.asset(
                                           './assets/images/svg/solar_wallet-bold.svg',
-                                          width: 22.w,
+                                          width: 14.w,
                                         ),
                                         SizedBox(
                                           width: 3.w,
@@ -335,14 +335,14 @@ class HomeView extends StatelessWidget {
                                       ],
                                     ),
                                     IconButtonPlusText(
-                                      curve: 10.sp,
+                                      curve: 8.sp,
                                       paddingY: 8,
                                       paddingX: 5,
                                       color: primaryColor,
                                       click: () => model.navigateToFundWallet(),
                                       prefixIcon: SvgPicture.asset(
                                         './assets/images/svg/home_page_fund_wallet_icon.svg',
-                                        width: 16.sp,
+                                        width: 10.sp,
                                       ),
                                       width: 95,
                                       text: 'Fund Wallet',
@@ -542,7 +542,7 @@ class HomeView extends StatelessWidget {
                                                     ),
                                                     child: Row(children: [
                                                       RoundedIconButton(
-                                                        padding: 10.sp,
+                                                        padding: 5.sp,
                                                         color: primaryColor,
                                                         click: () {
                                                           model
@@ -551,77 +551,78 @@ class HomeView extends StatelessWidget {
                                                                   plan);
                                                         },
                                                         icon: SvgPicture.asset(
-                                                            'assets/images/svg/ci_bulb.svg'),
+                                                          'assets/images/svg/ci_bulb.svg',
+                                                          width: 15,
+                                                        ),
                                                       ),
                                                       SizedBox(
-                                                        width: 10.w,
+                                                        width: 2.w,
                                                       ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                            width: 200,
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                BaseText(
-                                                                  plan.title!,
-                                                                  fontSize:
-                                                                      18.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                                RichText(
-                                                                  text:
-                                                                      TextSpan(
-                                                                    text:
-                                                                        '\$${plan.amount}/',
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            black,
-                                                                        fontSize: 14
-                                                                            .sp,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                    children: [
-                                                                      TextSpan(
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                black,
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                            fontSize: 10.sp),
-                                                                        text:
-                                                                            'Month',
-                                                                      ),
-                                                                    ],
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  BaseText(
+                                                                    plan.title!,
+                                                                    fontSize:
+                                                                        18.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                   ),
-                                                                ),
-                                                              ],
+                                                                  RichText(
+                                                                    text:
+                                                                        TextSpan(
+                                                                      text:
+                                                                          '\$${plan.amount}/',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              black,
+                                                                          fontSize: 14
+                                                                              .sp,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          style: TextStyle(
+                                                                              color: black,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: 10.sp),
+                                                                          text:
+                                                                              'Month',
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 3),
-                                                          Text(
-                                                            'Unlimited Calls to your family and friends\nto one country (USA)',
-                                                            softWrap: true,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: TextStyle(
-                                                              fontSize: 12.sp,
-                                                              color: textGrey,
+                                                            const SizedBox(
+                                                                height: 3),
+                                                            Text(
+                                                              'Unlimited Calls to your family and friends\nto one country (USA)',
+                                                              softWrap: true,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: TextStyle(
+                                                                fontSize: 12.sp,
+                                                                color: textGrey,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       )
                                                     ]),
                                                   ),

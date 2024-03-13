@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:telnyx_webrtc/call.dart';
 import 'package:telnyx_webrtc/config/telnyx_config.dart';
 import 'package:telnyx_webrtc/model/push_notification.dart';
@@ -77,12 +76,13 @@ class TelnyxService with ChangeNotifier {
 
     // Observe Socket Error Messages
     _telnyxClient.onSocketErrorReceived = (TelnyxSocketError error) {
-      Fluttertoast.showToast(
-        msg: "${error.errorCode} : ${error.errorMessage}",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-      );
+      //removed by miracle
+      // Fluttertoast.showToast(
+      //   msg: "${error.errorCode} : ${error.errorMessage}",
+      //   toastLength: Toast.LENGTH_SHORT,
+      //   gravity: ToastGravity.BOTTOM,
+      //   timeInSecForIosWeb: 1,
+      // );
       switch (error.errorCode) {
         case -32000:
           {

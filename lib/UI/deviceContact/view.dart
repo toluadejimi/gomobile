@@ -119,14 +119,14 @@ class DeviceContactView extends StatelessWidget {
                                             topRight: Radius.circular(10.h))),
                                     child: Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.warning_amber_rounded,
                                           color: white,
                                         ),
                                         SizedBox(
                                           width: 5.w,
                                         ),
-                                        BaseText(
+                                        const BaseText(
                                           "You don't have this number saved",
                                           color: white,
                                           fontSize: 16,
@@ -195,7 +195,7 @@ class DeviceContactView extends StatelessWidget {
                                                   icon: BaseText(
                                                     contact.displayName
                                                         .firstLetter(),
-                                                    fontSize: 20.sp,
+                                                    fontSize: 15.sp,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -214,7 +214,8 @@ class DeviceContactView extends StatelessWidget {
                                                 child: SingleChildScrollView(
                                                   scrollDirection:
                                                       Axis.horizontal,
-                                                      physics: BouncingScrollPhysics(),
+                                                  physics:
+                                                      BouncingScrollPhysics(),
                                                   child: BaseText(
                                                     contact.displayName,
                                                     fontSize: 16.sp,
@@ -230,7 +231,8 @@ class DeviceContactView extends StatelessWidget {
                                                 child: SingleChildScrollView(
                                                   scrollDirection:
                                                       Axis.horizontal,
-                                                      physics: BouncingScrollPhysics(),
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
                                                   child: Row(children: [
                                                     ...contact.phones
                                                         .map((cnt) => Padding(
@@ -256,7 +258,7 @@ class DeviceContactView extends StatelessWidget {
                                           const Spacer(),
                                           BaseText(
                                             'Mobile',
-                                            fontSize: 16.sp,
+                                            fontSize: 12.sp,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ],

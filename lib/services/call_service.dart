@@ -38,7 +38,8 @@ class CallService {
       Permission.audio,
       Permission.microphone,
       Permission.bluetooth,
-      Permission.bluetoothConnect
+      Permission.bluetoothConnect,
+      Permission.contacts
     ].request();
     print(statuses[Permission.microphone]);
     print(statuses[Permission.bluetooth]);

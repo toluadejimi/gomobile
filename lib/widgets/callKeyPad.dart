@@ -119,9 +119,12 @@ class _CallKeyPadState extends State<CallKeyPad> {
       ),
       RoundedIconButton(
         color: green,
-        click: () => widget.call(
-          _controller.text,
-        ),
+        click: () {
+          widget.call(
+            _controller.text,
+          );
+          _controller.clear();
+        },
         icon: SvgPicture.asset(
           './assets/images/svg/phone_dial_icon.svg',
           width: 24.w,
