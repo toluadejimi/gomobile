@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DeviceContactViewModel extends AppBaseViewModel {
   TextEditingController searchController = TextEditingController();
@@ -18,19 +19,23 @@ class DeviceContactViewModel extends AppBaseViewModel {
   }
 
   callUnkownNumber(String number, void Function(Contact) action) {
-    Contact contact = Contact(displayName: 'Unknown', phones: [
-      Phone(number.trim(),
-          normalizedNumber:
-              number[0] == 0 ? number.replaceFirst('0', '+234') : number)
-    ]);
+    Contact contact = Contact(
+        id: '1',
+        phones: [Phone(number: number.replaceFirst('0', '+234'), label: "")],
+        emails: const [],
+        structuredName:
+            StructuredName.fromMap(const {"displayName": "UNKNOWN"}),
+        organization: null);
     action(contact);
   }
 
   getDeviceContact() async {
-    FlutterContacts.config.includeNotesOnIos13AndAbove = true;
-    if (await FlutterContacts.requestPermission()) {
-      List<Contact> contacts = await FlutterContacts.getContacts(
-          withProperties: true, withPhoto: true);
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.contacts].request();
+    print(
+        "===============contact=====================${statuses[Permission.contacts]}");
+    if ((await Permission.contacts.status) != PermissionStatus.denied) {
+      List<Contact> contacts = (await FastContacts.getAllContacts()) ?? [];
       _unfilteredDeviceContact = Future.value(contacts);
       setDeviceContact(Future.value(contacts));
     } else {
@@ -44,13 +49,14 @@ class DeviceContactViewModel extends AppBaseViewModel {
     print(contact);
     if (contact != null) {
       var temp = contact
-          .where((n) => n.displayName.toLowerCase().contains(val.toLowerCase()))
+          .where((n) =>
+              (n.displayName ?? "").toLowerCase().contains(val.toLowerCase()))
           .toList();
       List<Contact> temp3 = [];
       contact.map((c) {
-        return c.phones.map((e) {
+        return (c.phones ?? []).map((e) {
           if (e.number.contains(val) ||
-              e.normalizedNumber.contains(val.replaceFirst('0', '+234'))) {
+              e.number.contains(val.replaceFirst('0', '+234'))) {
             temp3.add(c);
           }
         }).toList();

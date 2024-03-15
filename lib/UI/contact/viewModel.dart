@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/dashboard/viewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/app/app.router.dart';
@@ -12,6 +13,7 @@ import 'package:gomobilez/services/contactService.dart';
 import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../widgets/alertify.dart';
 import '../call/used_calling_screen.dart';
 
 class ContactViewModel extends DashBoardViewModel {
@@ -66,8 +68,12 @@ class ContactViewModel extends DashBoardViewModel {
 
   navigateBackFromContactScreen(Contact contact) async {
     navigationService.back();
-    await makeCall(contact.phones[0].normalizedNumber,
-        name: contact.displayName);
+    log(contact.displayName);
+    log(contact.phones.toString());
+    if (contact.phones.isEmpty) {
+      Alertify(title: "Info", message: 'Contact Info Empty').error();
+    }
+    await makeCall(contact.phones.first.number, name: contact.displayName);
   }
 
   redial(String url) {

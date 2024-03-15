@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:gomobilez/UI/manageSubscription/bottomSheet.dart';
 import 'package:gomobilez/UI/manageSubscription/viewModel.dart';
@@ -78,7 +78,7 @@ class HomeViewModel extends ContactViewModel {
 
   void navigateToCallPage(Contact contact) {
     // navigationService.navigateToConversationView(contact: contact);
-    makeCall(contact.phones[0].normalizedNumber, name: contact.displayName);
+    makeCall(contact.phones.first.number, name: contact.displayName);
   }
 
   onSubscriptionPressed(BuildContext context, user.Plan plan) async {
@@ -101,11 +101,10 @@ class HomeViewModel extends ContactViewModel {
             plan: selectedPlan));
   }
 
-  Future<void> refreshPage(){
+  Future<void> refreshPage() {
     refreshUser();
     return Future.value(null);
   }
-
 
   Future<Plan?> getSelectedPlan(user.Plan userPlan) async {
     Plans? listOfPlans = await plans;

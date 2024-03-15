@@ -1,5 +1,5 @@
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gomobilez/UI/deviceContact/viewModel.dart';
 import 'package:gomobilez/app/app.router.dart';
@@ -183,22 +183,16 @@ class DeviceContactView extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          contact.photo != null
-                                              ? RoundedIconButton(
-                                                  click: () {},
-                                                  icon: Image.memory(
-                                                      contact.photo!,
-                                                      width: 15.w))
-                                              : RoundedIconButton(
-                                                  padding: 12.w,
-                                                  click: () {},
-                                                  icon: BaseText(
-                                                    contact.displayName
-                                                        .firstLetter(),
-                                                    fontSize: 15.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
+                                          RoundedIconButton(
+                                            padding: 12.w,
+                                            click: () {},
+                                            icon: BaseText(
+                                              (contact.displayName ?? "N")
+                                                  .firstLetter(),
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                           SizedBox(
                                             width: 8.w,
                                           ),
@@ -217,7 +211,7 @@ class DeviceContactView extends StatelessWidget {
                                                   physics:
                                                       BouncingScrollPhysics(),
                                                   child: BaseText(
-                                                    contact.displayName,
+                                                    contact.displayName ?? "",
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -234,7 +228,7 @@ class DeviceContactView extends StatelessWidget {
                                                   physics:
                                                       const BouncingScrollPhysics(),
                                                   child: Row(children: [
-                                                    ...contact.phones
+                                                    ...(contact.phones ?? [])
                                                         .map((cnt) => Padding(
                                                               padding:
                                                                   const EdgeInsets

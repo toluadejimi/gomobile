@@ -1,7 +1,9 @@
 import 'dart:convert';
+
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/message/getNumber/index.dart';
 import 'package:gomobilez/UI/message/getNumber/phoneView.dart';
 import 'package:gomobilez/UI/message/getNumber/success.dart';
@@ -17,7 +19,6 @@ import 'package:http/http.dart' as http;
 
 import '../../models/user.dart';
 import '../dashboard/viewModel.dart';
-import 'package:bottom_sheet/bottom_sheet.dart';
 
 class MessageViewModel extends DashBoardViewModel {
   final MessageService _messageService = locator<MessageService>();
@@ -192,8 +193,7 @@ class MessageViewModel extends DashBoardViewModel {
 
   void navigateToConversationPageFromDeviceContact(Contact contact) {
     navigationService.navigateToConversationView(
-        phoneNumber: contact.phones[0].normalizedNumber,
-        name: contact.displayName);
+        phoneNumber: contact.phones[0].number, name: contact.displayName ?? "");
   }
 
   void navigateToConversationPage(String phoneNumber, name) {

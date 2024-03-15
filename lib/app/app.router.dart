@@ -4,10 +4,11 @@
 // StackedNavigatorGenerator
 // **************************************************************************
 
+import 'package:fast_contacts/fast_contacts.dart' as _i29;
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter/material.dart' as _i28;
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart' as _i29;
+import 'package:gomobilez/UI/WebPage/view.dart' as _i13;
 import 'package:gomobilez/UI/auth/forgotPassword/index.dart' as _i6;
 import 'package:gomobilez/UI/auth/getStarted/view.dart' as _i3;
 import 'package:gomobilez/UI/auth/signIn/index.dart' as _i5;
@@ -35,7 +36,6 @@ import 'package:gomobilez/UI/startUp/appBaseScreen.dart' as _i2;
 import 'package:gomobilez/UI/updatePassword/view.dart' as _i16;
 import 'package:gomobilez/UI/updateProfile/view.dart' as _i14;
 import 'package:gomobilez/UI/wallet/view.dart' as _i10;
-import 'package:gomobilez/UI/WebPage/view.dart' as _i13;
 import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i30;
 

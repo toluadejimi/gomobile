@@ -99,6 +99,7 @@ class WalletViewModel extends DashBoardViewModel {
       }
       return null;
     } catch (e, _) {
+      print(e);
       print(_);
       errorHandler(e);
       return null;

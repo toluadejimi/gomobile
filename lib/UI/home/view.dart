@@ -16,15 +16,33 @@ import 'package:gomobilez/widgets/home_widget_view.dart';
 import 'package:gomobilez/widgets/iconButtonPlusText.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
 import 'package:gomobilez/widgets/smallButton.dart';
+import 'package:pmvvm/pmvvm.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../helpers/responsive_layout.dart';
+import '../../services/call_service.dart';
+import '../../services/telnyx_service.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   final PageController pageController;
   const HomeView({Key? key, required this.pageController}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final _callService = CallService();
+  @override
+  void initState() {
+    super.initState();
+    _callService.checkPermissions().then((value) => print("hello"));
+  }
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<TelnyxService>(context, listen: true).observeResponses();
+    Provider.of<TelnyxService>(context, listen: true).connect();
     SizeConfig.init(context);
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
@@ -53,6 +71,20 @@ class HomeView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Center(child: Text("Pull to refresh")),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Provider.of<TelnyxService>(context, listen: true)
+                                    .registered
+                                ? Image.asset(
+                                    "assets/images/png/regular-phone.png")
+                                : Image.asset(
+                                    "assets/images/png/fill-phone.png")
+                          ],
+                        ),
+                      ),
                       FutureBuilder(
                         future: model.user,
                         builder: ((context, snapshot) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:gomobilez/UI/startUp/appBaseViewModel.dart';
 import 'package:gomobilez/app/app.locator.dart';
 import 'package:gomobilez/app/app.router.dart';
@@ -234,7 +234,7 @@ class SendAtopUpViewmodel extends AppBaseViewModel {
 
   navigateFromContactPage(Contact val) {
     navigationService.back();
-    phoneNumberController.text = val.phones[0].normalizedNumber;
+    phoneNumberController.text = val.phones[0].number;
     notifyListeners();
   }
 
@@ -244,7 +244,6 @@ class SendAtopUpViewmodel extends AppBaseViewModel {
   }
 
   buyCredit() async {
-    
     if (selectedCountry != null &&
         selectedProducts != null &&
         selectedProvider != null &&
@@ -263,18 +262,17 @@ class SendAtopUpViewmodel extends AppBaseViewModel {
           "product_id": selectedProducts!.productId,
           "rate": selectedProducts!.rate,
           "operator_id": selectedProvider!.operatorId,
-        
         };
         print('hi3');
         http.Response response = await paymentService.buyAirtime(data);
         print('hi4');
         print(response.statusCode);
         String? dataAfterResponseHandler = responseHandler(response);
-          print('hi5');
+        print('hi5');
         if (dataAfterResponseHandler != null) {
           print('hi6');
           var raw = jsonDecode(dataAfterResponseHandler);
-print('hi7');
+          print('hi7');
           if (raw['status'] == true) {
             print('hi8');
             setButtonLoadingState(false);
