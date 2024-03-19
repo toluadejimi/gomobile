@@ -172,6 +172,9 @@ class DeviceContactView extends StatelessWidget {
                               ]);
                             }
                           } else {
+                            snapshot.data!.sort((a, b) =>
+                                a.displayName.compareTo(b.displayName));
+
                             return Expanded(
                               child: ListView.separated(
                                   shrinkWrap: true,
@@ -187,7 +190,9 @@ class DeviceContactView extends StatelessWidget {
                                             padding: 12.w,
                                             click: () {},
                                             icon: BaseText(
-                                              (contact.displayName ?? "N")
+                                              (isNotEmpty(contact.displayName)
+                                                      ? contact.displayName
+                                                      : "N")
                                                   .firstLetter(),
                                               fontSize: 15.sp,
                                               fontWeight: FontWeight.bold,

@@ -16,6 +16,7 @@ class TelnyxService with ChangeNotifier {
   bool _registered = false;
   bool _ongoingInvitation = false;
   bool _ongoingCall = false;
+  bool _endCall = false;
   bool _speakerPhone = true;
   IncomingInviteParams? _incomingInvite;
 
@@ -36,6 +37,10 @@ class TelnyxService with ChangeNotifier {
 
   Call get currentCall {
     return _telnyxClient.call;
+  }
+
+  bool get endOngoingCall {
+    return _endCall;
   }
 
   IncomingInviteParams? get incomingInvitation {
@@ -68,6 +73,7 @@ class TelnyxService with ChangeNotifier {
           {
             _ongoingInvitation = false;
             _ongoingCall = false;
+            _endCall = true;
             break;
           }
       }

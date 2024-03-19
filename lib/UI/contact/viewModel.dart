@@ -11,8 +11,10 @@ import 'package:gomobilez/helpers/string.dart';
 import 'package:gomobilez/models/receentCalls.dart';
 import 'package:gomobilez/services/contactService.dart';
 import 'package:http/http.dart' as http;
+import 'package:pmvvm/pmvvm.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../services/telnyx_service.dart';
 import '../../widgets/alertify.dart';
 import '../call/used_calling_screen.dart';
 
@@ -88,6 +90,16 @@ class ContactViewModel extends DashBoardViewModel {
   }
 
   makeCall(String number, {String? name}) async {
+    if (!Provider.of<TelnyxService>(
+            StackedService.navigatorKey!.currentContext!,
+            listen: false)
+        .registered) {
+      Provider.of<TelnyxService>(StackedService.navigatorKey!.currentContext!,
+              listen: false)
+          .connect();
+      Alertify(title: 'Info', message: 'Please try again').warning();
+      return;
+    }
     if (number.isNotEmpty) {
       try {
         var data = {

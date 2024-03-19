@@ -68,6 +68,7 @@ dependencies:
   fluttertoast:
   flutter_dotenv:
   flutter_callkit_incoming: ^2.0.0+2
+  flutter_foreground_service: ^0.4.1
 
 
 

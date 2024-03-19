@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_service/flutter_foreground_service.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,8 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
   }
 
   void _callDestination(String phoneNumber) {
+    //start foreground
+    ForegroundService().start();
     Provider.of<TelnyxService>(context, listen: false).call(phoneNumber);
     logger.i('Calling!');
   }
@@ -51,6 +54,8 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const AppBaseScreen()),
         (Route<dynamic> route) => false);
+    //end foreground
+    ForegroundService().stop();
     logger.i('End CAll!');
   }
 
@@ -98,6 +103,11 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     if (Provider.of<TelnyxService>(context, listen: false).ongoingCall ==
         true) {
       onTimerStart();
+    }
+
+    if (Provider.of<TelnyxService>(context, listen: false).endOngoingCall ==
+        true) {
+      _handleEnd();
     }
   }
 
