@@ -184,6 +184,8 @@ class _ContactViewState extends State<ContactView> {
                                         ),
                                       ),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             data[i].createdAt.getTime(),
@@ -191,9 +193,9 @@ class _ContactViewState extends State<ContactView> {
                                           ),
                                           SizedBox(height: 2.h),
                                           Text(
-                                            'Outgoing call',
+                                            '${data[i].callTime}',
                                             style: TextStyle(
-                                                fontSize: 14.sp,
+                                                fontSize: 12.sp,
                                                 color: textGrey),
                                           ),
                                         ],
