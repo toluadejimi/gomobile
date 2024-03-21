@@ -23,17 +23,23 @@ void main() async {
   await Permission.camera.request();
   await Permission.microphone.request();
   await Firebase.initializeApp();
-
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
   // await FirebaseService().initNotifcations();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    // DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -54,11 +60,7 @@ class MyApp extends StatelessWidget {
               ),
               navigatorKey: StackedService.navigatorKey,
               onGenerateRoute: StackedRouter().onGenerateRoute,
-              home: child
-              // onUnknownRoute: (settings) {
-              //   return MaterialPageRoute(builder: (ctx) => const Home());
-              // },
-              );
+              home: child);
         },
         child: EasySplashScreen(
           durationInSeconds: 2,
