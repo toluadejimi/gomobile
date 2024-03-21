@@ -9,11 +9,13 @@ import 'package:gomobilez/widgets/base_text.dart';
 import 'package:gomobilez/widgets/custom_svg_icon.dart';
 import 'package:gomobilez/widgets/longButton.dart';
 import 'package:gomobilez/widgets/roundedIconButton.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../helpers/enums/localStorageValues.dart';
 import '../../models/user.dart';
 import '../../services/localStorageService.dart';
 import '../../services/stripe_service.dart';
+import '../startUp/appBaseScreen.dart';
 
 class WalletBottomSheet extends StatefulWidget {
   final WalletViewModel model;
@@ -266,10 +268,15 @@ class _WalletBottomSheetState extends State<WalletBottomSheet> {
                 _loading = true;
               });
               if (widget.model.vendor == PaymentOptions.stripe) {
+                Navigator.pop(context);
                 User? user = await LocalStorageService()
                     .getUserFromStorage(LocalStorageValues.user);
                 StripeService().stripeMakePayment((p0) {
-                  Navigator.pop(context);
+                  Navigator.of(StackedService.navigatorKey!.currentContext!)
+                      .pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const AppBaseScreen()),
+                          (Route<dynamic> route) => false);
                 },
                     email: user!.email,
                     amount: widget.model.amounController.text);

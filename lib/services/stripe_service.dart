@@ -47,7 +47,6 @@ class StripeService extends Services {
         "amount": amount
       });
       Fluttertoast.showToast(msg: result["data"]["message"]);
-
       onRefresh(true);
     } on Exception catch (e) {
       if (e is StripeException) {

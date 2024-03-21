@@ -190,4 +190,12 @@ class TelnyxService with ChangeNotifier {
   void holdUnhold() {
     _telnyxClient.call.onHoldUnholdPressed();
   }
+
+  clearAll() {
+    _registered = false;
+    _ongoingInvitation = false;
+    _ongoingCall = false;
+    _endCall = false;
+    _speakerPhone = true;
+  }
 }

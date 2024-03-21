@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_foreground_service/flutter_foreground_service.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +21,7 @@ class APPCallingScreen extends StatefulWidget {
 
 class _APPCallingScreenState extends State<APPCallingScreen> {
   bool invitation = false;
+  bool callEnded = false;
   bool ongoingCall = false;
   bool _isMicOn = true;
   bool _isSpeakerOn = false;
@@ -35,8 +35,6 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
   }
 
   void _callDestination(String phoneNumber) {
-    //start foreground
-    ForegroundService().start();
     Provider.of<TelnyxService>(context, listen: false).call(phoneNumber);
     logger.i('Calling!');
   }
@@ -50,12 +48,12 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     if (Provider.of<TelnyxService>(context, listen: false).ongoingCall) {
       Provider.of<TelnyxService>(context, listen: false).endCall();
     }
-    Provider.of<TelnyxService>(context, listen: false).disconnect();
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const AppBaseScreen()),
         (Route<dynamic> route) => false);
-    //end foreground
-    ForegroundService().stop();
+    _disConnect();
+    Provider.of<TelnyxService>(context, listen: false).clearAll();
     logger.i('End CAll!');
   }
 
@@ -64,7 +62,6 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     super.initState();
     Provider.of<TelnyxService>(context, listen: false)
         .addListener(_onProviderChange);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TelnyxService>(context, listen: false).observeResponses();
       _callDestination(widget.phoneNumber);
@@ -76,9 +73,11 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
 
   onTimerStart() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _seconds++;
-      });
+      if (mounted) {
+        setState(() {
+          _seconds++;
+        });
+      }
       if (_seconds >= int.parse(widget.seconds)) {
         //end call if the person second is done
         _handleEnd();
@@ -91,6 +90,9 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
     _timer?.cancel();
     // _disConnect();
     super.dispose();
+    callEnded = false;
+
+    print("Dispose========================================");
   }
 
   String _formatDuration(int seconds) {
@@ -100,109 +102,118 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
   }
 
   void _onProviderChange() {
-    if (Provider.of<TelnyxService>(context, listen: false).ongoingCall ==
-        true) {
-      onTimerStart();
-    }
+    if (mounted) {
+      if (Provider.of<TelnyxService>(context, listen: false).ongoingCall ==
+          true) {
+        onTimerStart();
+      }
 
-    if (Provider.of<TelnyxService>(context, listen: false).endOngoingCall ==
-        true) {
-      _handleEnd();
+      if (Provider.of<TelnyxService>(context, listen: false).endOngoingCall ==
+              true &&
+          callEnded == false) {
+        callEnded = true;
+        _handleEnd();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     _observeResponses();
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.deepPurple, Colors.red],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.deepPurple, Colors.red],
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Spacer(),
-            const CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/images/png/logo.png'),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              widget.name ?? "",
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              _formatDuration(_seconds),
-              style: const TextStyle(color: Colors.white70, fontSize: 20),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IgnorePointer(
-                  ignoring: Provider.of<TelnyxService>(context, listen: false)
-                          .ongoingCall ==
-                      false,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isMicOn = !_isMicOn;
-                      });
-                      Provider.of<TelnyxService>(context, listen: false)
-                          .muteUnmute();
-                      // Add logic to enable/disable microphone
-                    },
-                    icon: Icon(_isMicOn ? Icons.mic : Icons.mic_off),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Spacer(),
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage('assets/images/png/logo.png'),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                widget.name ?? "",
+                style: const TextStyle(
                     color: Colors.white,
-                    iconSize: 30,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                _formatDuration(_seconds),
+                style: const TextStyle(color: Colors.white70, fontSize: 20),
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IgnorePointer(
+                    ignoring: Provider.of<TelnyxService>(context, listen: false)
+                            .ongoingCall ==
+                        false,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isMicOn = !_isMicOn;
+                        });
+                        Provider.of<TelnyxService>(context, listen: false)
+                            .muteUnmute();
+                        // Add logic to enable/disable microphone
+                      },
+                      icon: Icon(_isMicOn ? Icons.mic : Icons.mic_off),
+                      color: Colors.white,
+                      iconSize: 30,
+                    ),
                   ),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    _handleEnd();
-                  },
-                  backgroundColor: Colors.red,
-                  child: const Icon(Icons.call_end),
-                ),
-                // FloatingActionButton(
-                //   onPressed: () {
-                //     // Action for accepting the call
-                //   },
-                //   backgroundColor: Colors.green,
-                //   child: const Icon(Icons.call),
-                // ),
-                IgnorePointer(
-                  ignoring: Provider.of<TelnyxService>(context, listen: false)
-                          .ongoingCall ==
-                      false,
-                  child: IconButton(
+                  FloatingActionButton(
                     onPressed: () {
-                      setState(() {
-                        _isSpeakerOn = !_isSpeakerOn;
-                      });
-                      print("pause");
-                      Provider.of<TelnyxService>(context, listen: false)
-                          .toggleSpeakerPhone();
+                      print("End Call");
+                      _handleEnd();
                     },
-                    icon:
-                        Icon(_isSpeakerOn ? Icons.volume_up : Icons.volume_off),
-                    color: Colors.white,
-                    iconSize: 30,
+                    backgroundColor: Colors.red,
+                    child: const Icon(Icons.call_end),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 50),
-          ],
+                  // FloatingActionButton(
+                  //   onPressed: () {
+                  //     // Action for accepting the call
+                  //   },
+                  //   backgroundColor: Colors.green,
+                  //   child: const Icon(Icons.call),
+                  // ),
+                  IgnorePointer(
+                    ignoring: Provider.of<TelnyxService>(context, listen: false)
+                            .ongoingCall ==
+                        false,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isSpeakerOn = !_isSpeakerOn;
+                        });
+                        Provider.of<TelnyxService>(context, listen: false)
+                            .toggleSpeakerPhone();
+                      },
+                      icon: Icon(
+                          _isSpeakerOn ? Icons.volume_up : Icons.volume_off),
+                      color: Colors.white,
+                      iconSize: 30,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
     );
