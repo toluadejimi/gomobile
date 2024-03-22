@@ -69,6 +69,8 @@ dependencies:
   flutter_dotenv:
   flutter_callkit_incoming: ^2.0.0+2
   flutter_foreground_service: ^0.4.1
+  wakelock_plus: ^1.1.2
+  system_alert_window: ^2.0.0
 
 
 

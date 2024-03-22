@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../services/telnyx_service.dart';
 import '../startUp/appBaseScreen.dart';
@@ -35,6 +36,7 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
   }
 
   void _callDestination(String phoneNumber) {
+    WakelockPlus.enable();
     Provider.of<TelnyxService>(context, listen: false).call(phoneNumber);
     logger.i('Calling!');
   }
@@ -54,6 +56,7 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
         (Route<dynamic> route) => false);
     _disConnect();
     Provider.of<TelnyxService>(context, listen: false).clearAll();
+    WakelockPlus.disable();
     logger.i('End CAll!');
   }
 
@@ -79,7 +82,6 @@ class _APPCallingScreenState extends State<APPCallingScreen> {
         });
       }
       if (_seconds >= int.parse(widget.seconds)) {
-        //end call if the person second is done
         _handleEnd();
       }
     });

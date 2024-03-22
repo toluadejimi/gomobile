@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fast_contacts/fast_contacts.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gomobilez/UI/contact/viewModel.dart';
 import 'package:gomobilez/UI/manageSubscription/bottomSheet.dart';
 import 'package:gomobilez/UI/manageSubscription/viewModel.dart';
@@ -15,6 +15,12 @@ import 'package:gomobilez/models/plans.dart';
 import 'package:gomobilez/models/user.dart' as user;
 import 'package:gomobilez/services/settingsService.dart';
 import 'package:http/http.dart' as http;
+import 'package:stacked_services/stacked_services.dart';
+
+import '../../helpers/constants.dart';
+import '../../helpers/enums/localStorageValues.dart';
+import '../../services/localStorageService.dart';
+import '../send_top_up/send_to_up_web_view.dart';
 
 class HomeViewModel extends ContactViewModel {
   ScrollController listViewController = ScrollController();
@@ -131,7 +137,7 @@ class HomeViewModel extends ContactViewModel {
     }
   }
 
-  navigate(String to) {
+  navigate(String to) async {
     switch (to) {
       case 'contactPage':
         return navigateToContactPage();
@@ -146,7 +152,15 @@ class HomeViewModel extends ContactViewModel {
         // ignore: dead_code
         break;
       case 'topUp':
-        return navigationService.navigateToSendCreditTopUp();
+        var user = await LocalStorageService()
+            .getUserFromStorage(LocalStorageValues.user);
+        return Navigator.push(
+            StackedService.navigatorKey!.currentContext!,
+            MaterialPageRoute(
+                builder: (builder) => SendToUpWeView(
+                      url: "${APP_BASE_URL}topup/${user!.id}",
+                    )));
+        // return navigationService.navigateToSendCreditTopUp();
         // ignore: dead_code
         break;
       default:
